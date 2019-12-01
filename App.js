@@ -1,0 +1,85 @@
+import React from "react";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+import HomeScreen from "./components/HomeScreen";
+import ChapterScreen from "./components/ChapterScreen";
+import SectionScreen from "./components/SectionScreen";
+import SettingsScreen from "./components/SettingsScreen";
+
+const BookStack = createStackNavigator(
+  {
+    Home: { screen: HomeScreen },
+    Chapter: { screen: ChapterScreen },
+    Section: { screen: SectionScreen }
+  },
+  {
+    defaultNavigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {
+        backgroundColor: "burlywood"
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    },
+    cardStyle: {
+      backgroundColor: "antiquewhite"
+    }
+  }
+);
+
+const SettingsStack = createStackNavigator(
+  {
+    Settings: { screen: SettingsScreen }
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "burlywood"
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }
+  }
+);
+
+const App = createAppContainer(
+  createBottomTabNavigator(
+    {
+      İlmihal: BookStack,
+      Ayarlar: SettingsStack
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          const { routeName } = navigation.state;
+          let IconComponent = Ionicons;
+          let iconName;
+          if (routeName === "İlmihal") {
+            iconName = `ios-information-circle${focused ? "" : "-outline"}`;
+          } else if (routeName === "Ayarlar") {
+            iconName = `ios-options`;
+          }
+
+          return <IconComponent name={iconName} size={25} color={tintColor} />;
+        }
+      }),
+      tabBarOptions: {
+        activeTintColor: "white",
+        inactiveTintColor: "#d1d1d2",
+        keyboardHidesTabBar: true,
+        style: {
+          backgroundColor: "saddlebrown"
+        }
+      }
+    }
+  )
+);
+
+export default App;
