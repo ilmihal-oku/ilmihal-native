@@ -4,9 +4,11 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import { book as ilmihal } from "./newSource";
 import HomeScreen from "./components/HomeScreen";
 import ChapterScreen from "./components/ChapterScreen";
 import SectionScreen from "./components/SectionScreen";
+import RandomScreen from "./components/RandomScreen";
 import SettingsScreen from "./components/SettingsScreen";
 
 const BookStack = createStackNavigator(
@@ -26,6 +28,27 @@ const BookStack = createStackNavigator(
         fontWeight: "bold"
       }
     },
+    cardStyle: {
+      backgroundColor: "antiquewhite"
+    }
+  }
+);
+
+const RandomStack = createStackNavigator(
+  {
+    Random: { screen: RandomScreen }
+  },
+  {
+    defaultNavigationOptions: () => ({
+      headerBackTitle: null,
+      headerStyle: {
+        backgroundColor: "burlywood"
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }),
     cardStyle: {
       backgroundColor: "antiquewhite"
     }
@@ -53,6 +76,7 @@ const App = createAppContainer(
   createBottomTabNavigator(
     {
       İlmihal: BookStack,
+      Rastgele: RandomStack,
       Ayarlar: SettingsStack
     },
     {
@@ -63,6 +87,8 @@ const App = createAppContainer(
           let iconName;
           if (routeName === "İlmihal") {
             iconName = `ios-information-circle${focused ? "" : "-outline"}`;
+          } else if (routeName === "Rastgele") {
+            iconName = "ios-shuffle";
           } else if (routeName === "Ayarlar") {
             iconName = `ios-options`;
           }
@@ -77,7 +103,9 @@ const App = createAppContainer(
         style: {
           backgroundColor: "saddlebrown"
         }
-      }
+      },
+      resetOnBlur: true,
+      lazy: false
     }
   )
 );

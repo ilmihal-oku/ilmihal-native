@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text } from "react-native";
 import { Content, List, ListItem, Body, Right } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -6,10 +6,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { book as ilmihal } from "../newSource";
 
 const HomeScreen = props => {
-  console.log("Homescreen", props);
-
-  const [state, setState] = useState("Samet");
-
   return (
     <Content style={{ backgroundColor: "antiquewhite" }}>
       <List>
