@@ -104,7 +104,7 @@ const App = createAppContainer(
           backgroundColor: "saddlebrown"
         }
       },
-      resetOnBlur: true,
+      // resetOnBlur: true,
       lazy: false
     }
   )
