@@ -4,7 +4,6 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import { book as ilmihal } from "./newSource";
 import HomeScreen from "./components/HomeScreen";
 import ChapterScreen from "./components/ChapterScreen";
 import SectionScreen from "./components/SectionScreen";

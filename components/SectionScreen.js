@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { Content } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+// import Icon from "react-native-vector-icons/Ionicons";
 
 const SectionScreen = props => {
   const { sectionTitle, sectionContent } = props.navigation.state.params;
