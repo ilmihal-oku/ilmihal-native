@@ -86,7 +86,7 @@ const App = createAppContainer(
           let IconComponent = Ionicons;
           let iconName;
           if (routeName === "İlmihal") {
-            iconName = `ios-information-circle${focused ? "" : "-outline"}`;
+            iconName = `ios-book`;
           } else if (routeName === "Rastgele") {
             iconName = "ios-shuffle";
           } else if (routeName === "Ayarlar") {
