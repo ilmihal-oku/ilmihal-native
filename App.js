@@ -7,6 +7,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import HomeScreen from "./components/HomeScreen";
 import ChapterScreen from "./components/ChapterScreen";
 import SectionScreen from "./components/SectionScreen";
+import SearchScreen from "./components/SearchScreen";
+import ResultsScreen from "./components/ResultsScreen";
 import RandomScreen from "./components/RandomScreen";
 import SettingsScreen from "./components/SettingsScreen";
 
@@ -33,12 +35,13 @@ const BookStack = createStackNavigator(
   }
 );
 
-const RandomStack = createStackNavigator(
+const SearchStack = createStackNavigator(
   {
-    Random: { screen: RandomScreen }
+    Search: { screen: SearchScreen },
+    Results: { screen: ResultsScreen }
   },
   {
-    defaultNavigationOptions: () => ({
+    defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
         backgroundColor: "burlywood"
@@ -47,7 +50,28 @@ const RandomStack = createStackNavigator(
       headerTitleStyle: {
         fontWeight: "bold"
       }
-    }),
+    },
+    cardStyle: {
+      backgroundColor: "antiquewhite"
+    }
+  }
+);
+
+const RandomStack = createStackNavigator(
+  {
+    Random: { screen: RandomScreen }
+  },
+  {
+    defaultNavigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {
+        backgroundColor: "burlywood"
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    },
     cardStyle: {
       backgroundColor: "antiquewhite"
     }
@@ -75,6 +99,7 @@ const App = createAppContainer(
   createBottomTabNavigator(
     {
       İlmihal: BookStack,
+      Arama: SearchStack,
       Rastgele: RandomStack,
       Ayarlar: SettingsStack
     },
@@ -86,6 +111,8 @@ const App = createAppContainer(
           let iconName;
           if (routeName === "İlmihal") {
             iconName = `ios-book`;
+          } else if (routeName === "Arama") {
+            iconName = "ios-search";
           } else if (routeName === "Rastgele") {
             iconName = "ios-shuffle";
           } else if (routeName === "Ayarlar") {
