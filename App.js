@@ -38,7 +38,9 @@ const BookStack = createStackNavigator(
 const SearchStack = createStackNavigator(
   {
     Search: { screen: SearchScreen },
-    Results: { screen: ResultsScreen }
+    Results: { screen: ResultsScreen },
+    Chapter: { screen: ChapterScreen },
+    Section: { screen: SectionScreen }
   },
   {
     defaultNavigationOptions: {
