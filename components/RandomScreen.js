@@ -10,7 +10,6 @@ const resetAction = StackActions.reset({
 });
 
 const RandomScreen = props => {
-  console.log("RAndom Screen", props);
   let totalChapters = () => ilmihal.length - 1;
   let totalSections = id => ilmihal[id].chapterContent.length - 1;
 

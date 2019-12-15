@@ -16,20 +16,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { book as ilmihal } from "../newSource";
 
 const SearchScreen = ({ navigation }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState({ term: "", toSearch: "" });
   const [hasEverSearched, setHasEverSearched] = useState(false);
   const [minCharError, setMinCharError] = useState(false);
   const [results, setResults] = useState({ results: [], count: null });
 
-  console.log({ results });
-
-  console.log(ilmihal);
-  const onSearchInputChange = value => {
-    setSearchTerm(value);
-  };
-
   useEffect(() => {
     navigation.setParams({ clearForm: () => clearForm() });
+    setSearchTerm({ ...searchTerm, toSearch: searchTerm.term });
   }, [results]);
 
   const searchSectionTitles = term => {};
@@ -38,15 +32,20 @@ const SearchScreen = ({ navigation }) => {
 
   const onSearchButtonPress = () => {
     setHasEverSearched(true);
-    if (searchTerm.length > 2) {
+    if (searchTerm.term.length > 2) {
       setMinCharError(false);
       const searchresults = ilmihal
         .filter(chapter =>
-          chapter.chapterTitle.toLowerCase().includes(searchTerm.toLowerCase())
+          chapter.chapterTitle
+            .toLowerCase()
+            .includes(searchTerm.term.toLowerCase())
         )
         .map(chapter => chapter);
 
-      setResults({ results: [...searchresults], count: searchresults.length });
+      setResults({
+        results: [...searchresults],
+        count: searchresults.length
+      });
     } else {
       setResults({ results: [], count: 0 });
       setMinCharError(true);
@@ -56,7 +55,7 @@ const SearchScreen = ({ navigation }) => {
   const clearForm = () => {
     setResults({ results: [], count: 0 });
     setMinCharError(false);
-    setSearchTerm("");
+    setSearchTerm({ term: "", toSearch: "" });
     setHasEverSearched(false);
   };
 
@@ -81,6 +80,7 @@ const SearchScreen = ({ navigation }) => {
     );
   };
 
+  console.log(searchTerm);
   return (
     <>
       <Form>
@@ -90,16 +90,16 @@ const SearchScreen = ({ navigation }) => {
             style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
           />
           <Input
-            onChangeText={term => onSearchInputChange(term)}
-            value={searchTerm}
+            onChangeText={term => setSearchTerm({ ...searchTerm, term: term })}
+            value={searchTerm.term}
             autoFocus
             placeholder="Aranacak ifade"
           />
-          {searchTerm.length > 0 ? (
+          {searchTerm.term.length > 0 ? (
             <Icon
               name="ios-close-circle-outline"
               color="grey"
-              onPress={() => setSearchTerm("")}
+              onPress={() => setSearchTerm({ term: "", toSearch: "" })}
               style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
             />
           ) : null}
@@ -122,10 +122,26 @@ const SearchScreen = ({ navigation }) => {
           backgroundColor: "antiquewhite"
         }}
       >
-        <List>
+        <List
+          style={{
+            backgroundColor: hasEverSearched && minCharError ? "pink" : null
+          }}
+        >
           {hasEverSearched ? (
             minCharError ? (
-              <Text>Arama yapabilmek icin en az 3 karakter yazmalisiniz</Text>
+              <ListItem>
+                <Body>
+                  <Text style={{ color: "crimson", fontSize: 16 }}>
+                    Arama yapabilmek için en az üç karakter yazmalısınız!
+                  </Text>
+                </Body>
+                <Right>
+                  <Icon
+                    name="md-alert"
+                    style={{ fontSize: 26, color: "crimson" }}
+                  />
+                </Right>
+              </ListItem>
             ) : (
               <>
                 <Separator style={{ backgroundColor: "rgba(0,0,0,0.8)" }}>
@@ -159,7 +175,10 @@ const SearchScreen = ({ navigation }) => {
               >
                 <Body>
                   <Text>
-                    {highlightSearchTerm(item.chapterTitle, searchTerm)}
+                    {highlightSearchTerm(
+                      item.chapterTitle,
+                      searchTerm.toSearch
+                    )}
                   </Text>
                 </Body>
                 <Right>
