@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text } from "react-native";
 import {
   Content,
@@ -16,47 +16,43 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { book as ilmihal } from "../newSource";
 
 const SearchScreen = ({ navigation }) => {
-  const [searchTerm, setSearchTerm] = useState({ term: "", toSearch: "" });
-  const [hasEverSearched, setHasEverSearched] = useState(false);
-  const [minCharError, setMinCharError] = useState(false);
-  const [results, setResults] = useState({ results: [], count: null });
+  const [search, setSearch] = useState({
+    term: "",
+    query: "",
+    results: [],
+    hasEverSearched: false,
+    minCharError: false
+  });
 
-  useEffect(() => {
-    navigation.setParams({ clearForm: () => clearForm() });
-    setSearchTerm({ ...searchTerm, toSearch: searchTerm.term });
-  }, [results]);
-
-  const searchSectionTitles = term => {};
-
-  const searchSectionContent = term => {};
+  const { term, query, results, hasEverSearched, minCharError } = search;
 
   const onSearchButtonPress = () => {
-    setHasEverSearched(true);
-    if (searchTerm.term.length > 2) {
-      setMinCharError(false);
-      const searchresults = ilmihal
-        .filter(chapter =>
-          chapter.chapterTitle
-            .toLowerCase()
-            .includes(searchTerm.term.toLowerCase())
-        )
-        .map(chapter => chapter);
+    if (term.length > 2) {
+      navigation.setParams({ clearForm: () => clearForm() });
 
-      setResults({
+      const searchresults = ilmihal.filter(chapter =>
+        chapter.chapterTitle.toLowerCase().includes(term.toLowerCase())
+      );
+      setSearch({
+        ...search,
+        query: term,
         results: [...searchresults],
-        count: searchresults.length
+        hasEverSearched: true,
+        minCharError: false
       });
     } else {
-      setResults({ results: [], count: 0 });
-      setMinCharError(true);
+      setSearch({ ...search, results: [], minCharError: true });
     }
   };
 
   const clearForm = () => {
-    setResults({ results: [], count: 0 });
-    setMinCharError(false);
-    setSearchTerm({ term: "", toSearch: "" });
-    setHasEverSearched(false);
+    setSearch({
+      term: "",
+      query: "",
+      results: [],
+      hasEverSearched: false,
+      minCharError: false
+    });
   };
 
   const highlightSearchTerm = (title, term) => {
@@ -80,7 +76,7 @@ const SearchScreen = ({ navigation }) => {
     );
   };
 
-  console.log(searchTerm);
+  console.log(search);
   return (
     <>
       <Form>
@@ -90,21 +86,24 @@ const SearchScreen = ({ navigation }) => {
             style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
           />
           <Input
-            onChangeText={term => setSearchTerm({ ...searchTerm, term: term })}
-            value={searchTerm.term}
-            autoFocus
+            onChangeText={term => setSearch({ ...search, term: term })}
+            value={term}
             placeholder="Aranacak ifade"
           />
-          {searchTerm.term.length > 0 ? (
+          {term.length > 0 ? (
             <Icon
               name="ios-close-circle-outline"
               color="grey"
-              onPress={() => setSearchTerm({ term: "", toSearch: "" })}
+              onPress={() => setSearch({ ...search, term: "", query: "" })}
               style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
             />
           ) : null}
         </Item>
-        <Button onPress={onSearchButtonPress} dark style={{ borderRadius: 0 }}>
+        <Button
+          onPress={() => onSearchButtonPress()}
+          dark
+          style={{ borderRadius: 0 }}
+        >
           <Text
             style={{
               color: "white",
@@ -153,8 +152,8 @@ const SearchScreen = ({ navigation }) => {
                 </Separator>
                 <Separator style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
                   <Text style={{ color: "white" }}>
-                    {results.count > 0
-                      ? `${results.count} ana başlık bulundu`
+                    {results.length > 0
+                      ? `${results.length} ana başlık bulundu`
                       : `hiçbir başlıkta bulunamadı`}
                   </Text>
                 </Separator>
@@ -162,7 +161,7 @@ const SearchScreen = ({ navigation }) => {
             )
           ) : null}
 
-          {results.results.map((item, index) => {
+          {results.map((item, index) => {
             return (
               <ListItem
                 key={index}
@@ -174,12 +173,7 @@ const SearchScreen = ({ navigation }) => {
                 }
               >
                 <Body>
-                  <Text>
-                    {highlightSearchTerm(
-                      item.chapterTitle,
-                      searchTerm.toSearch
-                    )}
-                  </Text>
+                  <Text>{highlightSearchTerm(item.chapterTitle, query)}</Text>
                 </Body>
                 <Right>
                   <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
