@@ -47,7 +47,7 @@ SectionScreen.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: () => (
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-        {navigation.getParam("chapterTitle")}
+        {navigation.getParam("chapterTitle") || "Arama Sonuçları"}
       </Text>
     )
     //     ,
