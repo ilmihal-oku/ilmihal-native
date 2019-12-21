@@ -1,25 +1,20 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
-import {
-  Content,
-  Form,
-  Button,
-  Item,
-  Input,
-  List,
-  ListItem,
-  Separator,
-  Body,
-  Right
-} from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Text, Keyboard } from "react-native";
+import { Content, List } from "native-base";
+
 import { book as ilmihal } from "../newSource";
-console.log(ilmihal);
+import ChapterResults from "./ChapterResults";
+import SectionResults from "./SectionResults";
+import ContentResults from "./ContentResults";
+import SearchForm from "./SearchForm";
+import SubHeader from "./SubHeader";
+import SearchError from "./SearchError";
+
 const SearchScreen = ({ navigation }) => {
   const [search, setSearch] = useState({
     term: "",
     query: "",
-    results: [],
+    results: {},
     hasEverSearched: false,
     minCharError: false
   });
@@ -27,6 +22,7 @@ const SearchScreen = ({ navigation }) => {
   const { term, query, results, hasEverSearched, minCharError } = search;
 
   const onSearchButtonPress = () => {
+    Keyboard.dismiss();
     if (term.length > 2) {
       navigation.setParams({ clearForm: () => clearForm() });
 
@@ -41,7 +37,7 @@ const SearchScreen = ({ navigation }) => {
           )
         )
         .filter(section => section.length > 0)
-        .reduce((total, section) => [...total, ...section]);
+        .reduce((total, section) => [...total, ...section], "");
 
       const content_results = ilmihal
         .map(chapter =>
@@ -53,18 +49,25 @@ const SearchScreen = ({ navigation }) => {
           )
         )
         .filter(chapter => chapter.length > 0)
-        .reduce((total, section) => [...total, ...section]);
-      console.log({ chapter_results, section_results, content_results });
+        .reduce((total, section) => [...total, ...section], "");
 
       setSearch({
         ...search,
         query: term,
-        results: [...chapter_results],
+        results: {
+          chapter: [...chapter_results],
+          section: [...section_results],
+          content: [...content_results]
+        },
         hasEverSearched: true,
         minCharError: false
       });
     } else {
-      setSearch({ ...search, results: [], minCharError: true });
+      setSearch({
+        ...search,
+        results: {},
+        minCharError: true
+      });
     }
   };
 
@@ -72,7 +75,7 @@ const SearchScreen = ({ navigation }) => {
     setSearch({
       term: "",
       query: "",
-      results: [],
+      results: {},
       hasEverSearched: false,
       minCharError: false
     });
@@ -101,43 +104,12 @@ const SearchScreen = ({ navigation }) => {
 
   return (
     <>
-      <Form>
-        <Item>
-          <Icon
-            name="ios-search"
-            style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
-          />
-          <Input
-            onChangeText={term => setSearch({ ...search, term: term })}
-            value={term}
-            placeholder="Aranacak ifade"
-          />
-          {term.length > 0 ? (
-            <Icon
-              name="ios-close-circle-outline"
-              color="grey"
-              onPress={() => setSearch({ ...search, term: "", query: "" })}
-              style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
-            />
-          ) : null}
-        </Item>
-        <Button
-          onPress={() => onSearchButtonPress()}
-          dark
-          style={{ borderRadius: 0 }}
-        >
-          <Text
-            style={{
-              color: "white",
-              width: "100%",
-              textAlign: "center",
-              fontSize: 16
-            }}
-          >
-            Ara
-          </Text>
-        </Button>
-      </Form>
+      <SearchForm
+        search={search}
+        setSearch={setSearch}
+        term={term}
+        onSearchButtonPress={onSearchButtonPress}
+      />
       <Content
         style={{
           backgroundColor: "antiquewhite"
@@ -150,59 +122,31 @@ const SearchScreen = ({ navigation }) => {
         >
           {hasEverSearched ? (
             minCharError ? (
-              <ListItem>
-                <Body>
-                  <Text style={{ color: "crimson", fontSize: 16 }}>
-                    Arama yapabilmek için en az üç karakter yazmalısınız!
-                  </Text>
-                </Body>
-                <Right>
-                  <Icon
-                    name="md-alert"
-                    style={{ fontSize: 26, color: "crimson" }}
-                  />
-                </Right>
-              </ListItem>
+              <SearchError message="Arama yapabilmek için en az üç karakter yazmalısınız!" />
             ) : (
               <>
-                <Separator style={{ backgroundColor: "rgba(0,0,0,0.8)" }}>
-                  <Text
-                    style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
-                  >
-                    Arama Sonuclari
-                  </Text>
-                </Separator>
-                <Separator style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
-                  <Text style={{ color: "white" }}>
-                    {results.length > 0
-                      ? `${results.length} ana başlık bulundu`
-                      : `hiçbir başlıkta bulunamadı`}
-                  </Text>
-                </Separator>
+                <SubHeader message="Arama Sonuçları" />
+                <ChapterResults
+                  query={query}
+                  navigation={navigation}
+                  highlightSearchTerm={highlightSearchTerm}
+                  chapterResults={results.chapter}
+                />
+                <SectionResults
+                  query={query}
+                  navigation={navigation}
+                  highlightSearchTerm={highlightSearchTerm}
+                  sectionResults={results.section}
+                />
+                <ContentResults
+                  query={query}
+                  navigation={navigation}
+                  highlightSearchTerm={highlightSearchTerm}
+                  contentResults={results.content}
+                />
               </>
             )
           ) : null}
-
-          {results.map((item, index) => {
-            return (
-              <ListItem
-                key={index}
-                onPress={() =>
-                  navigation.navigate("Chapter", {
-                    chapterTitle: item.chapterTitle,
-                    chapterContent: item.chapterContent
-                  })
-                }
-              >
-                <Body>
-                  <Text>{highlightSearchTerm(item.chapterTitle, query)}</Text>
-                </Body>
-                <Right>
-                  <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
-                </Right>
-              </ListItem>
-            );
-          })}
         </List>
       </Content>
     </>
