@@ -14,7 +14,7 @@ import {
 } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
 import { book as ilmihal } from "../newSource";
-
+console.log(ilmihal);
 const SearchScreen = ({ navigation }) => {
   const [search, setSearch] = useState({
     term: "",
@@ -30,13 +30,36 @@ const SearchScreen = ({ navigation }) => {
     if (term.length > 2) {
       navigation.setParams({ clearForm: () => clearForm() });
 
-      const searchresults = ilmihal.filter(chapter =>
+      const chapter_results = ilmihal.filter(chapter =>
         chapter.chapterTitle.toLowerCase().includes(term.toLowerCase())
       );
+
+      const section_results = ilmihal
+        .map(chapter =>
+          chapter.chapterContent.filter(section =>
+            section.sectionTitle.toLowerCase().includes(term.toLowerCase())
+          )
+        )
+        .filter(section => section.length > 0)
+        .reduce((total, section) => [...total, ...section]);
+
+      const content_results = ilmihal
+        .map(chapter =>
+          chapter.chapterContent.filter(section =>
+            section.sectionContent
+              .reduce((total, text) => (total += text))
+              .toLowerCase()
+              .includes(term.toLowerCase())
+          )
+        )
+        .filter(chapter => chapter.length > 0)
+        .reduce((total, section) => [...total, ...section]);
+      console.log({ chapter_results, section_results, content_results });
+
       setSearch({
         ...search,
         query: term,
-        results: [...searchresults],
+        results: [...chapter_results],
         hasEverSearched: true,
         minCharError: false
       });
@@ -76,7 +99,6 @@ const SearchScreen = ({ navigation }) => {
     );
   };
 
-  console.log(search);
   return (
     <>
       <Form>
