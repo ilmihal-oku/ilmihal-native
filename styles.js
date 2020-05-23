@@ -93,10 +93,11 @@ export default {
     fontSize: 28,
   },
   separator: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "#0f4c75",
     paddingVertical: 10,
     paddingLeft: 10,
   },
+
   searchResultTitle: {
     fontFamily: "sans-serif-light",
     fontSize: 16,

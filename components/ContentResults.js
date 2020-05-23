@@ -33,7 +33,6 @@ const ContentResults = ({
             firstInstance > extraChar ? firstInstance - extraChar : 0;
 
           const excerpt = totalParagraph.substr(startExcerpt, extraChar * 2);
-          console.log({ excerpt });
           return (
             <TouchableOpacity
               style={styles.searchResultContent}
