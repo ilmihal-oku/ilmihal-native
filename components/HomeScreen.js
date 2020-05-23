@@ -1,41 +1,40 @@
 import React from "react";
-import { Text } from "react-native";
-import { Content, List, ListItem, Body, Right } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { SafeAreaView, Text, FlatList, TouchableOpacity } from "react-native";
 
-import { book as ilmihal } from "../newSource";
+import { book as ilmihal } from "../source";
+import styles from "../styles";
 
-const HomeScreen = props => {
+function Item({ item, navigate }) {
   return (
-    <Content style={{ backgroundColor: "antiquewhite" }}>
-      <List>
-        {ilmihal.map((item, index) => (
-          <ListItem
-            key={index}
-            onPress={() =>
-              props.navigation.navigate("Chapter", {
-                chapterTitle: item.chapterTitle,
-                chapterContent: item.chapterContent
-              })
-            }
-          >
-            <Body>
-              <Text style={{ fontSize: 18 }}>{item.chapterTitle}</Text>
-            </Body>
-            <Right>
-              <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
-            </Right>
-          </ListItem>
-        ))}
-      </List>
-    </Content>
+    <TouchableOpacity
+      style={styles.chapterTitle}
+      onPress={() => navigate("Chapter", { item })}
+    >
+      <Text style={styles.chapterTitleText}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+}
+
+const HomeScreen = (props) => {
+  const chapters = ilmihal.map(({ chapterTitle: title, id }) => {
+    return { title, id };
+  });
+
+  return (
+    <SafeAreaView style={styles.appWrapper}>
+      <FlatList
+        data={chapters}
+        renderItem={({ item }) => (
+          <Item item={item} navigate={props.navigation.navigate} />
+        )}
+        keyExtractor={(item) => String(item.id)}
+      />
+    </SafeAreaView>
   );
 };
 
 HomeScreen.navigationOptions = {
-  headerTitle: () => (
-    <Text style={{ fontSize: 20, fontWeight: "bold" }}>İçindekiler</Text>
-  )
+  headerTitle: () => <Text style={styles.headerTitle}>İçindekiler</Text>,
   // ,
   // headerRight: () => (
   //   <Icon

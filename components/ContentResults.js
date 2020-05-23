@@ -1,24 +1,23 @@
 import React from "react";
-import { Text } from "react-native";
-import { ListItem, Separator, Body, Right } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from "../styles";
 
 const ContentResults = ({
   contentResults,
   query,
   navigation,
-  highlightSearchTerm
+  highlightSearchTerm,
 }) => {
   return (
     <>
       {contentResults.length > 0 ? (
-        <Separator style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
+        <View style={styles.separator}>
           <Text style={{ color: "white" }}>
             {contentResults.length > 0
               ? `${contentResults.length} yazıda bulundu`
               : `hiçbir yazıda bulunamadı`}
           </Text>
-        </Separator>
+        </View>
       ) : null}
       {contentResults &&
         contentResults.map((item, index) => {
@@ -34,24 +33,15 @@ const ContentResults = ({
             firstInstance > extraChar ? firstInstance - extraChar : 0;
 
           const excerpt = totalParagraph.substr(startExcerpt, extraChar * 2);
-
+          console.log({ excerpt });
           return (
-            <ListItem
+            <TouchableOpacity
+              style={styles.searchResultContent}
               key={index}
-              onPress={() =>
-                navigation.navigate("Section", {
-                  sectionTitle: item.sectionTitle,
-                  sectionContent: item.sectionContent
-                })
-              }
+              onPress={() => navigation.navigate("Section", { item })}
             >
-              <Body>
-                <Text>{highlightSearchTerm(excerpt, query)}</Text>
-              </Body>
-              <Right>
-                <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
-              </Right>
-            </ListItem>
+              <Text>{highlightSearchTerm(excerpt, query)}</Text>
+            </TouchableOpacity>
           );
         })}
     </>

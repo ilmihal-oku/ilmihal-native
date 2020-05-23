@@ -1,55 +1,34 @@
 import React from "react";
-import { Text } from "react-native";
-import { Content } from "native-base";
-// import Icon from "react-native-vector-icons/Ionicons";
+import { SafeAreaView, Text } from "react-native";
+import styles from "../styles";
+import { ScrollView } from "react-native-gesture-handler";
 
-const SectionScreen = props => {
-  const { sectionTitle, sectionContent } = props.navigation.state.params;
-  console.log("Section content", props);
+const SectionScreen = (props) => {
+  const { sectionTitle, sectionContent } = props.navigation.state.params.item;
 
   return (
-    <Content
-      style={{
-        backgroundColor: "antiquewhite",
-        padding: 10
-      }}
-    >
-      <Text
-        style={{
-          fontSize: 22,
-          fontWeight: "bold",
-          paddingTop: 10,
-          paddingBottom: 10
-        }}
-      >
-        {sectionTitle}
-      </Text>
-      {sectionContent.map((p, index) => (
-        <Text
-          key={index}
-          style={{
-            fontSize: 18,
-            lineHeight: 27,
-            paddingTop: 7,
-            paddingBottom: 7
-          }}
-        >
-          {p}
-        </Text>
-      ))}
-      <Text>{` `}</Text>
-      <Text>{` `}</Text>
-    </Content>
+    <SafeAreaView style={styles.appWrapper}>
+      <ScrollView>
+        <Text style={styles.inlineSectionTitleText}>{sectionTitle}</Text>
+        {sectionContent.map((p, i) => (
+          <Text key={i} style={styles.sectionText}>
+            {p}
+          </Text>
+        ))}
+        <Text>{` `}</Text>
+        <Text>{` `}</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 SectionScreen.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: () => (
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-        {navigation.getParam("chapterTitle") || "Arama Sonuçları"}
+      <Text style={styles.sectionsHeaderTitle}>
+        {navigation.state.params.item.chapterTitle || "Arama Sonuçları"}
       </Text>
-    )
+    ),
     //     ,
     //     headerRight: () => (
     //       <Icon

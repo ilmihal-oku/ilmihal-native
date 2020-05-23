@@ -1,14 +1,12 @@
 import React from "react";
-import { Text } from "react-native";
-import { Separator } from "native-base";
+import { View, Text } from "react-native";
+import styles from "../styles";
 
 const SubHeader = ({ message }) => {
   return (
-    <Separator style={{ backgroundColor: "rgba(0,0,0,0.8)" }}>
-      <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
-        {message}
-      </Text>
-    </Separator>
+    <View style={{ height: 40 }}>
+      <Text style={styles.resultsTitle}>{message}</Text>
+    </View>
   );
 };
 

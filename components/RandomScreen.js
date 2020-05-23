@@ -1,17 +1,23 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Content, Button } from "native-base";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { book as ilmihal } from "../newSource";
 import { StackActions, NavigationActions } from "react-navigation";
+import styles from "../styles";
 
 const resetAction = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Random" })]
+  actions: [NavigationActions.navigate({ routeName: "Random" })],
 });
 
-const RandomScreen = props => {
+const RandomScreen = (props) => {
   let totalChapters = () => ilmihal.length - 1;
-  let totalSections = id => ilmihal[id].chapterContent.length - 1;
+  let totalSections = (id) => ilmihal[id].chapterContent.length - 1;
 
   let randomChapter = Math.round(Math.random() * totalChapters());
   let randomSection = Math.round(Math.random() * totalSections(randomChapter));
@@ -23,63 +29,41 @@ const RandomScreen = props => {
   pageTitle = ilmihal[randomChapter].chapterTitle;
 
   return (
-    <>
-      <Content
-        style={{
-          backgroundColor: "antiquewhite",
-          padding: 10
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 22,
-            fontWeight: "bold",
-            paddingTop: 10,
-            paddingBottom: 10
-          }}
-        >
-          {sectionTitle}
-        </Text>
+    <SafeAreaView style={styles.appWrapper}>
+      <ScrollView>
+        <Text style={styles.inlineSectionTitleText}>{sectionTitle}</Text>
         {sectionContent.map((p, index) => (
-          <Text
-            key={index}
-            style={{
-              fontSize: 18,
-              lineHeight: 27,
-              paddingTop: 7,
-              paddingBottom: 7
-            }}
-          >
+          <Text key={index} style={styles.sectionText}>
             {p}
           </Text>
         ))}
         <Text>{` `}</Text>
         <Text>{` `}</Text>
-      </Content>
+      </ScrollView>
       <View>
-        <Button
-          dark
+        <TouchableOpacity
           style={{
             borderRadius: 0,
             justifyContent: "center",
-            height: 50
+            height: 50,
+            backgroundColor: "#0f4c75",
           }}
           onPress={() => props.navigation.dispatch(resetAction)}
         >
-          <Text style={{ color: "white" }}>
+          <Text style={{ ...styles.sectionText, color: "white" }}>
             Yeni Bir Konu Okumak İstiyorum &rarr;
           </Text>
-        </Button>
+        </TouchableOpacity>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
 RandomScreen.navigationOptions = () => {
   return {
     headerTitle: () => (
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>{pageTitle}</Text>
-    )
+      <Text style={styles.sectionsHeaderTitle}>{pageTitle}</Text>
+    ),
   };
 };
 

@@ -1,46 +1,44 @@
 import React from "react";
-import { Text } from "react-native";
-import { ListItem, Separator, Body, Right } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { TouchableOpacity, FlatList, View, Text } from "react-native";
+import styles from "../styles";
 
 const SectionResults = ({
   sectionResults,
   query,
   navigation,
-  highlightSearchTerm
+  highlightSearchTerm,
 }) => {
+  function Item({ item, navigate }) {
+    return (
+      <TouchableOpacity
+        style={styles.sectionTitle}
+        onPress={() => navigate("Section", { item })}
+      >
+        <Text>{highlightSearchTerm(item.sectionTitle, query)}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <>
       {sectionResults.length > 0 ? (
-        <Separator style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
+        <View style={styles.separator}>
           <Text style={{ color: "white" }}>
             {sectionResults.length > 0
               ? `${sectionResults.length} bölümde bulundu`
               : `hiçbir bölümde bulunamadı`}
           </Text>
-        </Separator>
+        </View>
       ) : null}
-      {sectionResults &&
-        sectionResults.map((item, index) => {
-          return (
-            <ListItem
-              key={index}
-              onPress={() =>
-                navigation.navigate("Section", {
-                  sectionTitle: item.sectionTitle,
-                  sectionContent: item.sectionContent
-                })
-              }
-            >
-              <Body>
-                <Text>{highlightSearchTerm(item.sectionTitle, query)}</Text>
-              </Body>
-              <Right>
-                <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
-              </Right>
-            </ListItem>
-          );
-        })}
+      {sectionResults && (
+        <FlatList
+          data={sectionResults}
+          renderItem={({ item }) => (
+            <Item item={item} navigate={navigation.navigate} />
+          )}
+          keyExtractor={(item) => item.sectionTitle}
+        />
+      )}
     </>
   );
 };

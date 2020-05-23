@@ -1,18 +1,17 @@
 import React from "react";
-import { Text } from "react-native";
-import { Form, Button, Item, Input } from "native-base";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { Item } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
+import styles from "../styles";
 
 const SearchForm = ({ search, setSearch, term, onSearchButtonPress }) => {
   return (
-    <Form>
-      <Item>
-        <Icon
-          name="ios-search"
-          style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
-        />
-        <Input
-          onChangeText={term => setSearch({ ...search, term: term })}
+    <View>
+      <View style={styles.searchInputContainer}>
+        <Icon name="ios-search" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInputStyle}
+          onChangeText={(term) => setSearch({ ...search, term: term })}
           value={term}
           placeholder="Aranacak ifade"
         />
@@ -21,29 +20,17 @@ const SearchForm = ({ search, setSearch, term, onSearchButtonPress }) => {
             name="ios-close-circle-outline"
             color="grey"
             onPress={() => setSearch({ ...search, term: "" })}
-            style={{ fontSize: 20, paddingLeft: 10, paddingRight: 10 }}
+            style={styles.clearIconStyle}
           />
         ) : null}
-      </Item>
-      <Button
+      </View>
+      <TouchableOpacity
         onPress={() => onSearchButtonPress()}
-        dark
-        large
-        style={{ borderRadius: 0 }}
+        style={styles.searchButton}
       >
-        <Text
-          style={{
-            color: "white",
-            width: "100%",
-            textAlign: "center",
-            fontSize: 20,
-            fontWeight: "bold"
-          }}
-        >
-          Ara
-        </Text>
-      </Button>
-    </Form>
+        <Text style={styles.searchButtonText}>ilmihal'de Ara</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

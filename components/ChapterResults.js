@@ -1,46 +1,44 @@
 import React from "react";
-import { Text } from "react-native";
-import { ListItem, Separator, Body, Right } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { TouchableOpacity, FlatList, View, Text } from "react-native";
+import styles from "../styles";
 
 const ChapterResults = ({
   chapterResults,
   query,
   navigation,
-  highlightSearchTerm
+  highlightSearchTerm,
 }) => {
+  function Item({ item, navigate }) {
+    return (
+      <TouchableOpacity
+        style={styles.chapterTitle}
+        onPress={() => navigate("Chapter", { item })}
+      >
+        <Text>{highlightSearchTerm(item.title, query)}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <>
       {chapterResults.length > 0 ? (
-        <Separator style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
+        <View style={styles.separator}>
           <Text style={{ color: "white" }}>
             {chapterResults.length > 0
               ? `${chapterResults.length} ana başlıkta bulundu`
               : `hiçbir başlıkta bulunamadı`}
           </Text>
-        </Separator>
+        </View>
       ) : null}
-      {chapterResults &&
-        chapterResults.map((item, index) => {
-          return (
-            <ListItem
-              key={index}
-              onPress={() =>
-                navigation.navigate("Chapter", {
-                  chapterTitle: item.chapterTitle,
-                  chapterContent: item.chapterContent
-                })
-              }
-            >
-              <Body>
-                <Text>{highlightSearchTerm(item.chapterTitle, query)}</Text>
-              </Body>
-              <Right>
-                <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
-              </Right>
-            </ListItem>
-          );
-        })}
+      {chapterResults && (
+        <FlatList
+          data={chapterResults}
+          renderItem={({ item }) => (
+            <Item item={item} navigate={navigation.navigate} />
+          )}
+          keyExtractor={(item) => String(item.id)}
+        />
+      )}
     </>
   );
 };

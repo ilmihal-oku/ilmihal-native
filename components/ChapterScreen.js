@@ -1,45 +1,49 @@
 import React from "react";
-import { Text } from "react-native";
-import { Content, List, ListItem, Body, Right } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { SafeAreaView, Text, FlatList, TouchableOpacity } from "react-native";
 
-const ChapterScreen = props => {
-  const { chapterTitle, chapterContent } = props.navigation.state.params;
+import { book as ilmihal } from "../source";
+import styles from "../styles";
+
+function Item({ item, navigate }) {
+  return (
+    <TouchableOpacity
+      style={styles.sectionTitle}
+      onPress={() => navigate("Section", { item })}
+    >
+      <Text style={styles.sectionTitleText}>{item.sectionTitle}</Text>
+    </TouchableOpacity>
+  );
+}
+
+const ChapterScreen = (props) => {
+  const { id } = props.navigation.state.params.item;
+  const { chapterTitle, chapterContent } = ilmihal.find(
+    (chapter) => chapter.id === id
+  );
 
   return (
-    <Content style={{ backgroundColor: "antiquewhite" }}>
-      <List>
-        {chapterContent.map((item, index) => (
-          <ListItem
-            key={index}
-            onPress={() =>
-              props.navigation.navigate("Section", {
-                chapterTitle: chapterTitle,
-                sectionTitle: item.sectionTitle,
-                sectionContent: item.sectionContent
-              })
-            }
-          >
-            <Body>
-              <Text style={{ fontSize: 18 }}>{item.sectionTitle}</Text>
-            </Body>
-            <Right>
-              <Icon name="ios-arrow-dropright" style={{ fontSize: 20 }} />
-            </Right>
-          </ListItem>
-        ))}
-      </List>
-    </Content>
+    <SafeAreaView style={styles.appWrapper}>
+      <FlatList
+        data={chapterContent}
+        renderItem={({ item }) => (
+          <Item
+            item={{ ...item, chapterTitle }}
+            navigate={props.navigation.navigate}
+          />
+        )}
+        keyExtractor={(item) => String(item.id)}
+      />
+    </SafeAreaView>
   );
 };
 
 ChapterScreen.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: () => (
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-        {navigation.getParam("chapterTitle")}
+      <Text style={styles.sectionsHeaderTitle}>
+        {navigation.state.params.item.title}
       </Text>
-    )
+    ),
     //     ,
     //     headerRight: () => (
     //       <Icon

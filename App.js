@@ -8,7 +8,6 @@ import HomeScreen from "./components/HomeScreen";
 import ChapterScreen from "./components/ChapterScreen";
 import SectionScreen from "./components/SectionScreen";
 import SearchScreen from "./components/SearchScreen";
-import ResultsScreen from "./components/ResultsScreen";
 import RandomScreen from "./components/RandomScreen";
 import SettingsScreen from "./components/SettingsScreen";
 
@@ -16,84 +15,83 @@ const BookStack = createStackNavigator(
   {
     Home: { screen: HomeScreen },
     Chapter: { screen: ChapterScreen },
-    Section: { screen: SectionScreen }
+    Section: { screen: SectionScreen },
   },
   {
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: "burlywood"
+        backgroundColor: "#3282b8",
       },
       headerTintColor: "#000",
       headerTitleStyle: {
-        fontWeight: "bold"
-      }
+        fontWeight: "bold",
+      },
     },
     cardStyle: {
-      backgroundColor: "antiquewhite"
-    }
+      backgroundColor: "#bbe1fa",
+    },
   }
 );
 
 const SearchStack = createStackNavigator(
   {
     Search: { screen: SearchScreen },
-    Results: { screen: ResultsScreen },
     Chapter: { screen: ChapterScreen },
-    Section: { screen: SectionScreen }
+    Section: { screen: SectionScreen },
   },
   {
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: "burlywood"
+        backgroundColor: "#3282b8",
       },
       headerTintColor: "#000",
       headerTitleStyle: {
-        fontWeight: "bold"
-      }
+        fontWeight: "bold",
+      },
     },
     cardStyle: {
-      backgroundColor: "antiquewhite"
-    }
+      backgroundColor: "#bbe1fa",
+    },
   }
 );
 
 const RandomStack = createStackNavigator(
   {
-    Random: { screen: RandomScreen }
+    Random: { screen: RandomScreen },
   },
   {
     defaultNavigationOptions: {
       headerBackTitle: null,
       headerStyle: {
-        backgroundColor: "burlywood"
+        backgroundColor: "#3282b8",
       },
       headerTintColor: "#000",
       headerTitleStyle: {
-        fontWeight: "bold"
-      }
+        fontWeight: "bold",
+      },
     },
     cardStyle: {
-      backgroundColor: "antiquewhite"
-    }
+      backgroundColor: "#bbe1fa",
+    },
   }
 );
 
 const SettingsStack = createStackNavigator(
   {
-    Settings: { screen: SettingsScreen }
+    Settings: { screen: SettingsScreen },
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "burlywood"
+        backgroundColor: "#3282b8",
       },
       headerTintColor: "#000",
       headerTitleStyle: {
-        fontWeight: "bold"
-      }
-    }
+        fontWeight: "bold",
+      },
+    },
   }
 );
 
@@ -103,7 +101,7 @@ const App = createAppContainer(
       İlmihal: BookStack,
       Arama: SearchStack,
       Rastgele: RandomStack,
-      Ayarlar: SettingsStack
+      Ayarlar: SettingsStack,
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -122,18 +120,18 @@ const App = createAppContainer(
           }
 
           return <IconComponent name={iconName} size={25} color={tintColor} />;
-        }
+        },
       }),
       tabBarOptions: {
         activeTintColor: "white",
-        inactiveTintColor: "#d1d1d2",
+        inactiveTintColor: "#bbe1fa",
         keyboardHidesTabBar: true,
         style: {
-          backgroundColor: "saddlebrown"
-        }
+          backgroundColor: "#1b262c",
+        },
       },
       // resetOnBlur: true,
-      lazy: false
+      lazy: false,
     }
   )
 );
