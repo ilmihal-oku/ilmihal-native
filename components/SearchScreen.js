@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { book as ilmihal } from "../newSource";
+import { book as ilmihal } from "../source";
 import ChapterResults from "./ChapterResults";
 import SectionResults from "./SectionResults";
 import ContentResults from "./ContentResults";

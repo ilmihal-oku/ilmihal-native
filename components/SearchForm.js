@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import { Item } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
 

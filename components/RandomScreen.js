@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { book as ilmihal } from "../newSource";
+import { book as ilmihal } from "../source";
 import { StackActions, NavigationActions } from "react-navigation";
 import styles from "../styles";
 
