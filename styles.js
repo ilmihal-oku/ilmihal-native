@@ -1,3 +1,8 @@
+const light = "#e4f9ff";
+const medium = "";
+const dark = "";
+const buttonBg = "#0f4c75";
+
 export default {
   headerTitle: {
     fontFamily: "sans-serif-condensed",
@@ -5,6 +10,10 @@ export default {
     padding: 10,
     marginVertical: 20,
     fontWeight: "bold",
+    color: "white",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 5,
   },
   sectionsHeaderTitle: {
     fontFamily: "sans-serif-condensed",
@@ -12,8 +21,12 @@ export default {
     padding: 10,
     marginVertical: 20,
     fontWeight: "bold",
+    color: "white",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 5,
   },
-  appWrapper: { flex: 1, backgroundColor: "#e4f9ff" },
+  appWrapper: { flex: 1, backgroundColor: light },
   chapterTitle: {
     padding: 15,
     marginHorizontal: 5,
@@ -43,7 +56,7 @@ export default {
     padding: 10,
   },
   newSearchButton: {
-    backgroundColor: "#rgba(255,255,255,0.3)",
+    backgroundColor: buttonBg,
     paddingLeft: 15,
     paddingVertical: 3,
     borderRadius: 15,
@@ -51,6 +64,7 @@ export default {
   },
   newSearchText: {
     fontFamily: "sans-serif-light",
+    color: "white",
     fontSize: 15,
     paddingRight: 15,
   },
@@ -78,11 +92,12 @@ export default {
     margin: 15,
     padding: 10,
     height: 50,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: buttonBg,
   },
   searchButtonText: {
     fontFamily: "sans-serif-light",
-    color: "black",
+    color: "white",
+    fontWeight: "bold",
     width: "100%",
     textAlign: "center",
     fontSize: 20,
@@ -93,7 +108,7 @@ export default {
     fontSize: 28,
   },
   separator: {
-    backgroundColor: "#0f4c75",
+    backgroundColor: buttonBg,
     paddingVertical: 10,
     paddingLeft: 10,
   },
@@ -107,5 +122,11 @@ export default {
     borderBottomWidth: 1,
     borderBottomColor: "#bbe1fa",
     borderStyle: "solid",
+  },
+  randomButton: {
+    borderRadius: 0,
+    justifyContent: "center",
+    height: 50,
+    backgroundColor: buttonBg,
   },
 };

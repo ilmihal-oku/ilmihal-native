@@ -42,12 +42,7 @@ const RandomScreen = (props) => {
       </ScrollView>
       <View>
         <TouchableOpacity
-          style={{
-            borderRadius: 0,
-            justifyContent: "center",
-            height: 50,
-            backgroundColor: "#0f4c75",
-          }}
+          style={styles.randomButton}
           onPress={() => props.navigation.dispatch(resetAction)}
         >
           <Text style={{ ...styles.sectionText, color: "white" }}>

@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.oku.ilmihal",
-      "versionCode": 6
+      "versionCode": 7
     }
   }
 }

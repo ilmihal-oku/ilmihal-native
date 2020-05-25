@@ -10,6 +10,22 @@ import SectionScreen from "./components/SectionScreen";
 import SearchScreen from "./components/SearchScreen";
 import RandomScreen from "./components/RandomScreen";
 import SettingsScreen from "./components/SettingsScreen";
+const header = {
+  defaultNavigationOptions: {
+    headerBackTitle: null,
+    headerStyle: {
+      backgroundColor: "#3282b8",
+      height: 90,
+    },
+    headerTintColor: "#000",
+    headerTitleStyle: {
+      fontWeight: "bold",
+    },
+  },
+  cardStyle: {
+    backgroundColor: "#bbe1fa",
+  },
+};
 
 const BookStack = createStackNavigator(
   {
@@ -17,21 +33,7 @@ const BookStack = createStackNavigator(
     Chapter: { screen: ChapterScreen },
     Section: { screen: SectionScreen },
   },
-  {
-    defaultNavigationOptions: {
-      headerBackTitle: null,
-      headerStyle: {
-        backgroundColor: "#3282b8",
-      },
-      headerTintColor: "#000",
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-    },
-    cardStyle: {
-      backgroundColor: "#bbe1fa",
-    },
-  }
+  { ...header }
 );
 
 const SearchStack = createStackNavigator(
@@ -40,59 +42,21 @@ const SearchStack = createStackNavigator(
     Chapter: { screen: ChapterScreen },
     Section: { screen: SectionScreen },
   },
-  {
-    defaultNavigationOptions: {
-      headerBackTitle: null,
-      headerStyle: {
-        backgroundColor: "#3282b8",
-      },
-      headerTintColor: "#000",
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-    },
-    cardStyle: {
-      backgroundColor: "#bbe1fa",
-    },
-  }
+  { ...header }
 );
 
 const RandomStack = createStackNavigator(
   {
     Random: { screen: RandomScreen },
   },
-  {
-    defaultNavigationOptions: {
-      headerBackTitle: null,
-      headerStyle: {
-        backgroundColor: "#3282b8",
-      },
-      headerTintColor: "#000",
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-    },
-    cardStyle: {
-      backgroundColor: "#bbe1fa",
-    },
-  }
+  { ...header }
 );
 
 const SettingsStack = createStackNavigator(
   {
     Settings: { screen: SettingsScreen },
   },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#3282b8",
-      },
-      headerTintColor: "#000",
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-    },
-  }
+  { ...header }
 );
 
 const App = createAppContainer(
