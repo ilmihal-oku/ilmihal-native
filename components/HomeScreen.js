@@ -15,33 +15,23 @@ function Item({ item, navigate }) {
   );
 }
 
-const HomeScreen = (props) => {
+const HomeScreen = ({ navigation }) => {
   const chapters = ilmihal.map(({ chapterTitle: title, id }) => {
     return { title, id };
   });
-
+  const renderItem = ({ item }) => (
+    <Item item={item} navigate={navigation.navigate} />
+  )
+  const keyExtractor = (item) => String(item.id);
   return (
     <SafeAreaView style={styles.appWrapper}>
       <FlatList
         data={chapters}
-        renderItem={({ item }) => (
-          <Item item={item} navigate={props.navigation.navigate} />
-        )}
-        keyExtractor={(item) => String(item.id)}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
       />
     </SafeAreaView>
   );
-};
-
-HomeScreen.navigationOptions = {
-  headerTitle: () => <Text style={styles.headerTitle}>İçindekiler</Text>,
-  // ,
-  // headerRight: () => (
-  //   <Icon
-  //     name="ios-information-circle-outline"
-  //     style={{ paddingRight: 15, fontSize: 26 }}
-  //   />
-  // )
 };
 
 export default HomeScreen;

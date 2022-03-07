@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,33 +6,41 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { book as ilmihal } from "../source";
+import { book, book as ilmihal } from "../source";
 import { StackActions, NavigationActions } from "react-navigation";
 import styles from "../styles";
+import { CommonActions } from '@react-navigation/native';
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Random" })],
-});
+// const resetAction = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: "Random" })],
+// });
+
+const findRandomSection = () => {
+  const randomChapterId = Math.floor(Math.random() * book.length);
+  const randomChapter = book[randomChapterId];
+  const randomSectionId = Math.floor(Math.random() * randomChapter.chapterContent.length);
+  const randomSection = randomChapter.chapterContent[randomSectionId];
+  return randomSection;
+}
+
+const resetAction = () => {
+  const randomSection = findRandomSection();
+  return CommonActions.reset({
+    index: 1,
+    routes: [{ name: "Random", params: { item: randomSection } }],
+  });
+};
+
 
 const RandomScreen = (props) => {
-  let totalChapters = () => ilmihal.length - 1;
-  let totalSections = (id) => ilmihal[id].chapterContent.length - 1;
-
-  let randomChapter = Math.round(Math.random() * totalChapters());
-  let randomSection = Math.round(Math.random() * totalSections(randomChapter));
-
-  let { sectionTitle, sectionContent } = ilmihal[randomChapter].chapterContent[
-    randomSection
-  ];
-
-  pageTitle = ilmihal[randomChapter].chapterTitle;
+  const randomSection = props.route?.params?.item ?? findRandomSection();
 
   return (
     <SafeAreaView style={styles.appWrapper}>
       <ScrollView>
-        <Text style={styles.inlineSectionTitleText}>{sectionTitle}</Text>
-        {sectionContent.map((p, index) => (
+        <Text style={styles.inlineSectionTitleText}>{randomSection.sectionTitle}</Text>
+        {randomSection.sectionContent.map((p, index) => (
           <Text key={index} style={styles.sectionText}>
             {p}
           </Text>
@@ -54,12 +62,12 @@ const RandomScreen = (props) => {
   );
 };
 
-RandomScreen.navigationOptions = () => {
-  return {
-    headerTitle: () => (
-      <Text style={styles.sectionsHeaderTitle}>{pageTitle}</Text>
-    ),
-  };
-};
+// RandomScreen.navigationOptions = () => {
+//   return {
+//     headerTitle: () => (
+//       <Text style={styles.sectionsHeaderTitle}>{pageTitle}</Text>
+//     ),
+//   };
+// };
 
 export default RandomScreen;

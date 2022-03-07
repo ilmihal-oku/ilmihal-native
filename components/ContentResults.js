@@ -37,7 +37,7 @@ const ContentResults = ({
             <TouchableOpacity
               style={styles.searchResultContent}
               key={index}
-              onPress={() => navigation.navigate("Section", { item })}
+              onPress={() => navigation.navigate("SearchSection", { item })}
             >
               <Text>{highlightSearchTerm(excerpt, query)}</Text>
             </TouchableOpacity>

@@ -16,7 +16,7 @@ function Item({ item, navigate }) {
 }
 
 const ChapterScreen = (props) => {
-  const { id } = props.navigation.state.params.item;
+  const { id } = props.route.params.item;
   const { chapterTitle, chapterContent } = ilmihal.find(
     (chapter) => chapter.id === id
   );
@@ -35,23 +35,6 @@ const ChapterScreen = (props) => {
       />
     </SafeAreaView>
   );
-};
-
-ChapterScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerTitle: () => (
-      <Text style={styles.sectionsHeaderTitle}>
-        {navigation.state.params.item.title}
-      </Text>
-    ),
-    //     ,
-    //     headerRight: () => (
-    //       <Icon
-    //         name="ios-information-circle-outline"
-    //         style={{ paddingRight: 15, fontSize: 26 }}
-    //       />
-    //     )
-  };
 };
 
 export default ChapterScreen;
