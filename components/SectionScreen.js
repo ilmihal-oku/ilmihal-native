@@ -9,7 +9,7 @@ import { BookmarkContext } from "../bookmarkContext";
 const SectionScreen = (props) => {
   const { store, updateStore } = React.useContext(BookmarkContext);
   useEffect(() => {
-    AsyncStorage.getItem("@Ayraclar").then((data) =>
+    AsyncStorage.getItem("@Favoriler").then((data) =>
       updateStore(JSON.parse(data))
     );
   }, []);
@@ -33,7 +33,7 @@ const SectionScreen = (props) => {
       newStore = { ...store, [key]: [value] };
       updateStore(newStore);
     }
-    await AsyncStorage.setItem("@Ayraclar", JSON.stringify(newStore));
+    await AsyncStorage.setItem("@Favoriler", JSON.stringify(newStore));
   };
 
   const removeData = async (key, value) => {
@@ -50,7 +50,7 @@ const SectionScreen = (props) => {
         };
       }
       updateStore(newStore);
-      await AsyncStorage.setItem("@Ayraclar", JSON.stringify(newStore));
+      await AsyncStorage.setItem("@Favoriler", JSON.stringify(newStore));
     }
   };
 
@@ -58,9 +58,8 @@ const SectionScreen = (props) => {
     const data = getData(key);
     if (data) {
       return data.includes(value);
-    } else {
-      return false;
-    }
+    } 
+    return false;
   };
 
   const addToBookmarks = (p) => {

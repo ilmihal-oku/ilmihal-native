@@ -134,13 +134,13 @@ const AppWithContext = () => {
 
   useEffect(() => {
     if (!initialRender) {
-      AsyncStorage.setItem("@Ayraclar", JSON.stringify(store));
+      AsyncStorage.setItem("@Favoriler", JSON.stringify(store));
     }
   }, [store]);
 
   useEffect(() => {
     setInitialRender(false);
-    AsyncStorage.getItem("@Ayraclar").then((data) => {
+    AsyncStorage.getItem("@Favoriler").then((data) => {
       if (data) {
         setStore(JSON.parse(data));
       }

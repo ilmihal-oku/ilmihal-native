@@ -21,7 +21,7 @@ const BookmarkScreen = (props) => {
   }
 
   useEffect(() => {
-    AsyncStorage.getItem("@Ayraclar").then((data) =>
+    AsyncStorage.getItem("@Favoriler").then((data) =>
       updateStore(JSON.parse(data))
     );
   }, []);
@@ -36,7 +36,7 @@ const BookmarkScreen = (props) => {
     } else {
       newStore[title] = section;
     }
-    AsyncStorage.setItem("@Ayraclar", JSON.stringify(newStore));
+    AsyncStorage.setItem("@Favoriler", JSON.stringify(newStore));
     updateStore(newStore);
   };
 

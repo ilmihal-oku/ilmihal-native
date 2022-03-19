@@ -19,6 +19,7 @@ class SectionItem extends Component {
       duration: 100,
       useNativeDriver: true,
     }).start();
+
     Animated.timing(this.scale, {
       toValue: 1.4,
       duration: 100,
@@ -32,6 +33,7 @@ class SectionItem extends Component {
       duration: 100,
       useNativeDriver: true,
     }).start();
+    
     Animated.timing(this.scale, {
       toValue: 0.1,
       duration: 100,

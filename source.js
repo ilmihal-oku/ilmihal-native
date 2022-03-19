@@ -2867,7 +2867,7 @@ export const book = [
           "Yemin keffaretinin sebebi, yemin üzerinde durmayıp onu bozmaktır.",
           "Adam öldürme keffaretinin sebebi, suçu olmayan bir insanı hata yolu ile ödürmektir. İleride bunlar açıklanacaktır.",
           "27- Vacib oruçların sebebi, bunların adamak suretiyle kabullenilmiş olmasıdır. Bunların kazasının sebebi de, benimsenmiş olan bir ibadetin tamamlanması gereğidir.",
-          "28- Nafile oruçların tutulmalarını zorunlu kılacak dinde bir sebeb yoktur. Bunlar, yalnız sevab kazanmak için dileyenlerin tutucaklan oruçlardır. Ancak böyle bir oruç tutulmaya başlandıktan sonra bozulacak olursa, onun kazası gerekir. Bu kazanın sebebi de, böyle bir ibadete Hak rızası için başlanmış olmasıdır ki, bunu yarıda bırakmak caiz olmayacağından kaza şeklinde tamamlanması vacib olur.",
+          "28- Nafile oruçların tutulmalarını zorunlu kılacak dinde bir sebeb yoktur. Bunlar, yalnız sevab kazanmak için dileyenlerin tutucakları oruçlardır. Ancak böyle bir oruç tutulmaya başlandıktan sonra bozulacak olursa, onun kazası gerekir. Bu kazanın sebebi de, böyle bir ibadete Hak rızası için başlanmış olmasıdır ki, bunu yarıda bırakmak caiz olmayacağından kaza şeklinde tamamlanması vacib olur.",
         ],
         id: 3,
       },
