@@ -117,7 +117,7 @@ export default {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderBottomWidth: 0.25,
+    borderBottomWidth: 1,
     borderColor: light,
     borderStyle: "solid",
   },

@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import React, { useEffect } from "react";
+import { Platform } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -16,14 +17,21 @@ import BookmarkScreen from "./components/BookmarkScreen";
 
 import { BookmarkContext } from "./bookmarkContext";
 import { View, Text } from "react-native";
-import { Button } from "react-native-web";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
 
 const homeTitle = (
-  <View style={{ alignItems: "center" }}>
+  <View>
     <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>BÜYÜK İSLAM İLMİHALİ</Text>
-    <Text style={{ fontSize: 16, color: "white", paddingTop: 3, fontWeight: "normal" }}>
+    <Text
+      style={{
+        fontSize: 16,
+        color: "white",
+        paddingTop: 3,
+        fontWeight: "normal",
+        textAlign: Platform.OS === "ios" ? "center" : "left",
+      }}
+    >
       ÖMER NASUHİ BİLMEN
     </Text>
   </View>

@@ -13,17 +13,19 @@ const SearchForm = ({ search, setSearch, onSearchButtonPress }) => {
           onChangeText={(term) => setSearch({ ...search, term })}
           value={search.term}
           placeholder="Aranacak ifade"
+          onSubmitEditing={onSearchButtonPress}
+          returnKeyType="search"
         />
         {search.term.length > 0 ? (
           <Icon
             name="ios-close-circle-outline"
             color="grey"
             onPress={() => setSearch({ ...search, term: "" })}
-            style={styles.clearIconStyle}
+            style={styles.clearIcon}
           />
         ) : null}
       </View>
-      <TouchableOpacity onPress={() => onSearchButtonPress()} style={styles.searchButton}>
+      <TouchableOpacity onPress={onSearchButtonPress} style={styles.searchButton}>
         <Text style={styles.searchButtonText}>Arama Yap</Text>
       </TouchableOpacity>
     </View>

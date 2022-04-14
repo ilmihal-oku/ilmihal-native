@@ -5,7 +5,6 @@ import { StackActions, NavigationActions } from "react-navigation";
 import styles from "../styles";
 import { CommonActions } from "@react-navigation/native";
 import SectionItem from "./SectionItem";
-import useStore from "../utils/useStore";
 
 // const resetAction = StackActions.reset({
 //   index: 0,
