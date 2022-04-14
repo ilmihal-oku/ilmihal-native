@@ -1070,8 +1070,7 @@ export const book = [
         id: 29,
       },
       {
-        sectionTitle:
-          "GUSÜL ETMESİ FARZ OLANLARA HARAM VEYA MEKRUH OLAN ŞEYLER",
+        sectionTitle: "GUSÜL ETMESİ FARZ OLANLARA HARAM VEYA MEKRUH OLAN ŞEYLER",
         sectionContent: [
           " 197- Üzerlerine gusül farz olanlara, gusletmeden önce haram olan şeyler şunlardır:",
           "1) Namaz kılmak. Bir ayet olsa bile, Kur’an niyeti ile Kur’an okumak. Hamd ve dua ile ilgili ayetleri, dua ve zikir niyeti ile okumak caizdir. Cünüb veya adet halinde olan bir kadının dua niyeti ile Fatiha Suresini okuması caizdir.Yine bu durumda olan kimsenin çocuklara Kur’an ayetlerini kelime kelime öğretmesi de caizdir. Şehadet kelimesini söylemek, tesbih ve tekbir getirmek yine caizdir.",
@@ -3925,8 +3924,7 @@ export const book = [
         id: 8,
       },
       {
-        sectionTitle:
-          "HACCIN FARZİYETİNİN SEBEBİ VE EDASININ FEVRİ OLUP OLMADIĞI",
+        sectionTitle: "HACCIN FARZİYETİNİN SEBEBİ VE EDASININ FEVRİ OLUP OLMADIĞI",
         sectionContent: [
           " 30- Haccın farz olmasına sebeb Beytullah’ın (Kabe’nin) bulunmasıdır. Bu kutsal mabedi ziyaret için Yüce Allah’ın emri ile hac farz kılınmıştır. Bu sebeb tekerrür etmediği için haccın farziyeti de tekrarlanmaz. Mükellef olan kimsenin ömründe bir defa hac etmesiyle bu farz yerine getirilmiş olur. Öyle ki, akıl ve baliğ olan bir müslüman fakir iken yürüyerek hac etmiş olsa, sonradan zengin olmakla tekrar hac yapması gerekmez.",
           "31- Hac, Hazret-i Peygamberin hicretlerinin dokuzunca yılında farz kılınmıştır. Bu sene Resûlüllah Efendimiz (sallallahu aleyhi ve sellem) tarafından Ebû Bekir Es-Sıddık (radıyallahu anh) Hac Emiri tayin buyurulmuştu. Hicretin onuncu yılında da Peygamber Efendimiz Mekke’ye yönelerek hac farizasını yerine getirmişlerdi.",
@@ -4209,8 +4207,7 @@ export const book = [
         id: 21,
       },
       {
-        sectionTitle:
-          "HAC KONUSUNDA NİYABET, VASİYET VE ADAKLA İLGİLİ BAZI MESELELER",
+        sectionTitle: "HAC KONUSUNDA NİYABET, VASİYET VE ADAKLA İLGİLİ BAZI MESELELER",
         sectionContent: [
           " 85- Hac için bedel olacak şahsın, daha önce kendi adına hac etmiş bulunması, İmam Şafiî’ye göre şart ise de, biz Hanefî’lerce şart değildir.",
           "Bu iki ayrı görüşten kurtulmak için, daha önce kendi adına hac etmiş bulunan ve hac işlerini bilen bir kimseyi bedel göndermek daha faziletlidir. Bununla beraber efendilerinin izni ile köleler, yanlarında mahremleri bulunmak şartı ile kocalarının izinleri ile zevceler bedel olarak hacca gidebilirler. Ancak kadınların niyabeten (bedel olarak) hacca gitmeleri mekruhtur. Çünkü onların hacları, erkeklere kıyasla noksandır. Telbiyelerde seslerini yükseltemezler, Remel ve Hervele gibi bazı hac işlerini yapamazlar.",
@@ -4393,8 +4390,7 @@ export const book = [
         id: 7,
       },
       {
-        sectionTitle:
-          "KİMLERİN BOĞAZLAYACAĞI HAYVANLARIN ETİ YENİR VEYA YENMEZ",
+        sectionTitle: "KİMLERİN BOĞAZLAYACAĞI HAYVANLARIN ETİ YENİR VEYA YENMEZ",
         sectionContent: [
           " 65- Müslümanların ve kitab ehli olan Yahudî ve Hıristiyanların, kadın dahi olsalar, Besmele ile (Allah’ın adını anarak) boğazlayacak oldukları hayvanların, eti yenen hayvanlar olmak şartıyle etleri yenir. Besmele tam kesim anında olacaktır, bu şarttır. Kesim anında bir şey yemek suretiyle veya başkası ile konuşmakla önceki besmeleye ara verilerek meclis değişirse, bu yeterli olmaz. Yeniden Besmele getirmek gerekir.Müslüman veya kitab ehlinden olan ve Bismillah demeye gücü yeten bir çocuğun veya delinin, dilsizin, sünnetsizin ve sarhoşun Besmeleyle kesecekleri bu tür hayvanların etleri de yenebilir.",
           "66- Besmelenin unutularak terk edilmiş olması zarar vermez. Hatta kitab ehlinin Besmele deyip demedikleri bilinmediği takdirde de kestikleri eti yenen hayvanlar helal olur. Çoğunluğun görüşü budur.",
@@ -4552,8 +4548,7 @@ export const book = [
         id: 4,
       },
       {
-        sectionTitle:
-          "DİN VE MUAMELATTA SÖZLERİ KABUL EDİLECEK VE EDİLMEYECEKLER",
+        sectionTitle: "DİN VE MUAMELATTA SÖZLERİ KABUL EDİLECEK VE EDİLMEYECEKLER",
         sectionContent: [
           " 48- Sadece dinle ilgili Allah’la kul arasındaki bir ibadet işinde adaletli olan kimselerin sözleri kabul edilir. Fasıkların ve gayr-i müslimlerin sözleri kabul edilmez. Bir suyun temiz olmadığını adalet sahibi bir müslüman haber verir de, başka su bulunmazsa, teyemmüm caiz olur. Fakat bunu fasık veya ne olduğu bilinmeyen veya gayr-i müslim bir kimse haber verirse, araştırma yapmak gerekir. O suyun gerçekten temiz olup olmadığı araştırılır. Sonunda kuvvetli görüşe göre işlem yapılır. Şöyle ki: Eğer bu haber veren kimsenin doğru söylediğine kuvvetli bir zan hasıl olmuşsa, yalnız teyemmüm yapılır. Yalan söylediği hakkında kuvvetli zan varsa, o su ile abdest alınır ve ihtiyat olarak da teyemmüm edilir.",
           "49- Bir suyun temiz olduğunu bir adil müslüman ve temiz olmadığını, diğer adil bir müslüman haber verse, bu suyun temiz olduğuna hükmedilir. Çünkü suda asıl olan temiz olmaktır. Fakat ölü bulunan bir hayvanın boğazlanmış olduğunu bir adil ve boğazlanmamış olduğunu da diğer bir adil şahıs haber verse, burada en kuvvetli olan kanaata göre işlem yapılır.",
@@ -4718,8 +4713,7 @@ export const book = [
         id: 15,
       },
       {
-        sectionTitle:
-          "GİYİLMESİ VE KULLANILMASI GEREKLİ VE CAİZ OLUP OLMAYAN ŞEYLER",
+        sectionTitle: "GİYİLMESİ VE KULLANILMASI GEREKLİ VE CAİZ OLUP OLMAYAN ŞEYLER",
         sectionContent: [
           " 133- Her müslüman için avret yerlerini örtecek şekilde sıcaktan ve soğuktan korunacak kadar elbise giymek farzdır. Bu elbiselerin etekleri, erkeklerde bacakların yarısına kadar, kadınlarda ayaklarının yüzlerine kadar uzamalı, kollar da parmak uclarına kadar uzun bulunmalıdır.Erkeklerin elbisesi kırmızı veya sarı olmamalı, siyah veya beyaz renkte olmalıdır. Bu renkler müstahabdır. Yeşil renk de sünnete uygundur.",
           "134- Elbise ne çok yüksek, ne de çok bayağı olmalı, orta derecede bulunmalıdır. Çünkü her şeyin hayırlısı orta halde olanıdır. Bununla beraber Yüce Allah’ın verdiği nimeti gösterip şükretmek için süs olarak yeterinden fazla elbise edinmek müstahabdır. Peygamber Efendimiz buyurmuştur:“Allah sana ihsan edip nimet verdiği gibi, sen de nefsine ikramda bulun.”Diğer bir hadis-i şerif’de şöyle buyurulmuştur:“Şüphe yok ki Yüce Allah nimetinin eserini kulunun üzerinde görmeyi sever.”",
@@ -5087,8 +5081,7 @@ export const book = [
     chapterTitle: "PEYGAMBERLER",
     chapterContent: [
       {
-        sectionTitle:
-          "PEYGAMBERLERE AİT SİYERİN ANLAMI, YARARLARI VE KAYNAKLARI",
+        sectionTitle: "PEYGAMBERLERE AİT SİYERİN ANLAMI, YARARLARI VE KAYNAKLARI",
         sectionContent: [
           "1- Peygamberlerin siyeri, mübarek peygamberlerin yüksek hayatlarına ait bilgiler olup genel tarihin pek kıymetli bir bölümüdür.",
           "Bilindiği gibi, Yüce Allah, önce insanlara kendi içlerinden zaman zaman peygamberler göndermiştir. İnsanların bir kısmı bu mukaddes peygamberlere uymuşlar ve böylece hem dünya, hem de ahiret görevlerini yapmışlardır. Düzenli medeniyetler kurmuş ve faziletlere ermişlerdir. Diğer bir kısmı da, bu mübarek peygamberlere karşı çıkıp onlara aykırı harekette bulunmuşlardır.Bu tutumları ile gerçek insanlık vasfından yoksun kalmış ve küfrü imana, rezaleti ve fazilete tercih etmişlerdir. Bu yüzden de sonunda felâketlere düşüp sönüp gitmişlerdir.",
@@ -5401,8 +5394,7 @@ export const book = [
         id: 2,
       },
       {
-        sectionTitle:
-          "PEYGAMBER EFENDİMİZİN ALLAH'IN VAHYİNE VE ELÇİLİĞİNE KAVUŞMASI",
+        sectionTitle: "PEYGAMBER EFENDİMİZİN ALLAH'IN VAHYİNE VE ELÇİLİĞİNE KAVUŞMASI",
         sectionContent: [
           " 87- Hazret-i Muhammed (sallallahu aleyhi ve sellem) Efendimiz, çocukluğundan beri üstün bir fazilet ve çok güzel bir ahlâk içinde yaşamıştı. Kavminin cahilce yaptıkları işlerden ve âdetlerden tamamen uzaktı. Kimseden bir şey okumamış, bir şey yazmamıştı.",
           "Kimse ile dini konulara ait bir şey konuşmamıştı. Onun üzerinde kimsenin hocalık hakkı olamazdı. O, bütün cihanın en büyük hocası ve en yüksek mürşidi olmaya adaydı. Onu, Yüce Allah bir mucize olarak yaratmıştı. Onun kalbine bütün ilim ve hikmetleri doğrudan doğruya Cenâb-ı Hakk bırakacaktı. O, tam bir masumiyet içinde kırk yaşına yaklaşmıştı. O sırada mübarek gözlerine melekler görünür, “Ya Muhammed!” diye ortalıktan seslenilirdi. Kendisine taşlardan ve ağaçlardan selâm sesleri gelirdi. Aklı, zekâsı, maddî manevî sağlığı üstün bir şekilde mükemmeldi.",
@@ -5489,8 +5481,7 @@ export const book = [
         id: 9,
       },
       {
-        sectionTitle:
-          "İSLAMİYETİN MEDİNE'DE YAYILMASI VE MÜSLÜMANLARIN ORAYA HİCRETİ",
+        sectionTitle: "İSLAMİYETİN MEDİNE'DE YAYILMASI VE MÜSLÜMANLARIN ORAYA HİCRETİ",
         sectionContent: [
           " 112- Medine’nin eski adı “Yesrib” idi. Oraya Yemen’in Ezd kabilesinden bir toplum gelip yerleşmişlerdi. Bu toplumun başkanı olan Haris ölünce, Evs ve Hazreç adlarındaki iki oğlunu bırakmıştı. O toplum da ikiye ayrıldı. Bir kısım Evs, diğer bir kısmı da Hazreç’e bağlandı. Böylece Medine’de Evs ve Hazreç adında iki kabile türemiş oldu. Daha sonra bunların arasına şiddetli düşmanlık girdi. Daima birbirleriyle çarpışıp dururlardı. Dünyayı verseler aralarını bulmak ve kalblerini birleştirmek mümkün değildi. Fakat ne zaman ki İslâmiyet nurları parlamaya başladı, hemen o eski düşmanlığı unuttular. Bu düşmanlık yerine bir sevgi ve bir kardeşlik meydana geldi. Birbirine din bağı ile bağlandılar ve birbirinin selâmetine,mutluluğuna çalıştılar. Böylece ortak düşmanları olan Yahudilere üstün geldiler.",
           "İşte İslâmiyet Medine’de bu iki kabile arasında günden güne hızla yayılıyordu. Ashab-ı kiramdan ”Umeyr oğlu Mus’ab” bunlara Kur’ân-ı Kerîm ve İslâm ahlâkını öğretmek için Medine’ye gönderilmişti. Sonra Başkanları olan “Sa’d ibni Muaz ve Üseyyid ibni Hudayr” de müslüman olunca, bu iki kabile arasında İslâm olma nimetine kavuşmayan kalmamış gibiydi.",
@@ -5500,8 +5491,7 @@ export const book = [
         id: 10,
       },
       {
-        sectionTitle:
-          "PEYGAMBERİMİZİN MEDİNE'YE HİCRETLERİ VE ORADAKİ BAZI ÇALIŞMALARI",
+        sectionTitle: "PEYGAMBERİMİZİN MEDİNE'YE HİCRETLERİ VE ORADAKİ BAZI ÇALIŞMALARI",
         sectionContent: [
           " 114- Peygamberliğin on dördüncü yılı idi. Mekke’deki müslümanlar Medine’ye hicret etmişlerdi. Mekke şehrinde yalnız Hazret-i Peygamber ile aile halkı ve Hazret-i Ebû Bekir ile Hazret-i Ali kalmışlardı.Müslümanların böyle Medine’ye gidip orada bir kuvvet meydana getirmeleri, Mekke’deki gayrimüslimleri düşündürüyordu. Darü’n-Nedve denilen bir binada toplandılar. Müslümanların en büyük düşmanı olan Ebû Cehil adındaki şahsın sözüne uydular. Hazret-i Peygamberi öldürmeye karar verdiler. Her kabileden bir şahıs ayrılarak geceleyin Hazret-i Peygamberin evini kuşattılar. Uyumasını bekliyorlardı, onu öldüreceklerdi.",
           "İşte o gece, Cibril-i Emîn geldi, durumu Hazret-i Peygambere bildirdi ve Medine’ye hicret için kendisine izin verildiğini söyledi. Hazret-i Peygamber kendi yatağına Hazret-i Ali’yi yatırdı. Yerden bir avuç toprak alıp dışarda bekleyen müşriklerin üzerlerine saçtı. Hiç birisi görmeksizin aralarından çıkıp gitti. O gece bir yerde kaldı. Gündüzün öğle vakti Hazret-i Ebû Bekir’in evine gitti ve beraberce hicret edeceklerini müjdeledi.",
@@ -5634,8 +5624,7 @@ export const book = [
         id: 17,
       },
       {
-        sectionTitle:
-          "HAZRET-İ PEYGAMBERİN HÜKÜMDARLARI İSLAM DİNİNE DAVET ETMESİ",
+        sectionTitle: "HAZRET-İ PEYGAMBERİN HÜKÜMDARLARI İSLAM DİNİNE DAVET ETMESİ",
         sectionContent: [
           " 151- Hazret-i Peygamber (sallallahu aleyhi ve sellem) Efendimiz, bütün milletlere peygamber gönderilmiş olduğundan İslâm dinine davet için Hicretin yedinci yılı muharrem ayında birer davet mektubu yazdırıp onları mühürledikten sonra, birer elçi ile çevresindeki hükümdarlara göndermişti. Bu mektubları, Necaşi denilen Habeş Hükümdarı “Ashane”ye, Mısır Hükümdarı “Muhavkıs”e, Doğu Roma İmparatoru “Hirakl”e, Şam Meliki olup Hirakl’in bir valisi hükmünde olan “Haris”e, Yemame Meliki Hıristiyan Ali oğlu “Hevze”ye, İran hükümdarı “Hüsrev Perviz”e ve başkalarına hitab edilerek yazılmıştı.",
           "152- Necaşi, Hazret-i Peygamberin mektubunu alır almaz öpüp yüzüne gözüne sürmüş ve Habeştan’a hicret etmiş bulunan Hazret-i Cafer’in huzurunda İslâmiyeti kabul etmişti.",

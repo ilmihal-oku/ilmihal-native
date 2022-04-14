@@ -3,6 +3,7 @@ import { Animated, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
+import withStore from "../utils/withStore";
 
 class SectionItem extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class SectionItem extends Component {
       duration: 100,
       useNativeDriver: true,
     }).start();
-    
+
     Animated.timing(this.scale, {
       toValue: 0.1,
       duration: 100,
@@ -42,8 +43,9 @@ class SectionItem extends Component {
   };
 
   onAddToBookmarks = () => {
-    this.props.addToBookmarks(this.props.p);
-    if (this.props.inStore) {
+    const { p, sectionTitle } = this.props;
+    this.props.addToBookmarks(p, sectionTitle);
+    if (this.props.inStore(sectionTitle, p)) {
       this.startAnimate();
       this.startEndingAnimate = setTimeout(() => this.endAnimate(), 500);
     }
@@ -51,15 +53,10 @@ class SectionItem extends Component {
 
   render() {
     const { opacity, scale } = this;
-    const backgroundColor = this.props.inStore ? "lightyellow" : undefined;
-    const iconStyle = [
-      styles.sectionLikedIcon,
-      { opacity, transform: [{ scale }] },
-    ];
-    const doubleTap = Gesture.Tap()
-      .maxDuration(500)
-      .numberOfTaps(2)
-      .onStart(this.onAddToBookmarks);
+    const { p, sectionTitle } = this.props;
+    const backgroundColor = this.props.inStore(sectionTitle, p) ? "lightyellow" : undefined;
+    const iconStyle = [styles.sectionLikedIcon, { opacity, transform: [{ scale }] }];
+    const doubleTap = Gesture.Tap().maxDuration(500).numberOfTaps(2).onStart(this.onAddToBookmarks);
 
     return (
       <GestureDetector gesture={Gesture.Exclusive(doubleTap)}>
@@ -76,4 +73,4 @@ class SectionItem extends Component {
   }
 }
 
-export default SectionItem;
+export default withStore(SectionItem);

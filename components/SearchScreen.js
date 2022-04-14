@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Keyboard,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import React, { useState, useMemo } from "react";
+import { View, Text, Keyboard, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 
 import { book as ilmihal } from "../source";
 import ChapterResults from "./ChapterResults";
@@ -28,27 +21,30 @@ const SearchScreen = ({ navigation }) => {
 
   const { term, query, results, hasEverSearched, minCharError } = search;
 
-  const onSearchButtonPress = () => {
-    Keyboard.dismiss();
-    if (term.length > 2) {
-      navigation.setParams({ clearForm });
+  const chapterResults = useMemo(
+    () =>
+      ilmihal
+        .filter((chapter) => chapter.chapterTitle.toLowerCase().includes(term.toLowerCase()))
+        .map(({ chapterTitle: title, id }) => ({ title, id })),
+    [term]
+  );
 
-      const chapter_results = ilmihal
-        .filter((chapter) =>
-          chapter.chapterTitle.toLowerCase().includes(term.toLowerCase())
-        )
-        .map(({ chapterTitle: title, id }) => ({ title, id }));
-
-      const section_results = ilmihal
+  const sectionResults = useMemo(
+    () =>
+      ilmihal
         .map((chapter) =>
           chapter.chapterContent.filter((section) =>
             section.sectionTitle.toLowerCase().includes(term.toLowerCase())
           )
         )
         .filter((section) => section.length > 0)
-        .reduce((total, section) => [...total, ...section], "");
+        .reduce((total, section) => [...total, ...section], ""),
+    [term]
+  );
 
-      const content_results = ilmihal
+  const contentResults = useMemo(
+    () =>
+      ilmihal
         .map((chapter) =>
           chapter.chapterContent.filter((section) =>
             section.sectionContent
@@ -58,15 +54,22 @@ const SearchScreen = ({ navigation }) => {
           )
         )
         .filter((chapter) => chapter.length > 0)
-        .reduce((total, section) => [...total, ...section], "");
+        .reduce((total, section) => [...total, ...section], ""),
+    [term]
+  );
+
+  const onSearchButtonPress = () => {
+    Keyboard.dismiss();
+    if (term.length > 2) {
+      navigation.setParams({ clearForm });
 
       setSearch({
         ...search,
         query: term,
         results: {
-          chapter: [...chapter_results],
-          section: [...section_results],
-          content: [...content_results],
+          chapter: [...chapterResults],
+          section: [...sectionResults],
+          content: [...contentResults],
         },
         hasEverSearched: true,
         minCharError: false,
@@ -95,11 +98,8 @@ const SearchScreen = ({ navigation }) => {
     const start = title.toLowerCase().indexOf(term.toLowerCase());
     const end = start + term.length;
 
-    const splitAt = (start, end) => (x) => [
-      x.slice(0, start),
-      x.slice(start, end),
-      x.slice(end, x.length),
-    ];
+    const splitAt = (start, end) => (title) =>
+      [title.slice(0, start), title.slice(start, end), title.slice(end, title.length)];
 
     const titleArray = splitAt(start, end)(title);
 
@@ -115,11 +115,10 @@ const SearchScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.appWrapper}>
-        <ScrollView>
+        <ScrollView stickyHeaderIndices={[0]}>
           <SearchForm
             search={search}
             setSearch={setSearch}
-            term={term}
             onSearchButtonPress={onSearchButtonPress}
           />
           <View>
@@ -132,11 +131,7 @@ const SearchScreen = ({ navigation }) => {
                   {!results.chapter.length &&
                     !results.section.length &&
                     !results.content.length && (
-                      <Text
-                        style={{ fontFamily: "sans-serif-light", fontSize: 15 }}
-                      >
-                        Sonuç bulunamadı.
-                      </Text>
+                      <Text style={styles.notFound}>Sonuç bulunamadı.</Text>
                     )}
                   <ChapterResults
                     query={query}
@@ -171,10 +166,7 @@ SearchScreen.navigationOptions = ({ navigation }) => {
     headerTitle: () => <Text style={styles.headerTitle}>Arama</Text>,
     headerRight: () => (
       <TouchableOpacity style={styles.newSearchButton}>
-        <Text
-          style={styles.newSearchText}
-          onPress={navigation.getParam("clearForm")}
-        >
+        <Text style={styles.newSearchText} onPress={navigation.getParam("clearForm")}>
           Yeni Arama
         </Text>
       </TouchableOpacity>

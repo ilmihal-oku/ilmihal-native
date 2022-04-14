@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import React from "react";
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
 import { book, book as ilmihal } from "../source";
 import { StackActions, NavigationActions } from "react-navigation";
 import styles from "../styles";
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from "@react-navigation/native";
+import SectionItem from "./SectionItem";
+import useStore from "../utils/useStore";
 
 // const resetAction = StackActions.reset({
 //   index: 0,
@@ -22,7 +18,7 @@ const findRandomSection = () => {
   const randomSectionId = Math.floor(Math.random() * randomChapter.chapterContent.length);
   const randomSection = randomChapter.chapterContent[randomSectionId];
   return randomSection;
-}
+};
 
 const resetAction = () => {
   const randomSection = findRandomSection();
@@ -32,18 +28,16 @@ const resetAction = () => {
   });
 };
 
-
 const RandomScreen = (props) => {
   const randomSection = props.route?.params?.item ?? findRandomSection();
+  const sectionTitle = randomSection.sectionTitle;
 
   return (
     <SafeAreaView style={styles.appWrapper}>
       <ScrollView>
         <Text style={styles.inlineSectionTitleText}>{randomSection.sectionTitle}</Text>
         {randomSection.sectionContent.map((p, index) => (
-          <Text key={index} style={styles.sectionText}>
-            {p}
-          </Text>
+          <SectionItem key={index} p={p} sectionTitle={sectionTitle} />
         ))}
         <Text>{` `}</Text>
         <Text>{` `}</Text>

@@ -6,10 +6,7 @@ import styles from "../styles";
 
 function Item({ item, navigate }) {
   return (
-    <TouchableOpacity
-      style={styles.chapterTitle}
-      onPress={() => navigate("Chapter", { item })}
-    >
+    <TouchableOpacity style={styles.chapterTitle} onPress={() => navigate("Chapter", { item })}>
       <Text style={styles.chapterTitleText}>{item.title}</Text>
     </TouchableOpacity>
   );
@@ -19,17 +16,11 @@ const HomeScreen = ({ navigation }) => {
   const chapters = ilmihal.map(({ chapterTitle: title, id }) => {
     return { title, id };
   });
-  const renderItem = ({ item }) => (
-    <Item item={item} navigate={navigation.navigate} />
-  )
+  const renderItem = ({ item }) => <Item item={item} navigate={navigation.navigate} />;
   const keyExtractor = (item) => String(item.id);
   return (
     <SafeAreaView style={styles.appWrapper}>
-      <FlatList
-        data={chapters}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-      />
+      <FlatList data={chapters} renderItem={renderItem} keyExtractor={keyExtractor} />
     </SafeAreaView>
   );
 };

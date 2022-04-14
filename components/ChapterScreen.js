@@ -6,10 +6,7 @@ import styles from "../styles";
 
 function Item({ item, navigate }) {
   return (
-    <TouchableOpacity
-      style={styles.sectionTitle}
-      onPress={() => navigate("Section", { item })}
-    >
+    <TouchableOpacity style={styles.sectionTitle} onPress={() => navigate("Section", { item })}>
       <Text style={styles.sectionTitleText}>{item.sectionTitle}</Text>
     </TouchableOpacity>
   );
@@ -17,19 +14,14 @@ function Item({ item, navigate }) {
 
 const ChapterScreen = (props) => {
   const { id } = props.route.params.item;
-  const { chapterTitle, chapterContent } = ilmihal.find(
-    (chapter) => chapter.id === id
-  );
+  const { chapterTitle, chapterContent } = ilmihal.find((chapter) => chapter.id === id);
 
   return (
     <SafeAreaView style={styles.appWrapper}>
       <FlatList
         data={chapterContent}
         renderItem={({ item }) => (
-          <Item
-            item={{ ...item, chapterTitle }}
-            navigate={props.navigation.navigate}
-          />
+          <Item item={{ ...item, chapterTitle }} navigate={props.navigation.navigate} />
         )}
         keyExtractor={(item) => String(item.id)}
       />

@@ -53,7 +53,7 @@ class BookmarkItem extends Component {
   onCopied = () => {
     this.setState({ copied: true });
     setTimeout(() => this.setState({ copied: false }), 1200);
-    setTimeout(() => this.props.toggleModal(null), 1000);
+    setTimeout(() => this.onClose(), 1000);
   };
 
   onCopy = () => {
@@ -65,6 +65,12 @@ class BookmarkItem extends Component {
     this.props.toggleModal(null);
   };
 
+  onRemove = () => {
+    const { title, p } = this.props;
+    this.props.removeFromBookmarks(title, p);
+    this.onClose();
+  };
+
   iconProps = (name, color) => {
     return { name, size: 35, color, style: styles.bookmarkItemOverlayIcon };
   };
@@ -72,7 +78,11 @@ class BookmarkItem extends Component {
   render() {
     return (
       <View style={styles.bookmarkItemContainer}>
-        <Pressable onPress={this.onItemPress} onLongPress={this.onItemLongPress} delayLongPress={250}>
+        <Pressable
+          onPress={this.onItemPress}
+          onLongPress={this.onItemLongPress}
+          delayLongPress={250}
+        >
           <Animated.View style={[styles.bookmarkItemOverlay, { opacity: this.state.opacity }]}>
             {this.state.copied ? (
               <Text style={{ color: "white", fontSize: 20 }}>Kopyalandı!</Text>
@@ -82,7 +92,7 @@ class BookmarkItem extends Component {
                   <Icon {...this.iconProps("copy", "white")} />
                   <Text style={styles.bookmarkItemOverlayText}>Kopyala</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bookmarkItemOverlayItem}>
+                <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onRemove}>
                   <Icon {...this.iconProps("trash", "coral")} />
                   <Text style={styles.bookmarkItemOverlayText}>Sil</Text>
                 </TouchableOpacity>

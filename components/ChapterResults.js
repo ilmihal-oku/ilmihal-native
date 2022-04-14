@@ -2,18 +2,10 @@ import React from "react";
 import { TouchableOpacity, FlatList, View, Text } from "react-native";
 import styles from "../styles";
 
-const ChapterResults = ({
-  chapterResults,
-  query,
-  navigation,
-  highlightSearchTerm,
-}) => {
+const ChapterResults = ({ chapterResults, query, navigation, highlightSearchTerm }) => {
   function Item({ item, navigate }) {
     return (
-      <TouchableOpacity
-        style={styles.chapterTitle}
-        onPress={() => navigate("Chapter", { item })}
-      >
+      <TouchableOpacity style={styles.chapterTitle} onPress={() => navigate("Chapter", { item })}>
         <Text>{highlightSearchTerm(item.title, query)}</Text>
       </TouchableOpacity>
     );
@@ -33,9 +25,7 @@ const ChapterResults = ({
       {chapterResults && (
         <FlatList
           data={chapterResults}
-          renderItem={({ item }) => (
-            <Item item={item} navigate={navigation.navigate} />
-          )}
+          renderItem={({ item }) => <Item item={item} navigate={navigation.navigate} />}
           keyExtractor={(item) => String(item.id)}
         />
       )}

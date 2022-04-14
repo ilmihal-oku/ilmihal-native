@@ -2,12 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import styles from "../styles";
 
-const ContentResults = ({
-  contentResults,
-  query,
-  navigation,
-  highlightSearchTerm,
-}) => {
+const ContentResults = ({ contentResults, query, navigation, highlightSearchTerm }) => {
   return (
     <>
       {contentResults.length > 0 ? (
@@ -29,8 +24,7 @@ const ContentResults = ({
 
           const firstInstance = totalParagraph.indexOf(query.toLowerCase());
 
-          const startExcerpt =
-            firstInstance > extraChar ? firstInstance - extraChar : 0;
+          const startExcerpt = firstInstance > extraChar ? firstInstance - extraChar : 0;
 
           const excerpt = totalParagraph.substr(startExcerpt, extraChar * 2);
           return (

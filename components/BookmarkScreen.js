@@ -18,12 +18,10 @@ const BookmarkScreen = (props) => {
     } else {
       setModalVisibleItem(null);
     }
-  }
+  };
 
   useEffect(() => {
-    AsyncStorage.getItem("@Favoriler").then((data) =>
-      updateStore(JSON.parse(data))
-    );
+    AsyncStorage.getItem("@Favoriler").then((data) => updateStore(JSON.parse(data)));
   }, []);
 
   const removeFromBookmarks = (title, p) => {
@@ -49,9 +47,7 @@ const BookmarkScreen = (props) => {
           bookmarkedItems.map(([title, content]) => {
             const item = book
               .find((chapter) =>
-                chapter.chapterContent.find(
-                  (section) => section.sectionTitle === title
-                )
+                chapter.chapterContent.find((section) => section.sectionTitle === title)
               )
               .chapterContent.find((section) => section.sectionTitle === title);
 
@@ -69,8 +65,8 @@ const BookmarkScreen = (props) => {
                         removeFromBookmarks={removeFromBookmarks}
                         toggleModal={toggleModal}
                         modalVisible={modalVisibleItem === p}
-                        />
-                      </View>
+                      />
+                    </View>
                   );
                 })}
               </View>
@@ -78,7 +74,7 @@ const BookmarkScreen = (props) => {
           })
         ) : (
           <View style={{ paddingHorizontal: 50, paddingTop: 50 }}>
-            <Text style={{ padding: 10, fontSize: 22, textAlign: "center", fontWeight: 'bold' }}>
+            <Text style={{ padding: 10, fontSize: 22, textAlign: "center", fontWeight: "bold" }}>
               Favorilerinizde hiçbir şey yok.
             </Text>
             <Text style={{ textAlign: "center", fontSize: 17, lineHeight: 24 }}>

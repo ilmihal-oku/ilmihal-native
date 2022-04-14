@@ -51,6 +51,12 @@ export default {
     lineHeight: 27,
     padding: 10,
   },
+  searchFormWrapper: {
+    backgroundColor: light,
+    borderBottomWidth: 1,
+    borderColor: "#0f4c7520",
+    borderStyle: "solid",
+  },
   newSearchButton: {
     backgroundColor: buttonBg,
     paddingLeft: 15,
@@ -74,6 +80,9 @@ export default {
     justifyContent: "space-between",
     paddingVertical: 3,
     backgroundColor: "rgba(255, 255, 255, 0.6)",
+    borderBottomWidth: 1,
+    borderColor: "#0f4c7520",
+    borderStyle: "solid",
   },
   searchInputStyle: {
     fontSize: 16,
@@ -84,8 +93,8 @@ export default {
   searchButton: {
     borderRadius: 30,
     margin: 15,
-    padding: 10,
     height: 50,
+    justifyContent: "center",
     backgroundColor: buttonBg,
   },
   searchButtonText: {
@@ -98,7 +107,9 @@ export default {
   resultsTitle: {
     fontWeight: "bold",
     fontSize: 28,
+    paddingLeft: 10,
   },
+  notFound: { fontFamily: "sans-serif-light", fontSize: 15, paddingLeft: 10 },
   separator: {
     backgroundColor: buttonBg,
     paddingVertical: 10,

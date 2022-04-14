@@ -1,9 +1,9 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import React, { useEffect } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -15,14 +15,12 @@ import RandomScreen from "./components/RandomScreen";
 import BookmarkScreen from "./components/BookmarkScreen";
 
 import { BookmarkContext } from "./bookmarkContext";
-import { View, Text } from 'react-native';
+import { View, Text } from "react-native";
 
 const homeTitle = (
   <View style={{ alignItems: "center" }}>
-    <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-      BÜYÜK İSLAM İLMİHALİ
-    </Text>
-    <Text style={{ fontSize: 16, color: "white", paddingTop: 3, fontWeight: 'normal' }}>
+    <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>BÜYÜK İSLAM İLMİHALİ</Text>
+    <Text style={{ fontSize: 16, color: "white", paddingTop: 3, fontWeight: "normal" }}>
       ÖMER NASUHİ BİLMEN
     </Text>
   </View>
@@ -45,7 +43,7 @@ const buildTitle = (route) => {
     case "Bookmark":
       return "Favoriler";
   }
-}
+};
 
 const header = ({ route }) => {
   return {
@@ -57,14 +55,15 @@ const header = ({ route }) => {
     headerTintColor: "#000",
     headerTitleStyle: {
       fontWeight: "bold",
-      color: 'white',
+      color: "white",
       fontSize: 22,
     },
     cardStyle: {
       backgroundColor: "#bbe1fa",
     },
     title: buildTitle(route),
-  };};
+  };
+};
 
 const Tab = createBottomTabNavigator();
 const BookStack = createStackNavigator();
@@ -89,10 +88,7 @@ const BookStackScreen = () => {
 
 const SearchStackScreen = () => {
   return (
-    <SearchStack.Navigator
-      initialRouteName="Search"
-      screenOptions={{ gestureEnabled: true }}
-    >
+    <SearchStack.Navigator initialRouteName="Search" screenOptions={{ gestureEnabled: true }}>
       <SearchStack.Screen name="Search" component={SearchScreen} options={header} />
       <SearchStack.Screen name="SearchChapter" component={ChapterScreen} options={header} />
       <SearchStack.Screen name="SearchSection" component={SectionScreen} options={header} />
@@ -102,10 +98,7 @@ const SearchStackScreen = () => {
 
 const RandomStackScreen = () => {
   return (
-    <RandomStack.Navigator
-      initialRouteName="Random"
-      screenOptions={{ gestureEnabled: true }}
-    >
+    <RandomStack.Navigator initialRouteName="Random" screenOptions={{ gestureEnabled: true }}>
       <RandomStack.Screen name="Random" component={RandomScreen} options={header} />
     </RandomStack.Navigator>
   );
@@ -113,15 +106,8 @@ const RandomStackScreen = () => {
 
 const BookmarkStackScreen = () => {
   return (
-    <BookmarkStack.Navigator
-      initialRouteName="Bookmark"
-      screenOptions={{ gestureEnabled: true }}
-    >
-      <BookmarkStack.Screen
-        name="Bookmark"
-        component={BookmarkScreen}
-        options={header}
-      />
+    <BookmarkStack.Navigator initialRouteName="Bookmark" screenOptions={{ gestureEnabled: true }}>
+      <BookmarkStack.Screen name="Bookmark" component={BookmarkScreen} options={header} />
       <BookmarkStack.Screen name="BookmarkSection" component={SectionScreen} options={header} />
     </BookmarkStack.Navigator>
   );
@@ -195,7 +181,7 @@ const AppWithContext = () => {
           <Tab.Screen name="Rastgele" component={RandomStackScreen} options={tabOptions} />
           <Tab.Screen name="Favoriler" component={BookmarkStackScreen} options={tabOptions} />
         </Tab.Navigator>
-        </NavigationContainer>
+      </NavigationContainer>
     </BookmarkContext.Provider>
   );
 };
