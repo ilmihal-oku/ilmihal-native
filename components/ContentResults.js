@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
 
 const ContentResults = ({ contentResults, query, navigation, highlightSearchTerm }) => {
+  const [showResults, setShowResults] = useState(false);
+  const iconName = showResults ? "md-chevron-down" : "md-chevron-forward";
+
   return (
     <>
       {contentResults.length > 0 ? (
-        <View style={styles.separator}>
-          <Text style={{ color: "white" }}>
+        <TouchableWithoutFeedback
+          style={styles.separator}
+          onPress={() => setShowResults(!showResults)}
+        >
+          <Text style={{ color: "white", fontSize: 16 }}>
             {contentResults.length > 0
               ? `${contentResults.length} yazıda bulundu`
               : `hiçbir yazıda bulunamadı`}
           </Text>
-        </View>
+          <Ionicons name={iconName} size={20} style={{ color: "white", marginRight: 10 }} />
+        </TouchableWithoutFeedback>
       ) : null}
       {contentResults &&
+        showResults &&
         contentResults.map((item, index) => {
           const totalParagraph = item.sectionContent
             .reduce((total, p) => (total += p), "")
@@ -26,11 +36,11 @@ const ContentResults = ({ contentResults, query, navigation, highlightSearchTerm
 
           const startExcerpt = firstInstance > extraChar ? firstInstance - extraChar : 0;
 
-          const excerpt = totalParagraph.substr(startExcerpt, extraChar * 2);
+          const excerpt = totalParagraph.substr(startExcerpt, extraChar * 2) + "...";
           return (
             <TouchableOpacity
               style={styles.searchResultContent}
-              key={index}
+              key={"content" + index}
               onPress={() => navigation.navigate("SearchSection", { item })}
             >
               <Text>{highlightSearchTerm(excerpt, query)}</Text>

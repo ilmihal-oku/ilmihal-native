@@ -61,8 +61,6 @@ const SearchScreen = ({ navigation }) => {
   const onSearchButtonPress = () => {
     Keyboard.dismiss();
     if (term.length > 2) {
-      navigation.setParams({ clearForm });
-
       setSearch({
         ...search,
         query: term,
@@ -106,7 +104,7 @@ const SearchScreen = ({ navigation }) => {
     return (
       <Text style={styles.searchResultTitle}>
         {titleArray[0]}
-        <Text style={{ backgroundColor: "yellow" }}> {titleArray[1]} </Text>
+        <Text style={{ backgroundColor: "yellow" }}> {titleArray[1]}</Text>
         {titleArray[2]}
       </Text>
     );
@@ -159,19 +157,6 @@ const SearchScreen = ({ navigation }) => {
       </SafeAreaView>
     </>
   );
-};
-
-SearchScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerTitle: () => <Text style={styles.headerTitle}>Arama</Text>,
-    headerRight: () => (
-      <TouchableOpacity style={styles.newSearchButton}>
-        <Text style={styles.newSearchText} onPress={navigation.getParam("clearForm")}>
-          Yeni Arama
-        </Text>
-      </TouchableOpacity>
-    ),
-  };
 };
 
 export default SearchScreen;

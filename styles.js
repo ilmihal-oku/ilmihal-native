@@ -72,12 +72,12 @@ export default {
   searchIcon: {
     fontSize: 25,
     paddingLeft: 20,
-    marginTop: 9,
     marginRight: 10,
   },
   searchInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 3,
     backgroundColor: "rgba(255, 255, 255, 0.6)",
     borderBottomWidth: 1,
@@ -85,9 +85,9 @@ export default {
     borderStyle: "solid",
   },
   searchInputStyle: {
-    fontSize: 16,
+    fontSize: 18,
     width: "100%",
-    paddingVertical: 8,
+    paddingVertical: 15,
   },
   clearIcon: { fontSize: 20, paddingLeft: 10, paddingRight: 10 },
   searchButton: {
@@ -112,8 +112,14 @@ export default {
   notFound: { fontFamily: "sans-serif-light", fontSize: 15, paddingLeft: 10 },
   separator: {
     backgroundColor: buttonBg,
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingLeft: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 0.25,
+    borderColor: light,
+    borderStyle: "solid",
   },
 
   searchResultTitle: {
@@ -145,6 +151,17 @@ export default {
     borderBottomWidth: 1,
     borderBottomColor: "rgba(0,0,0,0.05)",
   },
+  bookmarkNotification: {
+    textAlign: "center",
+    fontSize: 17,
+    lineHeight: 24,
+    paddingVertical: 10,
+    backgroundColor: "lightyellow",
+    justifyContent: "center",
+  },
+  emptyBookmarksContainer: { paddingHorizontal: 50, paddingTop: 50 },
+  emptyBookmarksTitle: { padding: 10, fontSize: 22, textAlign: "center", fontWeight: "bold" },
+  emptyBookmarksMessage: { textAlign: "center", fontSize: 17, lineHeight: 24 },
   bookmarkItem: {
     paddingBottom: 10,
   },

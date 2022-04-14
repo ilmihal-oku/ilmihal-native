@@ -1,8 +1,12 @@
-import React from "react";
-import { TouchableOpacity, FlatList, View, Text } from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, View, Text } from "react-native";
 import styles from "../styles";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const SectionResults = ({ sectionResults, query, navigation, highlightSearchTerm }) => {
+  const [showResults, setShowResults] = useState(false);
+
   function Item({ item, navigate }) {
     return (
       <TouchableOpacity style={styles.sectionTitle} onPress={() => navigate("Section", { item })}>
@@ -11,24 +15,28 @@ const SectionResults = ({ sectionResults, query, navigation, highlightSearchTerm
     );
   }
 
+  const iconName = showResults ? "md-chevron-down" : "md-chevron-forward";
+
   return (
     <>
       {sectionResults.length > 0 ? (
-        <View style={styles.separator}>
-          <Text style={{ color: "white" }}>
+        <TouchableWithoutFeedback
+          style={styles.separator}
+          onPress={() => setShowResults(!showResults)}
+        >
+          <Text style={{ color: "white", fontSize: 16 }}>
             {sectionResults.length > 0
               ? `${sectionResults.length} bölümde bulundu`
               : `hiçbir bölümde bulunamadı`}
           </Text>
-        </View>
+          <Ionicons name={iconName} size={20} style={{ color: "white", marginRight: 10 }} />
+        </TouchableWithoutFeedback>
       ) : null}
-      {sectionResults && (
-        <FlatList
-          data={sectionResults}
-          renderItem={({ item }) => <Item item={item} navigate={navigation.navigate} />}
-          keyExtractor={(item) => item.sectionTitle}
-        />
-      )}
+      {sectionResults &&
+        showResults &&
+        sectionResults.map((item) => (
+          <Item key={item.sectionTitle} item={item} navigate={navigation.navigate} />
+        ))}
     </>
   );
 };

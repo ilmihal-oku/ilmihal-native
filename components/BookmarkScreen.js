@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { View, Text } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-navigation";
+import { ScrollView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles";
 import BookmarkItem from "./BookmarkItem";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { book } from "../source";
 import { BookmarkContext } from "../bookmarkContext";
 
@@ -44,41 +44,44 @@ const BookmarkScreen = (props) => {
     <SafeAreaView style={styles.appWrapper}>
       <ScrollView>
         {bookmarkedItems.length ? (
-          bookmarkedItems.map(([title, content]) => {
-            const item = book
-              .find((chapter) =>
-                chapter.chapterContent.find((section) => section.sectionTitle === title)
-              )
-              .chapterContent.find((section) => section.sectionTitle === title);
-
-            return (
-              <View key={title}>
-                {content.map((p, i) => {
-                  return (
-                    <View key={i}>
-                      <BookmarkItem
-                        p={p}
-                        inStore
-                        title={title}
-                        item={item}
-                        navigation={props.navigation}
-                        removeFromBookmarks={removeFromBookmarks}
-                        toggleModal={toggleModal}
-                        modalVisible={modalVisibleItem === p}
-                      />
-                    </View>
-                  );
-                })}
-              </View>
-            );
-          })
-        ) : (
-          <View style={{ paddingHorizontal: 50, paddingTop: 50 }}>
-            <Text style={{ padding: 10, fontSize: 22, textAlign: "center", fontWeight: "bold" }}>
-              Favorilerinizde hiçbir şey yok.
+          <>
+            <Text style={styles.bookmarkNotification}>
+              Favorilerden silmek istediğiniz parağraflara basılı tutun.
             </Text>
-            <Text style={{ textAlign: "center", fontSize: 17, lineHeight: 24 }}>
-              Favorilere eklemek istediğiniz paragraflara hızlıca iki kere dokunun.
+            {bookmarkedItems.map(([title, content]) => {
+              const item = book
+                .find((chapter) =>
+                  chapter.chapterContent.find((section) => section.sectionTitle === title)
+                )
+                .chapterContent.find((section) => section.sectionTitle === title);
+
+              return (
+                <View key={title}>
+                  {content.map((p, i) => {
+                    return (
+                      <View key={i}>
+                        <BookmarkItem
+                          p={p}
+                          inStore
+                          title={title}
+                          item={item}
+                          navigation={props.navigation}
+                          removeFromBookmarks={removeFromBookmarks}
+                          toggleModal={toggleModal}
+                          modalVisible={modalVisibleItem === p}
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              );
+            })}
+          </>
+        ) : (
+          <View style={styles.emptyBookmarksContainer}>
+            <Text style={styles.emptyBookmarksTitle}>Favorilerinizde hiçbir şey yok.</Text>
+            <Text style={styles.emptyBookmarksMessage}>
+              Favorilere eklemek istediğiniz parağraflara hızlıca iki kere dokunun.
             </Text>
           </View>
         )}

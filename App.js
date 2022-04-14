@@ -16,6 +16,9 @@ import BookmarkScreen from "./components/BookmarkScreen";
 
 import { BookmarkContext } from "./bookmarkContext";
 import { View, Text } from "react-native";
+import { Button } from "react-native-web";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styles from "./styles";
 
 const homeTitle = (
   <View style={{ alignItems: "center" }}>
