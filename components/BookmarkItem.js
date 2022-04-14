@@ -83,26 +83,28 @@ class BookmarkItem extends Component {
           onLongPress={this.onItemLongPress}
           delayLongPress={250}
         >
-          <Animated.View style={[styles.bookmarkItemOverlay, { opacity: this.state.opacity }]}>
-            {this.state.copied ? (
-              <Text style={{ color: "white", fontSize: 20 }}>Kopyalandı!</Text>
-            ) : (
-              <>
-                <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onCopy}>
-                  <Icon {...this.iconProps("copy", "white")} />
-                  <Text style={styles.bookmarkItemOverlayText}>Kopyala</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onRemove}>
-                  <Icon {...this.iconProps("trash", "coral")} />
-                  <Text style={styles.bookmarkItemOverlayText}>Sil</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onClose}>
-                  <Icon {...this.iconProps("close", "#eee")} />
-                  <Text style={styles.bookmarkItemOverlayText}>Kapat</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </Animated.View>
+          {this.props.modalVisible && (
+            <Animated.View style={[styles.bookmarkItemOverlay, { opacity: this.state.opacity }]}>
+              {this.state.copied ? (
+                <Text style={{ color: "white", fontSize: 20 }}>Kopyalandı!</Text>
+              ) : (
+                <>
+                  <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onCopy}>
+                    <Icon {...this.iconProps("copy", "white")} />
+                    <Text style={styles.bookmarkItemOverlayText}>Kopyala</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onRemove}>
+                    <Icon {...this.iconProps("trash", "coral")} />
+                    <Text style={styles.bookmarkItemOverlayText}>Sil</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onClose}>
+                    <Icon {...this.iconProps("close", "#eee")} />
+                    <Text style={styles.bookmarkItemOverlayText}>Kapat</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </Animated.View>
+          )}
           <View style={styles.bookmarkItem}>
             <Text numberOfLines={2} style={styles.sectionText}>
               {this.props.p}
