@@ -1,5 +1,7 @@
+<p align="center">
 <img src="assets/splash.png" alt="ilmihal oku Android uygulama" width="221" />
-<img src="screenshots/1.png" alt="ilmihal oku Android uygulama" width="200" /> 
-<img src="screenshots/2.png" alt="ilmihal oku Android uygulama" width="200" /> 
-<img src="screenshots/3.png" alt="ilmihal oku Android uygulama" width="200" /> 
-<img src="screenshots/4.png" alt="ilmihal oku Android uygulama" width="200" />
+</p>
+
+| İçindekiler                                                                                                                                                      | Arama                                                                                                                            | Favoriler                                                                                                                                                     | Favorilere Ekleme                                                                                                                                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Uygulama ilk açıldığındaki başlıklardan istediğinizi seçip okuyabilirsiniz. <br /><img src="screenshots/1.png" alt="ilmihal oku Android uygulama" width="200" /> | İstediğiniz konularda arama yapabilirsiniz. <br /><img src="screenshots/2.png" alt="ilmihal oku Android uygulama" width="200" /> | Parağraflara iki kere hızlıca dokunarak favorilerinize ekleyebilirsiniz. <br /><img src="screenshots/4.png" alt="ilmihal oku Android uygulama" width="200" /> | Favorilerinize eklediğiniz parağrafları üzerine basılı tutarak silebilirsiniz. <br /><img src="screenshots/3.png" alt="ilmihal oku Android uygulama" width="200" /> |
