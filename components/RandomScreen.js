@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
-import { book, book as ilmihal } from "../source";
-import { StackActions, NavigationActions } from "react-navigation";
+import { book } from "../source";
 import styles from "../styles";
 import { CommonActions } from "@react-navigation/native";
 import SectionItem from "./SectionItem";

@@ -3,8 +3,8 @@
     "name": "ilmihal oku",
     "slug": "ilmihal-native",
     "privacy": "public",
-    "platforms": ["ios", "android", "web"],
-    "version": "1.1.0",
+    "platforms": ["ios", "android"],
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,7 +22,8 @@
     },
     "android": {
       "package": "com.oku.ilmihal",
-      "versionCode": 7
+      "versionCode": 10,
+      "permissions": []
     }
   }
 }

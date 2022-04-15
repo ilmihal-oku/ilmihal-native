@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, Keyboard, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, Keyboard, SafeAreaView, ScrollView } from "react-native";
 
 import { book as ilmihal } from "../source";
 import ChapterResults from "./ChapterResults";

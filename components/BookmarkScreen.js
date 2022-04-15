@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, Text } from "react-native";
-import { SafeAreaView } from "react-navigation";
+import { View, Text, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles";
