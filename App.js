@@ -25,7 +25,7 @@ const homeTitle = (
       style={{
         fontSize: 16,
         color: "white",
-        paddingTop: 3,
+        paddingTop: 1,
         fontWeight: "normal",
         textAlign: Platform.OS === "ios" ? "center" : "left",
       }}
@@ -57,11 +57,13 @@ const buildTitle = (route) => {
 const header = ({ route }) => {
   return {
     headerBackTitle: null,
+    headerBackTitleStyle: {
+      color: "white",
+    },
     headerStyle: {
       backgroundColor: "#3282b8",
-      height: 90,
     },
-    headerTintColor: "#000",
+    headerTintColor: "#FFF",
     headerTitleStyle: {
       fontWeight: "bold",
       color: "white",
@@ -147,7 +149,7 @@ const AppWithContext = () => {
   };
 
   const options = {
-    screenOptions: ({ navigation, route }) => ({
+    screenOptions: ({ route }) => ({
       tabBarIcon: ({ color, size }) => {
         const { name } = route;
         let IconComponent = Ionicons;
