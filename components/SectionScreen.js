@@ -3,11 +3,9 @@ import { SafeAreaView, View, Text } from "react-native";
 import styles from "../styles";
 import { ScrollView } from "react-native-gesture-handler";
 import SectionItem from "./SectionItem";
-import useStore from "../utils/useStore";
 
 const SectionScreen = (props) => {
   const { sectionTitle, sectionContent } = props.route.params.item;
-  const { inStore, addToBookmarks } = useStore();
 
   return (
     <SafeAreaView style={styles.appWrapper}>

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const ContentResults = ({ contentResults, query, navigation, highlightSearchTerm }) => {
   const [showResults, setShowResults] = useState(false);
+
+  const toggleShowResults = () => {
+    setShowResults(!showResults);
+  };
+
   const iconName = showResults ? "md-chevron-down" : "md-chevron-forward";
 
   return (
     <>
       {contentResults.length > 0 ? (
-        <TouchableWithoutFeedback
-          style={styles.separator}
-          onPress={() => setShowResults(!showResults)}
-        >
+        <TouchableWithoutFeedback style={styles.separator} onPress={toggleShowResults}>
           <Text style={{ color: "white", fontSize: 16 }}>
             {contentResults.length > 0
               ? `${contentResults.length} yazıda bulundu`

@@ -82,16 +82,6 @@ const SearchScreen = ({ navigation }) => {
     }
   };
 
-  const clearForm = () => {
-    setSearch({
-      term: "",
-      query: "",
-      results: {},
-      hasEverSearched: false,
-      minCharError: false,
-    });
-  };
-
   const highlightSearchTerm = (title, term) => {
     const start = title.toLowerCase().indexOf(term.toLowerCase());
     const end = start + term.length;

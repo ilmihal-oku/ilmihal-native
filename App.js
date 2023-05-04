@@ -45,6 +45,8 @@ const buildTitle = (route) => {
     case "BookmarkSection":
     case "SearchSection":
       return route?.params?.item?.sectionTitle;
+    case "SearchChapter":
+      return route?.params.item.title;
     case "Random":
       return "Rastgele";
     case "Search":
