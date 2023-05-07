@@ -63,13 +63,13 @@ const header = ({ route }) => {
       color: "white",
     },
     headerStyle: {
-      backgroundColor: "#3282b8",
+      backgroundColor: "#256FA2",
     },
     headerTintColor: "#FFF",
     headerTitleStyle: {
       fontWeight: "bold",
       color: "white",
-      fontSize: 22,
+      fontSize: 18,
     },
     cardStyle: {
       backgroundColor: "#bbe1fa",
@@ -79,19 +79,19 @@ const header = ({ route }) => {
 };
 
 const Tab = createBottomTabNavigator();
+
 const BookStack = createStackNavigator();
 const SearchStack = createStackNavigator();
 const RandomStack = createStackNavigator();
 const BookmarkStack = createStackNavigator();
-// const SettingsStack = createStackNavigator();
+
+const navigatorProps = {
+  screenOptions: { gestureEnabled: true },
+};
 
 const BookStackScreen = () => {
-  const navigatorProps = {
-    initialRouteName: "Book",
-    screenOptions: { gestureEnabled: true },
-  };
   return (
-    <BookStack.Navigator {...navigatorProps}>
+    <BookStack.Navigator {...navigatorProps} initialRouteName="Book">
       <BookStack.Screen name="Book" component={HomeScreen} options={header} />
       <BookStack.Screen name="Chapter" component={ChapterScreen} options={header} />
       <BookStack.Screen name="Section" component={SectionScreen} options={header} />
@@ -101,7 +101,7 @@ const BookStackScreen = () => {
 
 const SearchStackScreen = () => {
   return (
-    <SearchStack.Navigator initialRouteName="Search" screenOptions={{ gestureEnabled: true }}>
+    <SearchStack.Navigator initialRouteName="Search" {...navigatorProps}>
       <SearchStack.Screen name="Search" component={SearchScreen} options={header} />
       <SearchStack.Screen name="SearchChapter" component={ChapterScreen} options={header} />
       <SearchStack.Screen name="SearchSection" component={SectionScreen} options={header} />
@@ -111,7 +111,7 @@ const SearchStackScreen = () => {
 
 const RandomStackScreen = () => {
   return (
-    <RandomStack.Navigator initialRouteName="Random" screenOptions={{ gestureEnabled: true }}>
+    <RandomStack.Navigator initialRouteName="Random" {...navigatorProps}>
       <RandomStack.Screen name="Random" component={RandomScreen} options={header} />
     </RandomStack.Navigator>
   );
@@ -119,7 +119,7 @@ const RandomStackScreen = () => {
 
 const BookmarkStackScreen = () => {
   return (
-    <BookmarkStack.Navigator initialRouteName="Bookmark" screenOptions={{ gestureEnabled: true }}>
+    <BookmarkStack.Navigator initialRouteName="Bookmark" {...navigatorProps}>
       <BookmarkStack.Screen name="Bookmark" component={BookmarkScreen} options={header} />
       <BookmarkStack.Screen name="BookmarkSection" component={SectionScreen} options={header} />
     </BookmarkStack.Navigator>

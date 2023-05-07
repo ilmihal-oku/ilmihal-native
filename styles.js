@@ -1,7 +1,7 @@
 const light = "#e4f9ff";
 const medium = "";
 const dark = "";
-export const buttonBg = "#0f4c75";
+export const buttonBg = "#256FA2";
 
 export default {
   headerTitle: {

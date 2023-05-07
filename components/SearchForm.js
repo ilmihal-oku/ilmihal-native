@@ -15,6 +15,7 @@ const SearchForm = ({ search, setSearch, onSearchButtonPress }) => {
           placeholder="Aranacak ifade"
           onSubmitEditing={onSearchButtonPress}
           returnKeyType="search"
+          autoFocus
         />
         {search.term.length > 0 ? (
           <Icon
