@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Text, View, Pressable, TouchableOpacity, Animated } from "react-native";
 import * as Clipboard from "expo-clipboard";
+import React, { Component } from "react";
+import { Alert, Animated, Pressable, Share, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
 
@@ -61,6 +61,25 @@ class BookmarkItem extends Component {
     this.onCopied();
   };
 
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: this.props.p,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
+
   onClose = () => {
     this.props.toggleModal(null);
   };
@@ -90,11 +109,15 @@ class BookmarkItem extends Component {
               ) : (
                 <>
                   <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onCopy}>
-                    <Icon {...this.iconProps("copy", "white")} />
+                    <Icon {...this.iconProps("copy-outline", "white")} />
                     <Text style={styles.bookmarkItemOverlayText}>Kopyala</Text>
                   </TouchableOpacity>
+                  <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onShare}>
+                    <Icon {...this.iconProps("share-outline", "white")} />
+                    <Text style={styles.bookmarkItemOverlayText}>Paylaş</Text>
+                  </TouchableOpacity>
                   <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onRemove}>
-                    <Icon {...this.iconProps("trash", "coral")} />
+                    <Icon {...this.iconProps("trash-outline", "coral")} />
                     <Text style={styles.bookmarkItemOverlayText}>Sil</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.bookmarkItemOverlayItem} onPress={this.onClose}>
