@@ -22,7 +22,7 @@
       "bundleIdentifier": "com.oku.ilmihal",
       "supportsTablet": true,
       "jsEngine": "jsc",
-      "build": 2
+      "buildNumber": 2
     },
     "android": {
       "package": "com.oku.ilmihal",
