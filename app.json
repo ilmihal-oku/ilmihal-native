@@ -3,10 +3,8 @@
     "name": "ilmihal oku",
     "slug": "ilmihal-native",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+
+    "platforms": ["ios", "android"],
     "jsEngine": "hermes",
     "version": "2.0.2",
     "orientation": "portrait",
@@ -19,12 +17,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.oku.ilmihal",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "jsEngine": "jsc"
     },
     "android": {
       "package": "com.oku.ilmihal",
