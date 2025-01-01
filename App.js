@@ -1,22 +1,25 @@
-import "react-native-gesture-handler";
 import React, { useEffect } from "react";
 import { Platform } from "react-native";
+import "react-native-gesture-handler";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import HomeScreen from "./components/HomeScreen";
-import ChapterScreen from "./components/ChapterScreen";
-import SectionScreen from "./components/SectionScreen";
-import SearchScreen from "./components/SearchScreen";
-import RandomScreen from "./components/RandomScreen";
 import BookmarkScreen from "./components/BookmarkScreen";
+import ChapterScreen from "./components/ChapterScreen";
+import HomeScreen from "./components/HomeScreen";
+import RandomScreen from "./components/RandomScreen";
+import SearchScreen from "./components/SearchScreen";
+import SectionScreen from "./components/SectionScreen";
 
+import * as Linking from "expo-linking";
+import { Text, View } from "react-native";
 import { BookmarkContext } from "./bookmarkContext";
-import { View, Text } from "react-native";
+
+const prefix = Linking.createURL("/");
 
 const homeTitle = (
   <View>
@@ -131,6 +134,10 @@ const AppWithContext = () => {
   const [store, setStore] = React.useState(bookmarkContext.store);
   const [initialRender, setInitialRender] = React.useState(true);
 
+  const linking = {
+    prefixes: [prefix],
+  };
+
   useEffect(() => {
     if (!initialRender) {
       AsyncStorage.setItem("@Favoriler", JSON.stringify(store));
@@ -187,7 +194,7 @@ const AppWithContext = () => {
 
   return (
     <BookmarkContext.Provider value={{ store, updateStore }}>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <Tab.Navigator {...options}>
           <Tab.Screen name="İlmihal" component={BookStackScreen} options={tabOptions} />
           <Tab.Screen name="Arama" component={SearchStackScreen} options={tabOptions} />

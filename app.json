@@ -39,6 +39,7 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "scheme": "ilmihaloku"
   }
 }
