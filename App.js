@@ -15,11 +15,8 @@ import RandomScreen from "./components/RandomScreen";
 import SearchScreen from "./components/SearchScreen";
 import SectionScreen from "./components/SectionScreen";
 
-import * as Linking from "expo-linking";
 import { Text, View } from "react-native";
 import { BookmarkContext } from "./bookmarkContext";
-
-const prefix = Linking.createURL("/");
 
 const homeTitle = (
   <View>
@@ -135,7 +132,13 @@ const AppWithContext = () => {
   const [initialRender, setInitialRender] = React.useState(true);
 
   const linking = {
-    prefixes: [prefix],
+    prefixes: ["ilmihaloku://", "https://ilmihaloku.com"],
+    config: {
+      screens: {
+        ChapterScreen: ":chapter",
+        SectionScreen: ":chapter/:section",
+      },
+    },
   };
 
   useEffect(() => {
