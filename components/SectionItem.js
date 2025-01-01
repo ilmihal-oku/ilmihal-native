@@ -51,15 +51,20 @@ class SectionItem extends Component {
     }
   };
 
+  onLongPress = () => {
+    alert("Long press");
+  };
+
   render() {
     const { opacity, scale } = this;
     const { p, sectionTitle } = this.props;
     const backgroundColor = this.props.inStore(sectionTitle, p) ? "lightyellow" : undefined;
     const iconStyle = [styles.sectionLikedIcon, { opacity, transform: [{ scale }] }];
     const doubleTap = Gesture.Tap().maxDuration(500).numberOfTaps(2).onStart(this.onAddToBookmarks);
+    const longPress = Gesture.LongPress().minDuration(200).onStart(this.onLongPress);
 
     return (
-      <GestureDetector gesture={Gesture.Exclusive(doubleTap)}>
+      <GestureDetector gesture={Gesture.Simultaneous(doubleTap, longPress)}>
         <View>
           <Animated.Text style={[styles.sectionText, { backgroundColor }]}>
             {this.props.p}
