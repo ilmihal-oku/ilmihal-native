@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Animated, View } from "react-native";
+import { Alert, Animated, Share, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
@@ -52,7 +52,26 @@ class SectionItem extends Component {
   };
 
   onLongPress = () => {
-    alert("Long press");
+    this.onShare();
+  };
+
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: this.props.p,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
   };
 
   render() {
