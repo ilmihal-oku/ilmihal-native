@@ -162,18 +162,18 @@ const AppWithContext = () => {
 
   const options = {
     screenOptions: ({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
+      tabBarIcon: ({ color, size, focused }) => {
         const { name } = route;
         let IconComponent = Ionicons;
         let iconName;
         if (name === "İlmihal") {
-          iconName = `book`;
+          iconName = focused ? "book" : "book-outline";
         } else if (name === "Arama") {
-          iconName = "ios-search";
+          iconName = focused ? "search" : "search-outline";
         } else if (name === "Rastgele") {
-          iconName = "ios-shuffle";
+          iconName = focused ? "shuffle" : "shuffle-outline";
         } else if (name === "Favoriler") {
-          iconName = "md-heart";
+          iconName = focused ? "heart" : "heart-outline";
         }
 
         return <IconComponent name={iconName} size={size} color={color} />;
