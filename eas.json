@@ -1,6 +1,7 @@
 {
   "cli": {
     "version": ">= 0.42.4",
+    "appVersionSource": "local",
     "promptToConfigurePushNotifications": false
   },
   "build": {
@@ -11,7 +12,9 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "autoIncrement": true
+    }
   },
   "submit": {
     "production": {}
