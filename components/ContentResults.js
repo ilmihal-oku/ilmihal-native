@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
-import styles from "../styles";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import styles from "../styles";
 
 const ContentResults = ({ contentResults, query, navigation, highlightSearchTerm }) => {
   const [showResults, setShowResults] = useState(false);
@@ -11,7 +11,7 @@ const ContentResults = ({ contentResults, query, navigation, highlightSearchTerm
     setShowResults(!showResults);
   };
 
-  const iconName = showResults ? "md-chevron-down" : "md-chevron-forward";
+  const iconName = showResults ? "chevron-down" : "chevron-forward";
 
   return (
     <>

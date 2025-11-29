@@ -159,11 +159,11 @@ const AppWithContext = () => {
         if (name === "İlmihal") {
           iconName = `book`;
         } else if (name === "Arama") {
-          iconName = "ios-search";
+          iconName = "search";
         } else if (name === "Rastgele") {
-          iconName = "ios-shuffle";
+          iconName = "shuffle";
         } else if (name === "Favoriler") {
-          iconName = "md-heart";
+          iconName = "heart";
         }
 
         return <IconComponent name={iconName} size={size} color={color} />;

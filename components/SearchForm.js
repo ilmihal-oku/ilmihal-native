@@ -1,5 +1,4 @@
-import React from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "../styles";
 
@@ -7,7 +6,7 @@ const SearchForm = ({ search, setSearch, onSearchButtonPress }) => {
   return (
     <View style={styles.searchFormWrapper}>
       <View style={styles.searchInputContainer}>
-        <Icon name="ios-search" style={styles.searchIcon} />
+        <Icon name="search" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInputStyle}
           onChangeText={(term) => setSearch({ ...search, term })}
@@ -19,7 +18,7 @@ const SearchForm = ({ search, setSearch, onSearchButtonPress }) => {
         />
         {search.term.length > 0 ? (
           <Icon
-            name="ios-close-circle-outline"
+            name="close-circle-outline"
             color="grey"
             onPress={() => setSearch({ ...search, term: "" })}
             style={styles.clearIcon}

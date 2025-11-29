@@ -1,5 +1,4 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const styles = StyleSheet.create({
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
 const SearchError = ({ message }) => {
   return (
     <View style={styles.wrapper}>
-      <Icon name="md-alert" style={styles.icon} />
+      <Icon name="alert-circle" style={styles.icon} />
       <Text style={styles.text}>{message}</Text>
     </View>
   );
