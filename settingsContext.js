@@ -1,38 +1,43 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
+import { I18nContext, detectDeviceLanguage, getTranslations } from './i18n';
+import { appLangToHadithLang, appLangToQuranLang } from './i18n/translations';
 
 const SETTINGS_KEY = '@ilmihal_settings';
 
 // Available languages for hadith
 export const HADITH_LANGUAGES = [
-  { code: 'tur', name: 'Türkçe', direction: 'ltr' },
-  { code: 'eng', name: 'English', direction: 'ltr' },
-  { code: 'ara', name: 'العربية', direction: 'rtl' },
-  { code: 'urd', name: 'اردو', direction: 'rtl' },
-  { code: 'ben', name: 'বাংলা', direction: 'ltr' },
-  { code: 'fra', name: 'Français', direction: 'ltr' },
-  { code: 'ind', name: 'Bahasa Indonesia', direction: 'ltr' },
-  { code: 'rus', name: 'Русский', direction: 'ltr' },
-  { code: 'tam', name: 'தமிழ்', direction: 'ltr' },
+  { code: 'tur', name: 'Türkçe', direction: 'ltr', flag: '🇹🇷' },
+  { code: 'eng', name: 'English', direction: 'ltr', flag: '🇬🇧' },
+  { code: 'ara', name: 'العربية', direction: 'rtl', flag: '🇸🇦' },
+  { code: 'urd', name: 'اردو', direction: 'rtl', flag: '🇵🇰' },
+  { code: 'ben', name: 'বাংলা', direction: 'ltr', flag: '🇧🇩' },
+  { code: 'fra', name: 'Français', direction: 'ltr', flag: '🇫🇷' },
+  { code: 'ind', name: 'Bahasa Indonesia', direction: 'ltr', flag: '🇮🇩' },
+  { code: 'rus', name: 'Русский', direction: 'ltr', flag: '🇷🇺' },
+  { code: 'tam', name: 'தமிழ்', direction: 'ltr', flag: '🇮🇳' },
 ];
 
 // Available languages for Quran translation
 export const QURAN_LANGUAGES = [
-  { code: 'tr', name: 'Türkçe', direction: 'ltr' },
-  { code: 'en', name: 'English', direction: 'ltr' },
-  { code: 'ur', name: 'اردو', direction: 'rtl' },
-  { code: 'bn', name: 'বাংলা', direction: 'ltr' },
-  { code: 'zh', name: '中文', direction: 'ltr' },
-  { code: 'es', name: 'Español', direction: 'ltr' },
-  { code: 'fr', name: 'Français', direction: 'ltr' },
-  { code: 'id', name: 'Bahasa Indonesia', direction: 'ltr' },
-  { code: 'ru', name: 'Русский', direction: 'ltr' },
-  { code: 'sv', name: 'Svenska', direction: 'ltr' },
+  { code: 'tr', name: 'Türkçe', direction: 'ltr', flag: '🇹🇷' },
+  { code: 'en', name: 'English', direction: 'ltr', flag: '🇬🇧' },
+  { code: 'ur', name: 'اردو', direction: 'rtl', flag: '🇵🇰' },
+  { code: 'bn', name: 'বাংলা', direction: 'ltr', flag: '🇧🇩' },
+  { code: 'zh', name: '中文', direction: 'ltr', flag: '🇨🇳' },
+  { code: 'es', name: 'Español', direction: 'ltr', flag: '🇪🇸' },
+  { code: 'fr', name: 'Français', direction: 'ltr', flag: '🇫🇷' },
+  { code: 'id', name: 'Bahasa Indonesia', direction: 'ltr', flag: '🇮🇩' },
+  { code: 'ru', name: 'Русский', direction: 'ltr', flag: '🇷🇺' },
+  { code: 'sv', name: 'Svenska', direction: 'ltr', flag: '🇸🇪' },
 ];
 
+const detectedLang = detectDeviceLanguage();
+
 const defaultSettings = {
-  hadithLanguage: 'tur',
-  quranLanguage: 'tr',
+  appLanguage: detectedLang,
+  hadithLanguage: appLangToHadithLang[detectedLang] || 'eng',
+  quranLanguage: appLangToQuranLang[detectedLang] || 'en',
 };
 
 export const SettingsContext = createContext({
@@ -66,6 +71,16 @@ export const SettingsProvider = ({ children }) => {
 
   const updateSettings = async (newSettings) => {
     const updated = { ...settings, ...newSettings };
+
+    // Auto-switch content languages when app language changes
+    if (newSettings.appLanguage && newSettings.appLanguage !== settings.appLanguage) {
+      const newAppLang = newSettings.appLanguage;
+      const hadithLang = appLangToHadithLang[newAppLang];
+      const quranLang = appLangToQuranLang[newAppLang];
+      if (hadithLang) updated.hadithLanguage = hadithLang;
+      if (quranLang) updated.quranLanguage = quranLang;
+    }
+
     setSettings(updated);
     try {
       await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(updated));
@@ -97,6 +112,21 @@ export const SettingsProvider = ({ children }) => {
     return QURAN_LANGUAGES.find(l => l.code === settings.quranLanguage) || QURAN_LANGUAGES[0];
   };
 
+  // Build i18n context value
+  const i18nValue = useMemo(() => {
+    const strings = getTranslations(settings.appLanguage);
+    return {
+      t: (key, ...args) => {
+        const val = strings[key];
+        if (typeof val === 'function') {
+          return val(...args);
+        }
+        return val || key;
+      },
+      language: settings.appLanguage,
+    };
+  }, [settings.appLanguage]);
+
   return (
     <SettingsContext.Provider value={{ 
       settings, 
@@ -108,7 +138,9 @@ export const SettingsProvider = ({ children }) => {
       getQuranLanguageInfo,
       loaded 
     }}>
-      {children}
+      <I18nContext.Provider value={i18nValue}>
+        {children}
+      </I18nContext.Provider>
     </SettingsContext.Provider>
   );
 };

@@ -9,6 +9,7 @@ import {
     View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { BookmarkContext } from '../bookmarkContext';
 import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
@@ -16,6 +17,7 @@ import styles from '../styles';
 const HadithReaderScreen = ({ navigation }) => {
   const { store, updateStore } = useContext(BookmarkContext);
   const { settings, getHadithUrl, getHadithLanguageInfo } = useContext(SettingsContext);
+  const { t } = useTranslation();
   const [hadithData, setHadithData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -33,7 +35,7 @@ const HadithReaderScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Settings', { type: 'hadith' })}
           activeOpacity={0.7}
         >
-          <Ionicons name="globe-outline" size={16} color="#FFF" style={{ marginRight: 4 }} />
+          <Text style={{ marginRight: 4, fontSize: 14 }}>{languageInfo.flag || '🌐'}</Text>
           <Text style={readerStyles.headerLangText}>{languageInfo.name}</Text>
           <Ionicons name="chevron-down" size={12} color="#FFF" style={{ marginLeft: 3 }} />
         </TouchableOpacity>
@@ -77,7 +79,7 @@ const HadithReaderScreen = ({ navigation }) => {
       if (!books[bookNum]) {
         books[bookNum] = {
           number: bookNum,
-          name: hadithData.metadata?.sections?.[bookNum] || `Kategorisiz`,
+          name: hadithData.metadata?.sections?.[bookNum] || t('uncategorized'),
           hadiths: []
         };
       }
@@ -210,7 +212,7 @@ const HadithReaderScreen = ({ navigation }) => {
               onPress={() => handleShare(item)}
             >
               <Ionicons name="share-outline" size={18} color="#256FA2" />
-              <Text style={readerStyles.shareText}>Paylaş</Text>
+              <Text style={readerStyles.shareText}>{t('share')}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -223,7 +225,7 @@ const HadithReaderScreen = ({ navigation }) => {
       <SafeAreaView style={styles.appWrapper}>
         <View style={readerStyles.loadingContainer}>
           <ActivityIndicator size="large" color="#256FA2" />
-          <Text style={readerStyles.loadingText}>Hadis koleksiyonu yükleniyor...</Text>
+          <Text style={readerStyles.loadingText}>{t('loading')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -265,8 +267,8 @@ const HadithReaderScreen = ({ navigation }) => {
       <View style={readerStyles.titleBar}>
         <Ionicons name="library" size={24} color="#1565C0" />
         <View style={readerStyles.titleInfo}>
-          <Text style={readerStyles.titleText}>Sahih Buhari</Text>
-          <Text style={readerStyles.titleSubtext}>{books.length} Bölüm</Text>
+          <Text style={readerStyles.titleText}>{t('sahihBukhari')}</Text>
+          <Text style={readerStyles.titleSubtext}>{t('hadithSubtitle', languageInfo.name)}</Text>
         </View>
       </View>
       <FlatList

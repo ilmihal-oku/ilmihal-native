@@ -4,6 +4,7 @@ import {
   FlatList,
   Keyboard,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -11,6 +12,7 @@ import {
   View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
 
@@ -18,6 +20,7 @@ const { searchAll } = require('../utils/searchIndex');
 
 const UnifiedSearchScreen = ({ navigation }) => {
   const { settings } = useContext(SettingsContext);
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,12 +88,12 @@ const UnifiedSearchScreen = ({ navigation }) => {
       ? item.sectionTitle
       : `${item.collection} #${item.hadithNumber}`;
 
-    const typeLabel = isQuran ? "Kur'an" : isIlmihal ? 'İlmihal' : 'Hadis';
+    const typeLabel = isQuran ? t('quran') : isIlmihal ? t('ilmihal') : t('hadith');
 
     return (
       <TouchableOpacity
         key={`result-${index}`}
-        style={[searchStyles.resultCard, { borderLeftColor: cardAccent }]}
+        style={searchStyles.resultCard}
         onPress={() => handleSourcePress(item)}
         activeOpacity={0.7}
       >
@@ -122,9 +125,9 @@ const UnifiedSearchScreen = ({ navigation }) => {
       return (
         <View style={searchStyles.emptyState}>
           <Ionicons name="search" size={60} color="#ccc" />
-          <Text style={searchStyles.emptyTitle}>Arama Yapın</Text>
+          <Text style={searchStyles.emptyTitle}>{t('searchPromptTitle')}</Text>
           <Text style={searchStyles.emptySubtitle}>
-            Kur'an, Hadis ve İlmihal içeriklerinde{'\n'}anahtar kelime ile arayın
+            {t('searchPromptSubtitle')}
           </Text>
         </View>
       );
@@ -133,9 +136,9 @@ const UnifiedSearchScreen = ({ navigation }) => {
     return (
       <View style={searchStyles.emptyState}>
         <Ionicons name="alert-circle-outline" size={60} color="#ccc" />
-        <Text style={searchStyles.emptyTitle}>Sonuç Bulunamadı</Text>
+        <Text style={searchStyles.emptyTitle}>{t('noResults')}</Text>
         <Text style={searchStyles.emptySubtitle}>
-          Farklı anahtar kelimeler deneyin
+          {t('tryDifferentKeywords')}
         </Text>
       </View>
     );
@@ -180,7 +183,7 @@ const UnifiedSearchScreen = ({ navigation }) => {
             <Ionicons name="search" size={20} color="#999" style={searchStyles.searchIcon} />
             <TextInput
               style={searchStyles.searchInput}
-              placeholder="Kur'an, Hadis, İlmihal'de ara..."
+              placeholder={t('searchPlaceholder')}
               placeholderTextColor="#999"
               value={query}
               onChangeText={setQuery}
@@ -199,25 +202,30 @@ const UnifiedSearchScreen = ({ navigation }) => {
             onPress={handleSearch}
             disabled={!query.trim() || isLoading}
           >
-            <Text style={searchStyles.searchButtonText}>Ara</Text>
+            <Text style={searchStyles.searchButtonText}>{t('searchButton')}</Text>
           </TouchableOpacity>
         </View>
 
         {/* Filter Tabs */}
         {hasSearched && results.length > 0 && (
-          <View style={searchStyles.tabBar}>
-            <TabButton tab="all" label="Tümü" count={results.length} color="#256FA2" />
-            <TabButton tab="quran" label="Kur'an" count={quranCount} color="#2E7D32" />
-            <TabButton tab="hadith" label="Hadis" count={hadithCount} color="#1565C0" />
-            <TabButton tab="ilmihal" label="İlmihal" count={ilmihalCount} color="#7B1FA2" />
-          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={searchStyles.tabBarScroll}
+            contentContainerStyle={searchStyles.tabBar}
+          >
+            <TabButton tab="all" label={t('all')} count={results.length} color="#256FA2" />
+            <TabButton tab="quran" label={t('quran')} count={quranCount} color="#2E7D32" />
+            <TabButton tab="hadith" label={t('hadith')} count={hadithCount} color="#1565C0" />
+            <TabButton tab="ilmihal" label={t('ilmihal')} count={ilmihalCount} color="#7B1FA2" />
+          </ScrollView>
         )}
 
         {/* Loading */}
         {isLoading && (
           <View style={searchStyles.loadingContainer}>
             <ActivityIndicator size="large" color="#256FA2" />
-            <Text style={searchStyles.loadingText}>Aranıyor...</Text>
+            <Text style={searchStyles.loadingText}>{t('searching')}</Text>
           </View>
         )}
 
@@ -285,8 +293,12 @@ const searchStyles = {
     fontWeight: '600',
     fontSize: 15,
   },
+  tabBarScroll: {
+    flexGrow: 0,
+  },
   tabBar: {
     flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
@@ -321,7 +333,6 @@ const searchStyles = {
     padding: 14,
     borderRadius: 12,
     marginBottom: 10,
-    borderLeftWidth: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,

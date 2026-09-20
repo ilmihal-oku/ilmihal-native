@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
 
@@ -29,6 +30,7 @@ const getDailySeed = () => {
 
 const NewHomeScreen = ({ navigation }) => {
   const { settings, getQuranUrl, getHadithUrl } = useContext(SettingsContext);
+  const { t } = useTranslation();
   const [dailyVerse, setDailyVerse] = useState(null);
   const [dailyHadith, setDailyHadith] = useState(null);
   const [loadingVerse, setLoadingVerse] = useState(true);
@@ -40,7 +42,7 @@ const NewHomeScreen = ({ navigation }) => {
       headerTitle: () => (
         <View style={homeStyles.headerBanner}>
           <Text style={homeStyles.headerTitle}>ilmihal oku</Text>
-          <Text style={homeStyles.headerSubtitle}>Kur'an • Hadis • İlmihal</Text>
+          <Text style={homeStyles.headerSubtitle}>{t('slogan')}</Text>
         </View>
       ),
       headerRight: () => (
@@ -157,9 +159,9 @@ const NewHomeScreen = ({ navigation }) => {
   };
 
   const quickAccessItems = [
-    { id: 'quran', label: "Kur'an", icon: 'book', color: '#2E7D32', screen: 'QuranReader' },
-    { id: 'hadith', label: 'Hadis', icon: 'library', color: '#1565C0', screen: 'HadithReader' },
-    { id: 'ilmihal', label: 'İlmihal', icon: 'document-text', color: '#7B1FA2', screen: 'IlmihalReader' },
+    { id: 'quran', label: t('quran'), icon: 'book', color: '#2E7D32', screen: 'QuranReader' },
+    { id: 'hadith', label: t('hadith'), icon: 'library', color: '#1565C0', screen: 'HadithReader' },
+    { id: 'ilmihal', label: t('ilmihal'), icon: 'document-text', color: '#7B1FA2', screen: 'IlmihalReader' },
   ];
 
   return (
@@ -175,17 +177,17 @@ const NewHomeScreen = ({ navigation }) => {
             <View style={[homeStyles.sectionIcon, { backgroundColor: '#2E7D3218' }]}>
               <Ionicons name="book" size={16} color="#2E7D32" />
             </View>
-            <Text style={homeStyles.sectionTitle}>Günün Ayeti</Text>
+            <Text style={homeStyles.sectionTitle}>{t('verseOfTheDay')}</Text>
           </View>
 
           {loadingVerse ? (
             <View style={homeStyles.loadingCard}>
               <ActivityIndicator size="small" color="#256FA2" />
-              <Text style={homeStyles.loadingText}>Yükleniyor...</Text>
+              <Text style={homeStyles.loadingText}>{t('loading')}</Text>
             </View>
           ) : dailyVerse ? (
             <TouchableOpacity
-              style={[homeStyles.contentCard, homeStyles.quranCard]}
+              style={homeStyles.contentCard}
               onPress={handleVersePress}
               activeOpacity={0.7}
             >
@@ -197,7 +199,7 @@ const NewHomeScreen = ({ navigation }) => {
               </Text>
               <View style={homeStyles.cardActions}>
                 <View style={homeStyles.readMore}>
-                  <Text style={[homeStyles.readMoreText, { color: '#2E7D32' }]}>Oku</Text>
+                  <Text style={[homeStyles.readMoreText, { color: '#2E7D32' }]}>{t('read')}</Text>
                   <Ionicons name="chevron-forward" size={14} color="#2E7D32" />
                 </View>
                 <TouchableOpacity
@@ -210,7 +212,7 @@ const NewHomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           ) : (
             <View style={homeStyles.errorCard}>
-              <Text style={homeStyles.errorText}>Ayet yüklenemedi</Text>
+              <Text style={homeStyles.errorText}>{t('verseLoadError')}</Text>
             </View>
           )}
         </View>
@@ -221,17 +223,17 @@ const NewHomeScreen = ({ navigation }) => {
             <View style={[homeStyles.sectionIcon, { backgroundColor: '#1565C018' }]}>
               <Ionicons name="library" size={16} color="#1565C0" />
             </View>
-            <Text style={homeStyles.sectionTitle}>Günün Hadisi</Text>
+            <Text style={homeStyles.sectionTitle}>{t('hadithOfTheDay')}</Text>
           </View>
 
           {loadingHadith ? (
             <View style={homeStyles.loadingCard}>
               <ActivityIndicator size="small" color="#256FA2" />
-              <Text style={homeStyles.loadingText}>Yükleniyor...</Text>
+              <Text style={homeStyles.loadingText}>{t('loading')}</Text>
             </View>
           ) : dailyHadith ? (
             <TouchableOpacity
-              style={[homeStyles.contentCard, homeStyles.hadithCard]}
+              style={homeStyles.contentCard}
               onPress={handleHadithPress}
               activeOpacity={0.7}
             >
@@ -243,7 +245,7 @@ const NewHomeScreen = ({ navigation }) => {
               </Text>
               <View style={homeStyles.cardActions}>
                 <View style={homeStyles.readMore}>
-                  <Text style={[homeStyles.readMoreText, { color: '#1565C0' }]}>Oku</Text>
+                  <Text style={[homeStyles.readMoreText, { color: '#1565C0' }]}>{t('read')}</Text>
                   <Ionicons name="chevron-forward" size={14} color="#1565C0" />
                 </View>
                 <TouchableOpacity
@@ -256,7 +258,7 @@ const NewHomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           ) : (
             <View style={homeStyles.errorCard}>
-              <Text style={homeStyles.errorText}>Hadis yüklenemedi</Text>
+              <Text style={homeStyles.errorText}>{t('hadithLoadError')}</Text>
             </View>
           )}
         </View>
@@ -267,7 +269,7 @@ const NewHomeScreen = ({ navigation }) => {
             <View style={[homeStyles.sectionIcon, { backgroundColor: '#256FA218' }]}>
               <Ionicons name="apps" size={16} color="#256FA2" />
             </View>
-            <Text style={homeStyles.sectionTitle}>Hızlı Erişim</Text>
+            <Text style={homeStyles.sectionTitle}>{t('quickAccess')}</Text>
           </View>
 
           <View style={homeStyles.quickAccessRow}>
@@ -299,7 +301,6 @@ const homeStyles = {
   scrollContent: {
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 35,
   },
   headerSettingsButton: {
     marginRight: 16,
@@ -352,18 +353,11 @@ const homeStyles = {
     backgroundColor: '#fff',
     padding: 16,
     borderRadius: 14,
-    borderLeftWidth: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
     elevation: 2,
-  },
-  quranCard: {
-    borderLeftColor: '#2E7D32',
-  },
-  hadithCard: {
-    borderLeftColor: '#1565C0',
   },
   cardSource: {
     fontSize: 12,

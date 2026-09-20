@@ -10,6 +10,7 @@ import {
     View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { BookmarkContext } from '../bookmarkContext';
 import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
@@ -24,6 +25,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
   
   const { store, updateStore } = useContext(BookmarkContext);
   const { settings, getQuranUrl, getQuranLanguageInfo } = useContext(SettingsContext);
+  const { t } = useTranslation();
   const [surahs, setSurahs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSurah, setSelectedSurah] = useState(null);
@@ -44,7 +46,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
           onPress={() => navigation.navigate('Settings', { type: 'quran' })}
           activeOpacity={0.7}
         >
-          <Ionicons name="globe-outline" size={16} color="#FFF" style={{ marginRight: 4 }} />
+          <Text style={{ marginRight: 4, fontSize: 14 }}>{languageInfo.flag || '🌐'}</Text>
           <Text style={readerStyles.headerLangText}>{languageInfo.name}</Text>
           <Ionicons name="chevron-down" size={12} color="#FFF" style={{ marginLeft: 3 }} />
         </TouchableOpacity>
@@ -161,7 +163,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
         <Text style={readerStyles.surahName}>{item.transliteration}</Text>
         <Text style={readerStyles.surahTranslation}>{item.translation}</Text>
         <Text style={readerStyles.surahMeta}>
-          {item.type} • {item.total_verses} ayet
+          {item.type} • {item.total_verses} {t('verses')}
         </Text>
       </View>
       <Text style={readerStyles.arabicName}>{item.name}</Text>
@@ -228,7 +230,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
               onPress={() => handleShare(item)}
             >
               <Ionicons name="share-outline" size={18} color="#256FA2" />
-              <Text style={readerStyles.shareText}>Paylaş</Text>
+              <Text style={readerStyles.shareText}>{t('share')}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -241,7 +243,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
       <SafeAreaView style={styles.appWrapper}>
         <View style={readerStyles.loadingContainer}>
           <ActivityIndicator size="large" color="#256FA2" />
-          <Text style={readerStyles.loadingText}>Kur'an yükleniyor...</Text>
+          <Text style={readerStyles.loadingText}>{t('loading')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -320,8 +322,8 @@ const QuranReaderScreen = ({ navigation, route }) => {
       <View style={readerStyles.titleBar}>
         <Ionicons name="book" size={24} color="#256FA2" />
         <View style={readerStyles.titleInfo}>
-          <Text style={readerStyles.titleText}>Kur'an-ı Kerim</Text>
-          <Text style={readerStyles.titleSubtext}>114 Sure</Text>
+          <Text style={readerStyles.titleText}>{t('quranTitle')}</Text>
+          <Text style={readerStyles.titleSubtext}>{t('quranSubtitle', languageInfo.name)}</Text>
         </View>
       </View>
       <FlatList

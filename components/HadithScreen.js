@@ -271,8 +271,6 @@ const hadithStyles = {
     padding: 15,
     borderRadius: 10,
     marginBottom: 30,
-    borderLeftWidth: 3,
-    borderLeftColor: '#4CAF50',
   },
   authenticityText: {
     fontSize: 13,

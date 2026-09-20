@@ -1,11 +1,13 @@
 import { useContext, useState } from 'react';
 import { FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { BookmarkContext } from '../bookmarkContext';
 import styles from '../styles';
 
 const NewFavoritesScreen = ({ navigation }) => {
   const { store } = useContext(BookmarkContext);
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
 
   // Categorize favorites
@@ -14,10 +16,10 @@ const NewFavoritesScreen = ({ navigation }) => {
   const ilmihalFavorites = store?.ilmihal || [];
 
   const categories = [
-    { id: 'all', label: 'Tümü', count: quranFavorites.length + hadithFavorites.length + ilmihalFavorites.length },
-    { id: 'quran', label: 'Kur\'an', count: quranFavorites.length, icon: 'book', color: '#2E7D32' },
-    { id: 'hadith', label: 'Hadis', count: hadithFavorites.length, icon: 'library', color: '#1565C0' },
-    { id: 'ilmihal', label: 'İlmihal', count: ilmihalFavorites.length, icon: 'document-text', color: '#7B1FA2' },
+    { id: 'all', label: t('all'), count: quranFavorites.length + hadithFavorites.length + ilmihalFavorites.length },
+    { id: 'quran', label: t('quran'), count: quranFavorites.length, icon: 'book', color: '#2E7D32' },
+    { id: 'hadith', label: t('hadith'), count: hadithFavorites.length, icon: 'library', color: '#1565C0' },
+    { id: 'ilmihal', label: t('ilmihal'), count: ilmihalFavorites.length, icon: 'document-text', color: '#7B1FA2' },
   ];
 
   const getActiveItems = () => {
@@ -91,14 +93,10 @@ const NewFavoritesScreen = ({ navigation }) => {
     
     const badgeColor = isQuran ? '#2E7D32' : isIlmihal ? '#7B1FA2' : '#1565C0';
     const iconName = isQuran ? 'book' : isIlmihal ? 'document-text' : 'library';
-    const borderStyle = isQuran ? favStyles.quranCard : isIlmihal ? favStyles.ilmihalCard : favStyles.hadithCard;
     
     return (
       <TouchableOpacity
-        style={[
-          favStyles.itemCard,
-          borderStyle
-        ]}
+        style={favStyles.itemCard}
         onPress={() => handleItemPress(item)}
       >
         <View style={[
@@ -155,9 +153,9 @@ const NewFavoritesScreen = ({ navigation }) => {
         ) : (
           <View style={favStyles.emptyContainer}>
             <Ionicons name="heart-outline" size={64} color="#ccc" />
-            <Text style={favStyles.emptyTitle}>Henüz favori yok</Text>
+            <Text style={favStyles.emptyTitle}>{t('noFavoritesYet')}</Text>
             <Text style={favStyles.emptySubtitle}>
-              Herhangi bir ayeti veya hadisi kaydetmek için kalp simgesine dokunun
+              {t('noFavoritesSubtitle')}
             </Text>
           </View>
         )}
@@ -209,21 +207,11 @@ const favStyles = {
     padding: 14,
     borderRadius: 12,
     marginBottom: 10,
-    borderLeftWidth: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 2,
     elevation: 2,
-  },
-  quranCard: {
-    borderLeftColor: '#2E7D32',
-  },
-  hadithCard: {
-    borderLeftColor: '#1565C0',
-  },
-  ilmihalCard: {
-    borderLeftColor: '#7B1FA2',
   },
   itemBadge: {
     width: 32,

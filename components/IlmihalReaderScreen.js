@@ -8,6 +8,7 @@ import {
     View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { BookmarkContext } from '../bookmarkContext';
 import { book as ilmihal } from '../source';
 import styles from '../styles';
@@ -17,6 +18,7 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
   const initialSectionId = route?.params?.sectionId;
 
   const { store, updateStore } = useContext(BookmarkContext);
+  const { t } = useTranslation();
   const [selectedChapter, setSelectedChapter] = useState(() => {
     if (initialChapterId) {
       return ilmihal.find(ch => ch.id === initialChapterId) || null;
@@ -61,7 +63,7 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
   const handleShare = async (text, sectionTitle) => {
     try {
       await Share.share({
-        message: `${sectionTitle}\n\n"${text.substring(0, 500)}${text.length > 500 ? '...' : ''}"\n\n- Büyük İslam İlmihali`,
+        message: `${sectionTitle}\n\n"${text.substring(0, 500)}${text.length > 500 ? '...' : ''}"\n\n- ${t('bigIslamicIlmihal')}`,
       });
     } catch (error) {
       console.error('Error sharing:', error);
@@ -211,8 +213,8 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
       <View style={ilmihalStyles.titleBar}>
         <Ionicons name="document-text" size={24} color="#7B1FA2" />
         <View style={ilmihalStyles.titleInfo}>
-          <Text style={ilmihalStyles.titleText}>İlmihal</Text>
-          <Text style={ilmihalStyles.titleSubtext}>Büyük İslam İlmihali</Text>
+          <Text style={ilmihalStyles.titleText}>{t('ilmihalTitle')}</Text>
+          <Text style={ilmihalStyles.titleSubtext}>{t('bigIslamicIlmihal')}</Text>
         </View>
       </View>
       <FlatList

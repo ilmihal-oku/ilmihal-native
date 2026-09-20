@@ -1,23 +1,50 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
+  LayoutAnimation,
+  Platform,
   SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
+  UIManager,
   View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { APP_LANGUAGES, useTranslation } from '../i18n';
 import { HADITH_LANGUAGES, QURAN_LANGUAGES, SettingsContext } from '../settingsContext';
 import styles from '../styles';
 
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const SettingsScreen = ({ navigation, route }) => {
-  const settingType = route?.params?.type || 'all'; // 'all', 'quran', or 'hadith'
+  const settingType = route?.params?.type || 'all'; // 'all', 'app', 'quran', or 'hadith'
   const { settings, updateSettings } = useContext(SettingsContext);
-  const [selectedHadithLanguage, setSelectedHadithLanguage] = useState(settings.hadithLanguage);
-  const [selectedQuranLanguage, setSelectedQuranLanguage] = useState(settings.quranLanguage);
+  const { t } = useTranslation();
+
+  // If a specific setting type is requested, open it by default; otherwise start all collapsed
+  const [expandedSection, setExpandedSection] = useState(
+    settingType !== 'all' ? settingType : null
+  );
+
+  const toggleSection = (id) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpandedSection((prev) => (prev === id ? null : id));
+  };
+
+  const handleAppLanguageSelect = (code) => {
+    updateSettings({ appLanguage: code });
+    if (settingType !== 'all') {
+      setTimeout(() => {
+        if (navigation.canGoBack()) {
+          navigation.goBack();
+        }
+      }, 150);
+    }
+  };
 
   const handleHadithLanguageSelect = (code) => {
-    setSelectedHadithLanguage(code);
     updateSettings({ hadithLanguage: code });
     if (settingType !== 'all') {
       setTimeout(() => {
@@ -29,7 +56,6 @@ const SettingsScreen = ({ navigation, route }) => {
   };
 
   const handleQuranLanguageSelect = (code) => {
-    setSelectedQuranLanguage(code);
     updateSettings({ quranLanguage: code });
     if (settingType !== 'all') {
       setTimeout(() => {
@@ -40,27 +66,67 @@ const SettingsScreen = ({ navigation, route }) => {
     }
   };
 
+  const currentAppLang =
+    APP_LANGUAGES.find((l) => l.code === settings.appLanguage) || APP_LANGUAGES[0];
+  const currentQuranLang =
+    QURAN_LANGUAGES.find((l) => l.code === settings.quranLanguage) || QURAN_LANGUAGES[0];
+  const currentHadithLang =
+    HADITH_LANGUAGES.find((l) => l.code === settings.hadithLanguage) || HADITH_LANGUAGES[0];
+
   const renderLanguageList = (languages, selectedCode, onSelect) => {
     return languages.map((item) => {
       const isSelected = selectedCode === item.code;
+      const isRTL = item.direction === 'rtl' || item.code === 'ar' || item.code === 'ur';
+      const flag =
+        item.flag ||
+        (item.code.startsWith('tr')
+          ? '🇹🇷'
+          : item.code.startsWith('en')
+          ? '🇬🇧'
+          : item.code.startsWith('ar')
+          ? '🇸🇦'
+          : item.code.startsWith('ur')
+          ? '🇵🇰'
+          : item.code.startsWith('b')
+          ? '🇧🇩'
+          : item.code.startsWith('fr')
+          ? '🇫🇷'
+          : item.code.startsWith('i')
+          ? '🇮🇩'
+          : item.code.startsWith('ru')
+          ? '🇷🇺'
+          : item.code.startsWith('ta')
+          ? '🇮🇳'
+          : item.code === 'zh'
+          ? '🇨🇳'
+          : item.code === 'es'
+          ? '🇪🇸'
+          : item.code === 'sv'
+          ? '🇸🇪'
+          : '🌐');
+
       return (
         <TouchableOpacity
           key={item.code}
           style={[
             settingsStyles.languageItem,
-            isSelected && settingsStyles.languageItemSelected
+            isSelected && settingsStyles.languageItemSelected,
           ]}
           onPress={() => onSelect(item.code)}
+          activeOpacity={0.7}
         >
+          <Text style={settingsStyles.flagEmoji}>{flag}</Text>
           <View style={settingsStyles.languageInfo}>
-            <Text style={[
-              settingsStyles.languageName,
-              isSelected && settingsStyles.languageNameSelected
-            ]}>
+            <Text
+              style={[
+                settingsStyles.languageName,
+                isSelected && settingsStyles.languageNameSelected,
+              ]}
+            >
               {item.name}
             </Text>
             <Text style={settingsStyles.languageCode}>
-              {item.direction === 'rtl' ? 'Sağdan sola' : 'Soldan sağa'}
+              {isRTL ? t('rtl') : t('ltr')}
             </Text>
           </View>
           {isSelected && (
@@ -73,62 +139,129 @@ const SettingsScreen = ({ navigation, route }) => {
 
   const headerTitle =
     settingType === 'quran'
-      ? "Kur'an Meali"
+      ? t('quranTranslation')
       : settingType === 'hadith'
-      ? 'Hadis Dili'
-      : 'Dil Ayarları';
+      ? t('hadithLanguage')
+      : settingType === 'app'
+      ? t('appLanguage')
+      : t('languageSettings');
 
+  useEffect(() => {
+    navigation.setOptions({
+      title: headerTitle,
+    });
+  }, [navigation, headerTitle]);
+
+  const showApp = settingType === 'all' || settingType === 'app';
   const showQuran = settingType === 'all' || settingType === 'quran';
   const showHadith = settingType === 'all' || settingType === 'hadith';
+
+  const AccordionSection = ({
+    id,
+    title,
+    description,
+    icon,
+    iconColor,
+    currentLanguage,
+    languages,
+    selectedCode,
+    onSelect,
+  }) => {
+    const isExpanded = expandedSection === id;
+
+    return (
+      <View style={settingsStyles.accordionCard}>
+        <TouchableOpacity
+          style={[
+            settingsStyles.accordionHeader,
+            isExpanded && settingsStyles.accordionHeaderExpanded,
+          ]}
+          onPress={() => toggleSection(id)}
+          activeOpacity={0.7}
+        >
+          <View
+            style={[
+              settingsStyles.iconBadge,
+              { backgroundColor: iconColor + '15' },
+            ]}
+          >
+            <Ionicons name={icon} size={22} color={iconColor} />
+          </View>
+          <View style={settingsStyles.headerTextContainer}>
+            <Text style={settingsStyles.accordionTitle}>{title}</Text>
+            <View style={settingsStyles.previewBadge}>
+              <Text style={settingsStyles.previewBadgeText}>
+                {currentLanguage.flag} {currentLanguage.name}
+              </Text>
+            </View>
+          </View>
+          <Ionicons
+            name={isExpanded ? 'chevron-up' : 'chevron-down'}
+            size={20}
+            color="#666"
+            style={settingsStyles.chevron}
+          />
+        </TouchableOpacity>
+
+        {isExpanded && (
+          <View style={settingsStyles.accordionBody}>
+            <Text style={settingsStyles.sectionDescription}>{description}</Text>
+            {renderLanguageList(languages, selectedCode, onSelect)}
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.appWrapper}>
       <View style={settingsStyles.container}>
-        {/* Header */}
-        <View style={settingsStyles.header}>
-          <TouchableOpacity
-            style={settingsStyles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back" size={24} color="#256FA2" />
-          </TouchableOpacity>
-          <View style={settingsStyles.headerInfo}>
-            <Text style={settingsStyles.headerTitle}>{headerTitle}</Text>
-          </View>
-        </View>
-
         {/* Scrollable Content */}
-        <ScrollView 
+        <ScrollView
           style={settingsStyles.scrollView}
           contentContainerStyle={settingsStyles.scrollContent}
           showsVerticalScrollIndicator={true}
         >
+          {showApp && (
+            <AccordionSection
+              id="app"
+              title={t('appLanguage')}
+              description={t('appLanguageDescription')}
+              icon="globe"
+              iconColor="#256FA2"
+              currentLanguage={currentAppLang}
+              languages={APP_LANGUAGES}
+              selectedCode={settings.appLanguage}
+              onSelect={handleAppLanguageSelect}
+            />
+          )}
+
           {showQuran && (
-            /* Quran Language Section */
-            <View style={settingsStyles.section}>
-              <View style={settingsStyles.sectionHeader}>
-                <Ionicons name="book" size={20} color="#256FA2" />
-                <Text style={settingsStyles.sectionTitle}>Kur'an Meali</Text>
-              </View>
-              <Text style={settingsStyles.sectionDescription}>
-                Kur'an meali için tercih ettiğiniz dili seçin
-              </Text>
-              {renderLanguageList(QURAN_LANGUAGES, selectedQuranLanguage, handleQuranLanguageSelect)}
-            </View>
+            <AccordionSection
+              id="quran"
+              title={t('quranTranslation')}
+              description={t('quranTranslationDescription')}
+              icon="book"
+              iconColor="#2E7D32"
+              currentLanguage={currentQuranLang}
+              languages={QURAN_LANGUAGES}
+              selectedCode={settings.quranLanguage}
+              onSelect={handleQuranLanguageSelect}
+            />
           )}
 
           {showHadith && (
-            /* Hadith Language Section */
-            <View style={[settingsStyles.section, showQuran && { marginTop: 16 }]}>
-              <View style={settingsStyles.sectionHeader}>
-                <Ionicons name="library" size={20} color="#256FA2" />
-                <Text style={settingsStyles.sectionTitle}>Hadis Dili</Text>
-              </View>
-              <Text style={settingsStyles.sectionDescription}>
-                Hadis çevirileri için tercih ettiğiniz dili seçin
-              </Text>
-              {renderLanguageList(HADITH_LANGUAGES, selectedHadithLanguage, handleHadithLanguageSelect)}
-            </View>
+            <AccordionSection
+              id="hadith"
+              title={t('hadithLanguage')}
+              description={t('hadithLanguageDescription')}
+              icon="library"
+              iconColor="#1565C0"
+              currentLanguage={currentHadithLang}
+              languages={HADITH_LANGUAGES}
+              selectedCode={settings.hadithLanguage}
+              onSelect={handleHadithLanguageSelect}
+            />
           )}
         </ScrollView>
       </View>
@@ -141,78 +274,104 @@ const settingsStyles = {
     flex: 1,
     backgroundColor: '#bbe1fa',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-  },
-  backButton: {
-    padding: 5,
-  },
-  headerInfo: {
-    marginLeft: 15,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#333',
-  },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    padding: 12,
+    padding: 14,
     paddingBottom: 30,
   },
-  section: {
+  accordionCard: {
     backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
+    borderRadius: 14,
+    marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
     elevation: 2,
+    overflow: 'hidden',
   },
-  sectionHeader: {
+  accordionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    padding: 16,
+    backgroundColor: '#fff',
   },
-  sectionTitle: {
-    fontSize: 18,
+  accordionHeaderExpanded: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  iconBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  headerTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  accordionTitle: {
+    fontSize: 16,
     fontWeight: '600',
     color: '#333',
+    marginBottom: 4,
+  },
+  previewBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: '#f5f7fa',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  previewBadgeText: {
+    fontSize: 13,
+    color: '#555',
+    fontWeight: '500',
+  },
+  chevron: {
     marginLeft: 10,
   },
+  accordionBody: {
+    padding: 16,
+    paddingTop: 14,
+    backgroundColor: '#fafbfc',
+  },
   sectionDescription: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#666',
-    marginBottom: 16,
+    marginBottom: 14,
+    lineHeight: 18,
   },
   languageItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 14,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 8,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    borderWidth: 1.5,
+    borderColor: '#e8ecef',
   },
   languageItemSelected: {
     backgroundColor: '#e8f5e9',
     borderColor: '#2E7D32',
   },
+  flagEmoji: {
+    fontSize: 24,
+    marginRight: 14,
+  },
   languageInfo: {
     flex: 1,
   },
   languageName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '500',
     color: '#333',
   },

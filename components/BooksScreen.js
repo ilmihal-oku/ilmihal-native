@@ -1,11 +1,13 @@
 import { useContext } from 'react';
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useTranslation } from '../i18n';
 import { HADITH_LANGUAGES, QURAN_LANGUAGES, SettingsContext } from '../settingsContext';
 import styles from '../styles';
 
 const BooksScreen = ({ navigation }) => {
   const { settings } = useContext(SettingsContext);
+  const { t } = useTranslation();
 
   const currentHadithLanguage =
     HADITH_LANGUAGES.find((l) => l.code === settings.hadithLanguage)?.name || 'Türkçe';
@@ -15,24 +17,24 @@ const BooksScreen = ({ navigation }) => {
   const books = [
     {
       id: 'quran',
-      title: "Kur'an-ı Kerim",
-      subtitle: `114 Sure • ${currentQuranLanguage}`,
+      title: t('quranTitle'),
+      subtitle: t('quranSubtitle', currentQuranLanguage),
       icon: 'book',
       color: '#2E7D32',
       screen: 'QuranReader',
     },
     {
       id: 'bukhari',
-      title: 'Sahih Buhari',
-      subtitle: `7.589 Hadis • ${currentHadithLanguage}`,
+      title: t('sahihBukhari'),
+      subtitle: t('hadithSubtitle', currentHadithLanguage),
       icon: 'library',
       color: '#1565C0',
       screen: 'HadithReader',
     },
     {
       id: 'ilmihal',
-      title: 'İlmihal',
-      subtitle: 'Büyük İslam İlmihali • Ömer Nasuhi Bilmen',
+      title: t('ilmihalTitle'),
+      subtitle: t('ilmihalSubtitle'),
       icon: 'document-text',
       color: '#7B1FA2',
       screen: 'IlmihalReader',
