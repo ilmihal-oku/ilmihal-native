@@ -173,9 +173,6 @@ const favStyles = {
   },
   categoryContainer: {
     flexGrow: 0,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
   },
   categoryContentContainer: {
     flexDirection: 'row',
