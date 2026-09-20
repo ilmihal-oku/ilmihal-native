@@ -3,13 +3,12 @@ import {
   ActivityIndicator,
   FlatList,
   Keyboard,
-  Platform,
   SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SettingsContext } from '../settingsContext';
@@ -148,14 +147,22 @@ const UnifiedSearchScreen = ({ navigation }) => {
       <TouchableOpacity
         style={[
           searchStyles.tabButton,
-          { backgroundColor: isActive ? color : color + '15' },
+          { backgroundColor: isActive ? '#256FA2' : '#f0f0f0' },
         ]}
         onPress={() => setActiveTab(tab)}
       >
+        {color && tab !== 'all' && (
+          <Ionicons
+            name={tab === 'quran' ? 'book' : tab === 'hadith' ? 'library' : 'document-text'}
+            size={16}
+            color={isActive ? '#fff' : color}
+            style={{ marginRight: 6 }}
+          />
+        )}
         <Text
           style={[
             searchStyles.tabText,
-            { color: isActive ? '#fff' : color },
+            { color: isActive ? '#fff' : '#666' },
           ]}
         >
           {label} {count !== undefined ? `(${count})` : ''}
@@ -226,7 +233,9 @@ const UnifiedSearchScreen = ({ navigation }) => {
           />
         ) : (
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            {renderEmptyState()}
+            <View style={{ flex: 1 }}>
+              {renderEmptyState()}
+            </View>
           </TouchableWithoutFeedback>
         )}
       </View>
@@ -242,9 +251,6 @@ const searchStyles = {
   searchBarContainer: {
     flexDirection: 'row',
     padding: 12,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
     alignItems: 'center',
   },
   searchInputWrapper: {
@@ -283,15 +289,14 @@ const searchStyles = {
     flexDirection: 'row',
     paddingHorizontal: 12,
     paddingVertical: 10,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
   },
   tabButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 20,
-    marginRight: 8,
+    marginRight: 10,
   },
   tabText: {
     fontSize: 13,

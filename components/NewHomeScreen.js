@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  SafeAreaView,
   ScrollView,
   Share,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
@@ -163,7 +163,7 @@ const NewHomeScreen = ({ navigation }) => {
   ];
 
   return (
-    <SafeAreaView style={styles.appWrapper} edges={['bottom', 'left', 'right']}>
+    <SafeAreaView style={styles.appWrapper}>
       <ScrollView
         style={homeStyles.container}
         contentContainerStyle={homeStyles.scrollContent}

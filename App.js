@@ -51,7 +51,7 @@ const buildTitle = (route) => {
 
 const header = ({ route }) => {
   return {
-    headerBackTitle: null,
+    headerBackTitle: ' ',
     headerBackTitleStyle: {
       color: "white",
     },
