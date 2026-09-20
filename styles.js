@@ -24,7 +24,7 @@ export default {
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 5,
   },
-  appWrapper: { flex: 1, backgroundColor: light },
+  appWrapper: { flex: 1,  },
   chapterTitle: {
     padding: 15,
     marginHorizontal: 5,

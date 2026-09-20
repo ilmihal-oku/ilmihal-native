@@ -1,58 +1,51 @@
-import "react-native-gesture-handler";
 import React, { useEffect } from "react";
-import { Platform } from "react-native";
+import "react-native-gesture-handler";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import HomeScreen from "./components/HomeScreen";
-import ChapterScreen from "./components/ChapterScreen";
-import SectionScreen from "./components/SectionScreen";
-import SearchScreen from "./components/SearchScreen";
-import RandomScreen from "./components/RandomScreen";
-import BookmarkScreen from "./components/BookmarkScreen";
+// New screens
+import BooksScreen from "./components/BooksScreen";
+import HadithReaderScreen from "./components/HadithReaderScreen";
+import HadithScreen from "./components/HadithScreen";
+import IlmihalReaderScreen from "./components/IlmihalReaderScreen";
+import NewFavoritesScreen from "./components/NewFavoritesScreen";
+import NewHomeScreen from "./components/NewHomeScreen";
+import QuranReaderScreen from "./components/QuranReaderScreen";
+import QuranScreen from "./components/QuranScreen";
+import SettingsScreen from "./components/SettingsScreen";
+import UnifiedSearchScreen from "./components/UnifiedSearchScreen";
 
 import { BookmarkContext } from "./bookmarkContext";
-import { View, Text } from "react-native";
-
-const homeTitle = (
-  <View>
-    <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>BÜYÜK İSLAM İLMİHALİ</Text>
-    <Text
-      style={{
-        fontSize: 16,
-        color: "white",
-        paddingTop: 1,
-        fontWeight: "normal",
-        textAlign: Platform.OS === "ios" ? "center" : "left",
-      }}
-    >
-      ÖMER NASUHİ BİLMEN
-    </Text>
-  </View>
-);
+import { SettingsProvider } from "./settingsContext";
 
 const buildTitle = (route) => {
   switch (route.name) {
-    case "Book":
-      return homeTitle;
-    case "Chapter":
-      return route.params.item.title;
-    case "Section":
-    case "BookmarkSection":
-    case "SearchSection":
-      return route?.params?.item?.sectionTitle;
-    case "SearchChapter":
-      return route?.params.item.title;
-    case "Random":
-      return "Rastgele";
+    case "Home":
+      return "Ana Sayfa";
+    case "Books":
+      return "Kitaplar";
     case "Search":
       return "Arama";
-    case "Bookmark":
+    case "Favorites":
       return "Favoriler";
+    case "QuranReader":
+      return "Kur'an";
+    case "HadithReader":
+      return "Hadis";
+    case "QuranView":
+      return route?.params?.surahName || "Kur'an";
+    case "HadithView":
+      return route?.params?.collection || "Hadis";
+    case "IlmihalReader":
+      return "İlmihal";
+    case "Settings":
+      return "Ayarlar";
+    default:
+      return "";
   }
 };
 
@@ -80,49 +73,66 @@ const header = ({ route }) => {
 
 const Tab = createBottomTabNavigator();
 
-const BookStack = createStackNavigator();
+const HomeStack = createStackNavigator();
+const BooksStack = createStackNavigator();
 const SearchStack = createStackNavigator();
-const RandomStack = createStackNavigator();
-const BookmarkStack = createStackNavigator();
+const FavoritesStack = createStackNavigator();
 
 const navigatorProps = {
   screenOptions: { gestureEnabled: true },
 };
 
-const BookStackScreen = () => {
+const HomeStackScreen = () => {
   return (
-    <BookStack.Navigator {...navigatorProps} initialRouteName="Book">
-      <BookStack.Screen name="Book" component={HomeScreen} options={header} />
-      <BookStack.Screen name="Chapter" component={ChapterScreen} options={header} />
-      <BookStack.Screen name="Section" component={SectionScreen} options={header} />
-    </BookStack.Navigator>
+    <HomeStack.Navigator {...navigatorProps} initialRouteName="Home">
+      <HomeStack.Screen name="Home" component={NewHomeScreen} options={header} />
+      <HomeStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
+      <HomeStack.Screen name="HadithReader" component={HadithReaderScreen} options={header} />
+      <HomeStack.Screen name="IlmihalReader" component={IlmihalReaderScreen} options={header} />
+      <HomeStack.Screen name="QuranView" component={QuranScreen} options={header} />
+      <HomeStack.Screen name="HadithView" component={HadithScreen} options={header} />
+      <HomeStack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+    </HomeStack.Navigator>
+  );
+};
+
+const BooksStackScreen = () => {
+  return (
+    <BooksStack.Navigator {...navigatorProps} initialRouteName="Books">
+      <BooksStack.Screen name="Books" component={BooksScreen} options={header} />
+      <BooksStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
+      <BooksStack.Screen name="HadithReader" component={HadithReaderScreen} options={header} />
+      <BooksStack.Screen name="IlmihalReader" component={IlmihalReaderScreen} options={header} />
+      <BooksStack.Screen name="QuranView" component={QuranScreen} options={header} />
+      <BooksStack.Screen name="HadithView" component={HadithScreen} options={header} />
+      <BooksStack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+    </BooksStack.Navigator>
   );
 };
 
 const SearchStackScreen = () => {
   return (
     <SearchStack.Navigator initialRouteName="Search" {...navigatorProps}>
-      <SearchStack.Screen name="Search" component={SearchScreen} options={header} />
-      <SearchStack.Screen name="SearchChapter" component={ChapterScreen} options={header} />
-      <SearchStack.Screen name="SearchSection" component={SectionScreen} options={header} />
+      <SearchStack.Screen name="Search" component={UnifiedSearchScreen} options={header} />
+      <SearchStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
+      <SearchStack.Screen name="IlmihalReader" component={IlmihalReaderScreen} options={header} />
+      <SearchStack.Screen name="QuranView" component={QuranScreen} options={header} />
+      <SearchStack.Screen name="HadithView" component={HadithScreen} options={header} />
+      <SearchStack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
     </SearchStack.Navigator>
   );
 };
 
-const RandomStackScreen = () => {
+const FavoritesStackScreen = () => {
   return (
-    <RandomStack.Navigator initialRouteName="Random" {...navigatorProps}>
-      <RandomStack.Screen name="Random" component={RandomScreen} options={header} />
-    </RandomStack.Navigator>
-  );
-};
-
-const BookmarkStackScreen = () => {
-  return (
-    <BookmarkStack.Navigator initialRouteName="Bookmark" {...navigatorProps}>
-      <BookmarkStack.Screen name="Bookmark" component={BookmarkScreen} options={header} />
-      <BookmarkStack.Screen name="BookmarkSection" component={SectionScreen} options={header} />
-    </BookmarkStack.Navigator>
+    <FavoritesStack.Navigator initialRouteName="Favorites" {...navigatorProps}>
+      <FavoritesStack.Screen name="Favorites" component={NewFavoritesScreen} options={header} />
+      <FavoritesStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
+      <FavoritesStack.Screen name="IlmihalReader" component={IlmihalReaderScreen} options={header} />
+      <FavoritesStack.Screen name="QuranView" component={QuranScreen} options={header} />
+      <FavoritesStack.Screen name="HadithView" component={HadithScreen} options={header} />
+      <FavoritesStack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+    </FavoritesStack.Navigator>
   );
 };
 
@@ -154,19 +164,18 @@ const AppWithContext = () => {
     screenOptions: ({ route }) => ({
       tabBarIcon: ({ color, size }) => {
         const { name } = route;
-        let IconComponent = Ionicons;
         let iconName;
-        if (name === "İlmihal") {
-          iconName = `book`;
-        } else if (name === "Arama") {
+        if (name === "Home") {
+          iconName = "home";
+        } else if (name === "Books") {
+          iconName = "library";
+        } else if (name === "Search") {
           iconName = "search";
-        } else if (name === "Rastgele") {
-          iconName = "shuffle";
-        } else if (name === "Favoriler") {
+        } else if (name === "Favorites") {
           iconName = "heart";
         }
 
-        return <IconComponent name={iconName} size={size} color={color} />;
+        return <Ionicons name={iconName} size={size} color={color} />;
       },
       tabBarActiveTintColor: "#FFF",
       tabBarInactiveTintColor: "#bbe1fa",
@@ -186,16 +195,18 @@ const AppWithContext = () => {
   const tabOptions = { headerShown: false };
 
   return (
-    <BookmarkContext.Provider value={{ store, updateStore }}>
-      <NavigationContainer>
-        <Tab.Navigator {...options}>
-          <Tab.Screen name="İlmihal" component={BookStackScreen} options={tabOptions} />
-          <Tab.Screen name="Arama" component={SearchStackScreen} options={tabOptions} />
-          <Tab.Screen name="Rastgele" component={RandomStackScreen} options={tabOptions} />
-          <Tab.Screen name="Favoriler" component={BookmarkStackScreen} options={tabOptions} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </BookmarkContext.Provider>
+    <SettingsProvider>
+      <BookmarkContext.Provider value={{ store, updateStore }}>
+        <NavigationContainer>
+          <Tab.Navigator {...options}>
+            <Tab.Screen name="Home" component={HomeStackScreen} options={{...tabOptions, tabBarLabel: 'Ana Sayfa'}} />
+            <Tab.Screen name="Books" component={BooksStackScreen} options={{...tabOptions, tabBarLabel: 'Kitaplar'}} />
+            <Tab.Screen name="Search" component={SearchStackScreen} options={{...tabOptions, tabBarLabel: 'Arama'}} />
+            <Tab.Screen name="Favorites" component={FavoritesStackScreen} options={{...tabOptions, tabBarLabel: 'Favoriler'}} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </BookmarkContext.Provider>
+    </SettingsProvider>
   );
 };
 

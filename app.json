@@ -25,7 +25,11 @@
     "ios": {
       "bundleIdentifier": "com.oku.ilmihal",
       "supportsTablet": true,
-      "jsEngine": "jsc"
+      "jsEngine": "jsc",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "buildNumber": "2"
     },
     "android": {
       "package": "com.oku.ilmihal",
