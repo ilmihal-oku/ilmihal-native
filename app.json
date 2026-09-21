@@ -2,13 +2,12 @@
   "expo": {
     "name": "ilmihal oku",
     "slug": "ilmihal-native",
-    "privacy": "public",
     "platforms": [
       "ios",
       "android"
     ],
     "jsEngine": "hermes",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -29,11 +28,11 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "android": {
       "package": "com.oku.ilmihal",
-      "versionCode": 16,
+      "versionCode": 18,
       "permissions": []
     },
     "extra": {
@@ -43,7 +42,16 @@
     },
     "plugins": [
       "expo-font",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ]
   }
 }
