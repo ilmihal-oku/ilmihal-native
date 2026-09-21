@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.oku.ilmihal",
-      "versionCode": 18,
+      "versionCode": 19,
       "permissions": []
     },
     "extra": {
