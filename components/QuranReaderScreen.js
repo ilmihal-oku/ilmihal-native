@@ -24,7 +24,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
   const initialVerse = route?.params?.ayah;
   
   const { store, updateStore } = useContext(BookmarkContext);
-  const { settings, getQuranUrl, getQuranLanguageInfo } = useContext(SettingsContext);
+  const { settings, getQuranUrl, getQuranLanguageInfo, fontScale, getScaledLineHeight } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [surahs, setSurahs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -217,9 +217,10 @@ const QuranReaderScreen = ({ navigation, route }) => {
         
         {/* Right column: content */}
         <View style={readerStyles.verseContent}>
-          <Text style={readerStyles.arabicText}>{item.text}</Text>
+          <Text style={[readerStyles.arabicText, { lineHeight: getScaledLineHeight(22, 1.65) }]}>{item.text}</Text>
           <Text style={[
             readerStyles.translationText,
+            { lineHeight: getScaledLineHeight(14, 1.55) },
             isSelected && readerStyles.translationTextSelected
           ]}>{item.translation}</Text>
           
@@ -274,7 +275,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
     };
     
     return (
-      <SafeAreaView style={styles.appWrapper}>
+      <SafeAreaView style={styles.appWrapper} key={`quran-detail-${selectedSurah.id}-${fontScale}`}>
         <View style={readerStyles.header}>
           <TouchableOpacity
             style={readerStyles.backButton}
@@ -318,7 +319,7 @@ const QuranReaderScreen = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`quran-list-${fontScale}`}>
       <View style={readerStyles.titleBar}>
         <Ionicons name="book" size={24} color="#256FA2" />
         <View style={readerStyles.titleInfo}>
@@ -433,8 +434,10 @@ const readerStyles = {
     elevation: 2,
   },
   surahNumber: {
-    width: 40,
-    height: 40,
+    minWidth: 40,
+    minHeight: 40,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
     borderRadius: 20,
     backgroundColor: '#256FA2',
     justifyContent: 'center',
@@ -492,8 +495,10 @@ const readerStyles = {
     marginRight: 12,
   },
   verseNumber: {
-    width: 32,
-    height: 32,
+    minWidth: 32,
+    minHeight: 32,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
     borderRadius: 16,
     backgroundColor: '#e8f4fc',
     justifyContent: 'center',
@@ -519,7 +524,6 @@ const readerStyles = {
   },
   arabicText: {
     fontSize: 22,
-    lineHeight: 36,
     fontFamily: Platform.OS === 'ios' ? 'Geeza Pro' : 'serif',
     color: '#333',
     textAlign: 'right',
@@ -527,7 +531,6 @@ const readerStyles = {
   },
   translationText: {
     fontSize: 14,
-    lineHeight: 22,
     color: '#555',
   },
   translationTextSelected: {

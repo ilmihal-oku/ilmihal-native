@@ -20,7 +20,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SettingsScreen = ({ navigation, route }) => {
   const settingType = route?.params?.type || 'all'; // 'all', 'app', 'quran', or 'hadith'
-  const { settings, updateSettings } = useContext(SettingsContext);
+  const { settings, updateSettings, fontScale } = useContext(SettingsContext);
   const { t } = useTranslation();
 
   // If a specific setting type is requested, open it by default; otherwise start all collapsed
@@ -303,8 +303,8 @@ const settingsStyles = {
     borderBottomColor: '#f0f0f0',
   },
   iconBadge: {
-    width: 44,
-    height: 44,
+    minWidth: 44,
+    minHeight: 44,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -346,7 +346,6 @@ const settingsStyles = {
     fontSize: 13,
     color: '#666',
     marginBottom: 14,
-    lineHeight: 18,
   },
   languageItem: {
     flexDirection: 'row',

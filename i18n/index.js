@@ -29,7 +29,10 @@ export const detectDeviceLanguage = () => {
  * Falls back to English if the language is not supported.
  */
 export const getTranslations = (langCode) => {
-  return translations[langCode] || translations[FALLBACK_LANGUAGE];
+  return {
+    ...translations[FALLBACK_LANGUAGE],
+    ...(translations[langCode] || {}),
+  };
 };
 
 /**

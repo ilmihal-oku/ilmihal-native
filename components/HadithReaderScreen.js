@@ -16,7 +16,7 @@ import styles from '../styles';
 
 const HadithReaderScreen = ({ navigation }) => {
   const { store, updateStore } = useContext(BookmarkContext);
-  const { settings, getHadithUrl, getHadithLanguageInfo } = useContext(SettingsContext);
+  const { settings, getHadithUrl, getHadithLanguageInfo, fontScale, getScaledLineHeight } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [hadithData, setHadithData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -198,6 +198,7 @@ const HadithReaderScreen = ({ navigation }) => {
           <Text 
             style={[
               readerStyles.hadithText,
+              { lineHeight: getScaledLineHeight(14, 1.55) },
               isSelected && readerStyles.hadithTextSelected
             ]} 
             numberOfLines={isSelected ? undefined : 4}
@@ -233,7 +234,7 @@ const HadithReaderScreen = ({ navigation }) => {
 
   if (selectedBook) {
     return (
-      <SafeAreaView style={styles.appWrapper}>
+      <SafeAreaView style={styles.appWrapper} key={`hadith-book-${selectedBook.number}-${fontScale}`}>
         <View style={readerStyles.header}>
           <TouchableOpacity
             style={readerStyles.backButton}
@@ -263,7 +264,7 @@ const HadithReaderScreen = ({ navigation }) => {
   const books = getBooks();
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`hadith-list-${fontScale}`}>
       <View style={readerStyles.titleBar}>
         <Ionicons name="library" size={24} color="#1565C0" />
         <View style={readerStyles.titleInfo}>
@@ -373,8 +374,10 @@ const readerStyles = {
     elevation: 2,
   },
   bookNumber: {
-    width: 40,
-    height: 40,
+    minWidth: 40,
+    minHeight: 40,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
     borderRadius: 20,
     backgroundColor: '#256FA2',
     justifyContent: 'center',
@@ -446,7 +449,6 @@ const readerStyles = {
   },
   hadithText: {
     fontSize: 14,
-    lineHeight: 22,
     color: '#444',
   },
   hadithTextSelected: {

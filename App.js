@@ -21,7 +21,7 @@ import UnifiedSearchScreen from "./components/UnifiedSearchScreen";
 
 import { BookmarkContext } from "./bookmarkContext";
 import { useTranslation } from "./i18n";
-import { SettingsProvider } from "./settingsContext";
+import { SettingsContext, SettingsProvider } from "./settingsContext";
 
 const buildTitle = (route, t) => {
   switch (route.name) {
@@ -68,18 +68,20 @@ const navigatorProps = {
 
 const HomeStackScreen = () => {
   const { t } = useTranslation();
+  const { fontScale } = React.useContext(SettingsContext);
   const header = ({ route }) => ({
     headerBackTitle: ' ',
     headerBackTitleStyle: { color: "white" },
     headerStyle: { backgroundColor: "#256FA2" },
     headerTintColor: "#FFF",
     headerTitleStyle: { fontWeight: "bold", color: "white", fontSize: 18 },
+    headerTitleAllowFontScaling: true,
     cardStyle: { backgroundColor: "#bbe1fa" },
     title: buildTitle(route, t),
   });
 
   return (
-    <HomeStack.Navigator {...navigatorProps} initialRouteName="Home">
+    <HomeStack.Navigator key={`home-stack-${fontScale}`} {...navigatorProps} initialRouteName="Home">
       <HomeStack.Screen name="Home" component={NewHomeScreen} options={header} />
       <HomeStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
       <HomeStack.Screen name="HadithReader" component={HadithReaderScreen} options={header} />
@@ -93,18 +95,20 @@ const HomeStackScreen = () => {
 
 const BooksStackScreen = () => {
   const { t } = useTranslation();
+  const { fontScale } = React.useContext(SettingsContext);
   const header = ({ route }) => ({
     headerBackTitle: ' ',
     headerBackTitleStyle: { color: "white" },
     headerStyle: { backgroundColor: "#256FA2" },
     headerTintColor: "#FFF",
     headerTitleStyle: { fontWeight: "bold", color: "white", fontSize: 18 },
+    headerTitleAllowFontScaling: true,
     cardStyle: { backgroundColor: "#bbe1fa" },
     title: buildTitle(route, t),
   });
 
   return (
-    <BooksStack.Navigator {...navigatorProps} initialRouteName="Books">
+    <BooksStack.Navigator key={`books-stack-${fontScale}`} {...navigatorProps} initialRouteName="Books">
       <BooksStack.Screen name="Books" component={BooksScreen} options={header} />
       <BooksStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
       <BooksStack.Screen name="HadithReader" component={HadithReaderScreen} options={header} />
@@ -118,18 +122,20 @@ const BooksStackScreen = () => {
 
 const SearchStackScreen = () => {
   const { t } = useTranslation();
+  const { fontScale } = React.useContext(SettingsContext);
   const header = ({ route }) => ({
     headerBackTitle: ' ',
     headerBackTitleStyle: { color: "white" },
     headerStyle: { backgroundColor: "#256FA2" },
     headerTintColor: "#FFF",
     headerTitleStyle: { fontWeight: "bold", color: "white", fontSize: 18 },
+    headerTitleAllowFontScaling: true,
     cardStyle: { backgroundColor: "#bbe1fa" },
     title: buildTitle(route, t),
   });
 
   return (
-    <SearchStack.Navigator initialRouteName="Search" {...navigatorProps}>
+    <SearchStack.Navigator key={`search-stack-${fontScale}`} initialRouteName="Search" {...navigatorProps}>
       <SearchStack.Screen name="Search" component={UnifiedSearchScreen} options={header} />
       <SearchStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
       <SearchStack.Screen name="HadithReader" component={HadithReaderScreen} options={header} />
@@ -143,18 +149,20 @@ const SearchStackScreen = () => {
 
 const FavoritesStackScreen = () => {
   const { t } = useTranslation();
+  const { fontScale } = React.useContext(SettingsContext);
   const header = ({ route }) => ({
     headerBackTitle: ' ',
     headerBackTitleStyle: { color: "white" },
     headerStyle: { backgroundColor: "#256FA2" },
     headerTintColor: "#FFF",
     headerTitleStyle: { fontWeight: "bold", color: "white", fontSize: 18 },
+    headerTitleAllowFontScaling: true,
     cardStyle: { backgroundColor: "#bbe1fa" },
     title: buildTitle(route, t),
   });
 
   return (
-    <FavoritesStack.Navigator initialRouteName="Favorites" {...navigatorProps}>
+    <FavoritesStack.Navigator key={`fav-stack-${fontScale}`} initialRouteName="Favorites" {...navigatorProps}>
       <FavoritesStack.Screen name="Favorites" component={NewFavoritesScreen} options={header} />
       <FavoritesStack.Screen name="QuranReader" component={QuranReaderScreen} options={header} />
       <FavoritesStack.Screen name="HadithReader" component={HadithReaderScreen} options={header} />
@@ -172,6 +180,7 @@ const FavoritesStackScreen = () => {
  */
 const AppTabs = ({ store, updateStore }) => {
   const { t } = useTranslation();
+  const { fontScale } = React.useContext(SettingsContext);
 
   const options = {
     screenOptions: ({ route }) => ({
@@ -201,6 +210,10 @@ const AppTabs = ({ store, updateStore }) => {
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
       },
+      tabBarAllowFontScaling: true,
+      tabBarLabelStyle: {
+        fontSize: 12,
+      },
       keyboardHidesTabBar: true,
     }),
   };
@@ -210,7 +223,7 @@ const AppTabs = ({ store, updateStore }) => {
   return (
     <BookmarkContext.Provider value={{ store, updateStore }}>
       <NavigationContainer>
-        <Tab.Navigator {...options}>
+        <Tab.Navigator key={`tabs-${fontScale}`} {...options}>
           <Tab.Screen name="HomeTab" component={HomeStackScreen} options={{...tabOptions, tabBarLabel: t('home')}} />
           <Tab.Screen name="BooksTab" component={BooksStackScreen} options={{...tabOptions, tabBarLabel: t('books')}} />
           <Tab.Screen name="SearchTab" component={SearchStackScreen} options={{...tabOptions, tabBarLabel: t('search')}} />

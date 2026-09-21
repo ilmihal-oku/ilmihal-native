@@ -19,7 +19,7 @@ import styles from '../styles';
 const { searchAll } = require('../utils/searchIndex');
 
 const UnifiedSearchScreen = ({ navigation }) => {
-  const { settings } = useContext(SettingsContext);
+  const { settings, fontScale } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -90,6 +90,12 @@ const UnifiedSearchScreen = ({ navigation }) => {
 
     const typeLabel = isQuran ? t('quran') : isIlmihal ? t('ilmihal') : t('hadith');
 
+    const currentScale = fontScale || 1;
+    const badgeMinHeight = Math.round(24 * currentScale);
+    const badgePaddingVertical = Math.max(4, Math.round(4 * Math.min(currentScale, 1.3)));
+    const badgeRadius = Math.round(12 * Math.max(1, currentScale));
+    const badgeIconSize = Math.round(13 * Math.min(currentScale, 1.3));
+
     return (
       <TouchableOpacity
         key={`result-${index}`}
@@ -99,8 +105,18 @@ const UnifiedSearchScreen = ({ navigation }) => {
       >
         <View style={searchStyles.resultHeader}>
           <View style={searchStyles.resultHeaderLeft}>
-            <View style={[searchStyles.typeBadge, { backgroundColor: cardAccent + '18' }]}>
-              <Ionicons name={iconName} size={14} color={cardAccent} />
+            <View
+              style={[
+                searchStyles.typeBadge,
+                {
+                  backgroundColor: cardAccent + '18',
+                  minHeight: badgeMinHeight,
+                  paddingVertical: badgePaddingVertical,
+                  borderRadius: badgeRadius,
+                },
+              ]}
+            >
+              <Ionicons name={iconName} size={badgeIconSize} color={cardAccent} />
               <Text style={[searchStyles.typeBadgeText, { color: cardAccent }]}>
                 {typeLabel}
               </Text>
@@ -146,18 +162,30 @@ const UnifiedSearchScreen = ({ navigation }) => {
 
   const TabButton = ({ tab, label, count, color }) => {
     const isActive = activeTab === tab;
+    const currentScale = fontScale || 1;
+    const iconName = tab === 'quran' ? 'book' : tab === 'hadith' ? 'library' : tab === 'ilmihal' ? 'document-text' : null;
+    const iconSize = Math.round(16 * Math.min(currentScale, 1.3));
+    const chipMinHeight = Math.round(36 * currentScale);
+    const chipPaddingVertical = Math.max(8, Math.round(8 * Math.min(currentScale, 1.3)));
+    const chipRadius = Math.round(20 * Math.max(1, currentScale));
+
     return (
       <TouchableOpacity
         style={[
           searchStyles.tabButton,
-          { backgroundColor: isActive ? '#256FA2' : '#f0f0f0' },
+          {
+            minHeight: chipMinHeight,
+            paddingVertical: chipPaddingVertical,
+            borderRadius: chipRadius,
+          },
+          isActive ? searchStyles.tabButtonActive : searchStyles.tabButtonInactive,
         ]}
         onPress={() => setActiveTab(tab)}
       >
-        {color && tab !== 'all' && (
+        {iconName && (
           <Ionicons
-            name={tab === 'quran' ? 'book' : tab === 'hadith' ? 'library' : 'document-text'}
-            size={16}
+            name={iconName}
+            size={iconSize}
             color={isActive ? '#fff' : color}
             style={{ marginRight: 6 }}
           />
@@ -165,7 +193,7 @@ const UnifiedSearchScreen = ({ navigation }) => {
         <Text
           style={[
             searchStyles.tabText,
-            { color: isActive ? '#fff' : '#666' },
+            isActive ? searchStyles.tabTextActive : searchStyles.tabTextInactive,
           ]}
         >
           {label} {count !== undefined ? `(${count})` : ''}
@@ -175,7 +203,7 @@ const UnifiedSearchScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`search-${fontScale}`}>
       <View style={searchStyles.container}>
         {/* Search Bar */}
         <View style={searchStyles.searchBarContainer}>
@@ -281,8 +309,11 @@ const searchStyles = {
   },
   searchButton: {
     backgroundColor: '#256FA2',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 44,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: 12,
   },
   searchButtonDisabled: {
@@ -299,20 +330,30 @@ const searchStyles = {
   tabBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    padding: 12,
   },
   tabButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    justifyContent: 'center',
     paddingHorizontal: 14,
-    borderRadius: 20,
     marginRight: 10,
+  },
+  tabButtonActive: {
+    backgroundColor: '#256FA2',
+  },
+  tabButtonInactive: {
+    backgroundColor: '#f0f0f0',
   },
   tabText: {
     fontSize: 13,
     fontWeight: '600',
+  },
+  tabTextActive: {
+    color: '#fff',
+  },
+  tabTextInactive: {
+    color: '#666',
   },
   loadingContainer: {
     flex: 1,
@@ -354,9 +395,8 @@ const searchStyles = {
   typeBadge: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
     marginRight: 8,
   },
   typeBadgeText: {
@@ -372,7 +412,6 @@ const searchStyles = {
   },
   resultText: {
     fontSize: 14,
-    lineHeight: 21,
     color: '#555',
   },
   emptyState: {
@@ -392,7 +431,6 @@ const searchStyles = {
     color: '#999',
     textAlign: 'center',
     marginTop: 8,
-    lineHeight: 20,
   },
 };
 

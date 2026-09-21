@@ -64,6 +64,7 @@ export const translations = {
     ltr: 'Soldan sağa',
     rtl: 'Sağdan sola',
 
+
     // Ilmihal Reader
     bigIslamicIlmihal: 'Büyük İslam İlmihali',
   },
@@ -119,6 +120,7 @@ export const translations = {
     hadithLanguageDescription: 'Choose your preferred language for hadith translations',
     ltr: 'Left to right',
     rtl: 'Right to left',
+
 
     bigIslamicIlmihal: 'Great Islamic Ilmihal',
   },

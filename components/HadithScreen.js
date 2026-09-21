@@ -9,7 +9,7 @@ const hadithEditionCache = {};
 
 const HadithScreen = ({ navigation, route }) => {
   const { collection, hadithNumber, text: initialText, book, chapter, narrator } = route.params;
-  const { settings, getHadithUrl, getHadithLanguageInfo } = useContext(SettingsContext);
+  const { settings, getHadithUrl, getHadithLanguageInfo, fontScale, getScaledLineHeight } = useContext(SettingsContext);
   const [hadithText, setHadithText] = useState(initialText);
   const [loading, setLoading] = useState(false);
   const languageInfo = getHadithLanguageInfo();
@@ -80,7 +80,7 @@ const HadithScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`hadith-view-${fontScale}`}>
       <ScrollView style={hadithStyles.container}>
         {/* Header Card */}
         <View style={hadithStyles.headerCard}>
@@ -120,7 +120,7 @@ const HadithScreen = ({ navigation, route }) => {
           {loading ? (
             <ActivityIndicator size="small" color="#256FA2" style={{ paddingVertical: 20 }} />
           ) : (
-            <Text style={hadithStyles.hadithText}>{hadithText}</Text>
+            <Text style={[hadithStyles.hadithText, { lineHeight: getScaledLineHeight(16, 1.55) }]}>{hadithText}</Text>
           )}
         </View>
 
@@ -171,8 +171,8 @@ const hadithStyles = {
     elevation: 3,
   },
   collectionBadge: {
-    width: 50,
-    height: 50,
+    minWidth: 50,
+    minHeight: 50,
     borderRadius: 25,
     backgroundColor: '#1b262c',
     justifyContent: 'center',
@@ -237,7 +237,6 @@ const hadithStyles = {
   },
   hadithText: {
     fontSize: 16,
-    lineHeight: 26,
     color: '#333',
   },
   narratorCard: {
@@ -275,7 +274,6 @@ const hadithStyles = {
   authenticityText: {
     fontSize: 13,
     color: '#555',
-    lineHeight: 20,
     fontStyle: 'italic',
   },
 };

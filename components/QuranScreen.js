@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
     ActivityIndicator,
     FlatList,
@@ -10,6 +10,7 @@ import {
     View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
 
 const QURAN_URL = 'https://cdn.jsdelivr.net/npm/quran-json@3.1.2/dist/quran_en.json';
@@ -19,6 +20,7 @@ let surahsCache = null;
 
 const QuranScreen = ({ route }) => {
   const { surah, ayah, surahName } = route.params;
+  const { fontScale, getScaledLineHeight } = useContext(SettingsContext);
   const [surahData, setSurahData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [highlightedAyah, setHighlightedAyah] = useState(ayah);
@@ -113,7 +115,7 @@ const QuranScreen = ({ route }) => {
         {/* Content */}
         <View style={quranStyles.verseContent}>
           {/* Arabic */}
-          <Text style={quranStyles.arabicText}>{item.text}</Text>
+          <Text style={[quranStyles.arabicText, { lineHeight: getScaledLineHeight(22, 1.65) }]}>{item.text}</Text>
           
           {/* Divider */}
           <View style={quranStyles.divider} />
@@ -121,6 +123,7 @@ const QuranScreen = ({ route }) => {
           {/* Translation */}
           <Text style={[
             quranStyles.translationText,
+            { lineHeight: getScaledLineHeight(15, 1.55) },
             isHighlighted && quranStyles.highlightedTranslation
           ]}>{item.translation}</Text>
         </View>
@@ -159,7 +162,7 @@ const QuranScreen = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`quran-view-${fontScale}`}>
       {/* Surah Header */}
       <View style={quranStyles.header}>
         <View style={quranStyles.headerInfo}>
@@ -287,8 +290,10 @@ const quranStyles = {
     borderColor: '#2E7D32',
   },
   verseBadge: {
-    width: 36,
-    height: 36,
+    minWidth: 36,
+    minHeight: 36,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
     borderRadius: 18,
     backgroundColor: '#e8f4fc',
     justifyContent: 'center',
@@ -311,7 +316,6 @@ const quranStyles = {
   },
   arabicText: {
     fontSize: 22,
-    lineHeight: 38,
     fontFamily: Platform.OS === 'ios' ? 'Geeza Pro' : 'serif',
     color: '#333',
     textAlign: 'right',
@@ -323,7 +327,6 @@ const quranStyles = {
   },
   translationText: {
     fontSize: 15,
-    lineHeight: 24,
     color: '#444',
   },
   highlightedTranslation: {

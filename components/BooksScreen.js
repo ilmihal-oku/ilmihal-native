@@ -6,7 +6,7 @@ import { HADITH_LANGUAGES, QURAN_LANGUAGES, SettingsContext } from '../settingsC
 import styles from '../styles';
 
 const BooksScreen = ({ navigation }) => {
-  const { settings } = useContext(SettingsContext);
+  const { settings, fontScale } = useContext(SettingsContext);
   const { t } = useTranslation();
 
   const currentHadithLanguage =
@@ -63,7 +63,7 @@ const BooksScreen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`books-${fontScale}`}>
       <View style={booksStyles.container}>
         <View style={booksStyles.booksContainer}>
           {books.map((book) => renderBookCard(book))}
@@ -99,8 +99,8 @@ const booksStyles = {
     opacity: 0.6,
   },
   iconContainer: {
-    width: 48,
-    height: 48,
+    minWidth: 48,
+    minHeight: 48,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',

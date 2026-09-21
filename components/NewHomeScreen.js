@@ -29,7 +29,7 @@ const getDailySeed = () => {
 };
 
 const NewHomeScreen = ({ navigation }) => {
-  const { settings, getQuranUrl, getHadithUrl } = useContext(SettingsContext);
+  const { settings, getQuranUrl, getHadithUrl, getScaledLineHeight, fontScale } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [dailyVerse, setDailyVerse] = useState(null);
   const [dailyHadith, setDailyHadith] = useState(null);
@@ -165,7 +165,7 @@ const NewHomeScreen = ({ navigation }) => {
   ];
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`home-${fontScale}`}>
       <ScrollView
         style={homeStyles.container}
         contentContainerStyle={homeStyles.scrollContent}
@@ -194,7 +194,7 @@ const NewHomeScreen = ({ navigation }) => {
               <Text style={homeStyles.cardSource}>
                 {dailyVerse.surahName} {dailyVerse.surahId}:{dailyVerse.verseId}
               </Text>
-              <Text style={homeStyles.cardText} numberOfLines={6}>
+              <Text style={[homeStyles.cardText, { lineHeight: getScaledLineHeight(15, 1.55) }]} numberOfLines={6}>
                 "{dailyVerse.text}"
               </Text>
               <View style={homeStyles.cardActions}>
@@ -240,7 +240,7 @@ const NewHomeScreen = ({ navigation }) => {
               <Text style={homeStyles.cardSource}>
                 Sahih Bukhari #{dailyHadith.number}
               </Text>
-              <Text style={homeStyles.cardText} numberOfLines={6}>
+              <Text style={[homeStyles.cardText, { lineHeight: getScaledLineHeight(15, 1.55) }]} numberOfLines={6}>
                 "{dailyHadith.text}"
               </Text>
               <View style={homeStyles.cardActions}>
@@ -370,7 +370,6 @@ const homeStyles = {
   cardText: {
     fontSize: 15,
     color: '#333',
-    lineHeight: 22,
     fontStyle: 'italic',
     marginBottom: 12,
   },
@@ -428,7 +427,9 @@ const homeStyles = {
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingVertical: 16,
+    minHeight: 110,
+    paddingVertical: 14,
+    paddingHorizontal: 4,
     borderRadius: 14,
     marginHorizontal: 4,
     shadowColor: '#000',
@@ -449,6 +450,7 @@ const homeStyles = {
     fontSize: 13,
     fontWeight: '600',
     color: '#333',
+    textAlign: 'center',
   },
 };
 

@@ -48,7 +48,6 @@ export default {
   },
   sectionText: {
     fontSize: 18,
-    lineHeight: 27,
     padding: 10,
   },
   searchFormWrapper: {
@@ -78,6 +77,7 @@ export default {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    minHeight: 48,
     paddingVertical: 3,
     backgroundColor: "rgba(255, 255, 255, 0.6)",
     borderBottomWidth: 1,
@@ -93,7 +93,9 @@ export default {
   searchButton: {
     borderRadius: 30,
     margin: 15,
-    height: 50,
+    minHeight: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     justifyContent: "center",
     backgroundColor: buttonBg,
   },
@@ -134,7 +136,8 @@ export default {
   randomButton: {
     borderRadius: 0,
     justifyContent: "center",
-    height: 50,
+    minHeight: 50,
+    paddingVertical: 12,
     backgroundColor: buttonBg,
   },
   sectionLikedIcon: {
@@ -154,14 +157,13 @@ export default {
   bookmarkNotification: {
     textAlign: "center",
     fontSize: 17,
-    lineHeight: 24,
     paddingVertical: 10,
     backgroundColor: "lightyellow",
     justifyContent: "center",
   },
   emptyBookmarksContainer: { paddingHorizontal: 50, paddingTop: 50 },
   emptyBookmarksTitle: { padding: 10, fontSize: 22, textAlign: "center", fontWeight: "bold" },
-  emptyBookmarksMessage: { textAlign: "center", fontSize: 17, lineHeight: 24 },
+  emptyBookmarksMessage: { textAlign: "center", fontSize: 17 },
   bookmarkItem: {
     paddingBottom: 10,
   },

@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useEffect, useMemo, useState } from 'react';
+import { AppState, Dimensions, PixelRatio, useWindowDimensions } from 'react-native';
 import { I18nContext, detectDeviceLanguage, getTranslations } from './i18n';
 import { appLangToHadithLang, appLangToQuranLang } from './i18n/translations';
+import { getScaledLineHeight } from './utils/typography';
 
 const SETTINGS_KEY = '@ilmihal_settings';
 
@@ -46,11 +48,58 @@ export const SettingsContext = createContext({
   getHadithUrl: () => '',
   getQuranUrl: () => '',
   getQuranChaptersUrl: () => '',
+  fontScale: 1,
+  getScaledLineHeight: (size, ratio) => Math.round(size * (ratio || 1.45)),
 });
 
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState(defaultSettings);
   const [loaded, setLoaded] = useState(false);
+  const { fontScale: windowFontScale } = useWindowDimensions();
+  const [fontScale, setFontScale] = useState(windowFontScale || PixelRatio.getFontScale() || 1);
+
+  const checkFontScale = () => {
+    const currentScale = Dimensions.get('window').fontScale || PixelRatio.getFontScale() || 1;
+    setFontScale((prev) => {
+      if (Math.abs(prev - currentScale) > 0.005) {
+        return currentScale;
+      }
+      return prev;
+    });
+  };
+
+  // Sync when windowFontScale updates from OS Dynamic Type / Font Size change
+  useEffect(() => {
+    if (windowFontScale) {
+      checkFontScale();
+    }
+  }, [windowFontScale]);
+
+  // Also sync when app transitions from background to active (e.g. user adjusted font size in phone Settings)
+  useEffect(() => {
+    let timers = [];
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') {
+        checkFontScale();
+        timers.push(setTimeout(checkFontScale, 50));
+        timers.push(setTimeout(checkFontScale, 150));
+        timers.push(setTimeout(checkFontScale, 300));
+        timers.push(setTimeout(checkFontScale, 600));
+      }
+    });
+
+    const dimSub = Dimensions.addEventListener('change', ({ window }) => {
+      if (window?.fontScale) {
+        checkFontScale();
+      }
+    });
+
+    return () => {
+      subscription.remove();
+      dimSub?.remove?.();
+      timers.forEach(clearTimeout);
+    };
+  }, []);
 
   useEffect(() => {
     loadSettings();
@@ -136,6 +185,8 @@ export const SettingsProvider = ({ children }) => {
       getQuranChaptersUrl,
       getHadithLanguageInfo,
       getQuranLanguageInfo,
+      fontScale,
+      getScaledLineHeight: (size, ratio) => getScaledLineHeight(size, fontScale, ratio),
       loaded 
     }}>
       <I18nContext.Provider value={i18nValue}>

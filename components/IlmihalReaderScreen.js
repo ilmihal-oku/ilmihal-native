@@ -10,6 +10,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useTranslation } from '../i18n';
 import { BookmarkContext } from '../bookmarkContext';
+import { SettingsContext } from '../settingsContext';
 import { book as ilmihal } from '../source';
 import styles from '../styles';
 
@@ -18,6 +19,7 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
   const initialSectionId = route?.params?.sectionId;
 
   const { store, updateStore } = useContext(BookmarkContext);
+  const { fontScale, getScaledLineHeight } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [selectedChapter, setSelectedChapter] = useState(() => {
     if (initialChapterId) {
@@ -140,7 +142,7 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
                   activeOpacity={0.7}
                   delayLongPress={400}
                 >
-                  <Text style={ilmihalStyles.paragraphText}>{para}</Text>
+                  <Text style={[ilmihalStyles.paragraphText, { lineHeight: getScaledLineHeight(16, 1.55) }]}>{para}</Text>
                   <View style={ilmihalStyles.paragraphActions}>
                     <TouchableOpacity
                       style={ilmihalStyles.actionButton}
@@ -177,7 +179,7 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
   // ─── Chapter detail view (sections) ───
   if (selectedChapter) {
     return (
-      <SafeAreaView style={styles.appWrapper}>
+      <SafeAreaView style={styles.appWrapper} key={`ilmihal-chapter-${selectedChapter.id}-${fontScale}`}>
         <View style={ilmihalStyles.header}>
           <TouchableOpacity
             style={ilmihalStyles.backButton}
@@ -209,7 +211,7 @@ const IlmihalReaderScreen = ({ navigation, route }) => {
 
   // ─── Top-level chapters list ───
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`ilmihal-list-${fontScale}`}>
       <View style={ilmihalStyles.titleBar}>
         <Ionicons name="document-text" size={24} color="#7B1FA2" />
         <View style={ilmihalStyles.titleInfo}>
@@ -297,8 +299,10 @@ const ilmihalStyles = {
     elevation: 2,
   },
   chapterNumber: {
-    width: 40,
-    height: 40,
+    minWidth: 40,
+    minHeight: 40,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
     borderRadius: 20,
     backgroundColor: '#7B1FA2',
     justifyContent: 'center',
@@ -346,8 +350,10 @@ const ilmihalStyles = {
     borderBottomColor: '#7B1FA2',
   },
   sectionNumberBadge: {
-    width: 32,
-    height: 32,
+    minWidth: 32,
+    minHeight: 32,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
     borderRadius: 16,
     backgroundColor: '#f3e5f5',
     justifyContent: 'center',
@@ -392,7 +398,6 @@ const ilmihalStyles = {
   },
   paragraphText: {
     fontSize: 16,
-    lineHeight: 26,
     color: '#333',
   },
   paragraphActions: {

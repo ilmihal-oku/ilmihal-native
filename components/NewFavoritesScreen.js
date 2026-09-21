@@ -3,10 +3,12 @@ import { FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useTranslation } from '../i18n';
 import { BookmarkContext } from '../bookmarkContext';
+import { SettingsContext } from '../settingsContext';
 import styles from '../styles';
 
 const NewFavoritesScreen = ({ navigation }) => {
   const { store } = useContext(BookmarkContext);
+  const { fontScale } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
 
@@ -61,31 +63,45 @@ const NewFavoritesScreen = ({ navigation }) => {
     }
   };
 
-  const renderCategoryTab = (category) => (
-    <TouchableOpacity
-      key={category.id}
-      style={[
-        favStyles.categoryTab,
-        activeCategory === category.id && favStyles.categoryTabActive
-      ]}
-      onPress={() => setActiveCategory(category.id)}
-    >
-      {category.icon && (
-        <Ionicons 
-          name={category.icon} 
-          size={16} 
-          color={activeCategory === category.id ? '#fff' : category.color} 
-          style={{ marginRight: 6 }}
-        />
-      )}
-      <Text style={[
-        favStyles.categoryText,
-        activeCategory === category.id && favStyles.categoryTextActive
-      ]}>
-        {category.label} ({category.count})
-      </Text>
-    </TouchableOpacity>
-  );
+  const renderCategoryTab = (category) => {
+    const isActive = activeCategory === category.id;
+    const currentScale = fontScale || 1;
+    const iconSize = Math.round(16 * Math.min(currentScale, 1.3));
+    const chipMinHeight = Math.round(36 * currentScale);
+    const chipPaddingVertical = Math.max(8, Math.round(8 * Math.min(currentScale, 1.3)));
+    const chipRadius = Math.round(20 * Math.max(1, currentScale));
+
+    return (
+      <TouchableOpacity
+        key={category.id}
+        style={[
+          favStyles.categoryTab,
+          {
+            minHeight: chipMinHeight,
+            paddingVertical: chipPaddingVertical,
+            borderRadius: chipRadius,
+          },
+          isActive && favStyles.categoryTabActive,
+        ]}
+        onPress={() => setActiveCategory(category.id)}
+      >
+        {category.icon && (
+          <Ionicons 
+            name={category.icon} 
+            size={iconSize} 
+            color={isActive ? '#fff' : category.color} 
+            style={{ marginRight: 6 }}
+          />
+        )}
+        <Text style={[
+          favStyles.categoryText,
+          isActive && favStyles.categoryTextActive,
+        ]}>
+          {category.label} ({category.count})
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   const renderItem = ({ item, index }) => {
     const isQuran = item.type === 'quran';
@@ -130,7 +146,7 @@ const NewFavoritesScreen = ({ navigation }) => {
   const items = getActiveItems();
 
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <SafeAreaView style={styles.appWrapper} key={`fav-${fontScale}`}>
       <View style={favStyles.container}>
         {/* Category Tabs */}
         <ScrollView
@@ -180,9 +196,8 @@ const favStyles = {
   categoryTab: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    justifyContent: 'center',
     paddingHorizontal: 14,
-    borderRadius: 20,
     backgroundColor: '#f0f0f0',
     marginRight: 10,
   },
@@ -214,8 +229,8 @@ const favStyles = {
     elevation: 2,
   },
   itemBadge: {
-    width: 32,
-    height: 32,
+    minWidth: 32,
+    minHeight: 32,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
@@ -233,7 +248,6 @@ const favStyles = {
   itemText: {
     fontSize: 13,
     color: '#666',
-    lineHeight: 18,
   },
   emptyContainer: {
     flex: 1,
@@ -252,7 +266,6 @@ const favStyles = {
     color: '#999',
     textAlign: 'center',
     marginTop: 8,
-    lineHeight: 20,
   },
 };
 
